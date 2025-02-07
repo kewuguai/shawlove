@@ -13,20 +13,22 @@ CUSTOM_STYLE = """
     /* 🔹 适配 iPhone 16 Max */
     .pretty-text {
         font-family: 'Lobster', cursive;
-        font-size: 6000px;  /* 🚀 “王喆” 确保够大 */
+        font-size: 180px;  /* 🚀 “王喆” 确保够大 */
         color: red;
         text-align: center;
         font-weight: bold;
         line-height: 1.2;
     }
     .question {
-        font-size: 600px;  /* 🚀 “谁是世界上最美的女人啊？” 放大 */
+        font-size: 64px;  /* 🚀 “谁是世界上最美的女人啊？” 放大 */
         text-align: center;
         font-weight: bold;
+        margin-bottom: 20px;
     }
     .thinking {
         font-size: 22px; /* 📌 适中，避免太大 */
         text-align: center;
+        margin-top: 10px;
     }
     .button-container {
         display: flex;
@@ -35,13 +37,14 @@ CUSTOM_STYLE = """
     }
     .btn-style {
         font-size: 28px;  /* 🚀 按钮合适 */
-        padding: 10px 24px;
+        padding: 12px 24px;
         font-weight: bold;
         border-radius: 8px;
         background-color: #ff4b4b;
         color: white;
         border: none;
         cursor: pointer;
+        text-align: center;
     }
     .btn-style:hover {
         background-color: #ff0000;
@@ -73,9 +76,11 @@ def show_intro():
 
     # **🔹 居中显示按钮**
     st.markdown("<div class='button-container'>", unsafe_allow_html=True)
-    if st.button("✨ 点我告诉你 ✨", key="reveal_button"):
-        time.sleep(1)  # **按钮点击后短暂停顿**
-        show_thinking_process()  # 进入下一个步骤
+    col1, col2, col3 = st.columns([1,2,1])  # 确保按钮绝对居中
+    with col2:
+        if st.button("✨ 点我告诉你 ✨", key="reveal_button"):
+            time.sleep(1)  # **按钮点击后短暂停顿**
+            show_thinking_process()  # 进入下一个步骤
     st.markdown("</div>", unsafe_allow_html=True)
 
 # **🔹 进入“手机正在思考中”阶段**
