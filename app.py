@@ -13,38 +13,36 @@ CUSTOM_STYLE = """
     /* 🔹 适配 iPhone 16 Max */
     .pretty-text {
         font-family: 'Lobster', cursive;
-        font-size: 180px;  /* 🚀 “王喆” 确保够大 */
+        font-size: 220px;  /* 🚀 “王喆” 绝对醒目 */
         color: red;
         text-align: center;
         font-weight: bold;
         line-height: 1.2;
     }
     .question {
-        font-size: 64px;  /* 🚀 “谁是世界上最美的女人啊？” 放大 */
+        font-size: 72px;  /* 🚀 “谁是世界上最美的女人啊？” */
         text-align: center;
         font-weight: bold;
         margin-bottom: 20px;
     }
     .thinking {
-        font-size: 22px; /* 📌 适中，避免太大 */
+        font-size: 22px; /* 📌 适中，避免过大 */
         text-align: center;
         margin-top: 10px;
     }
     .button-container {
-        display: flex;
-        justify-content: center;
+        text-align: center; /* ✅ 确保按钮居中 */
         margin-top: 20px;
     }
     .btn-style {
-        font-size: 28px;  /* 🚀 按钮合适 */
-        padding: 12px 24px;
+        font-size: 24px;  /* 🚀 按钮合适 */
+        padding: 10px 24px;
         font-weight: bold;
         border-radius: 8px;
         background-color: #ff4b4b;
         color: white;
         border: none;
         cursor: pointer;
-        text-align: center;
     }
     .btn-style:hover {
         background-color: #ff0000;
