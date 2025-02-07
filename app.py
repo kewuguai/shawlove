@@ -5,7 +5,7 @@ import random
 # **🔹 设置网页标题**
 st.set_page_config(page_title="问答演示", layout="centered")
 
-# **🔹 自定义 CSS，精准适配 iPhone 16 Max**
+# **🔹 自定义 CSS，确保动画字体正确**
 CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
@@ -20,15 +20,18 @@ CUSTOM_STYLE = """
         line-height: 1.2;
     }
     .question {
+        font-family: 'Lobster', cursive;
         font-size: 72px;  /* 🚀 “谁是世界上最美的女人啊？” */
         text-align: center;
         font-weight: bold;
         margin-bottom: 20px;
+        color: black;
     }
     .thinking {
         font-size: 22px; /* 📌 适中，避免过大 */
         text-align: center;
         margin-top: 10px;
+        color: black;
     }
     .button-container {
         text-align: center; /* ✅ 确保按钮居中 */
@@ -50,11 +53,11 @@ CUSTOM_STYLE = """
     </style>
 """
 
-# **🔹 逐字显示问题（仅在第一次显示动画）**
+# **🔹 逐字显示问题（动画字体生效）**
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
     
-    # 逐字显示问题
+    # **使用 HTML 让字体动画生效**
     question_placeholder = st.empty()
     text = "谁是世界上最美的女人啊？"
     displayed_text = ""
@@ -62,15 +65,21 @@ def show_intro():
     if "question_displayed" not in st.session_state:
         st.session_state.question_displayed = False
 
-    # **只在页面首次加载时显示动画**
+    # **确保字体生效，使用 HTML**
     if not st.session_state.question_displayed:
         for char in text:
             displayed_text += char
-            question_placeholder.markdown(f"<p class='question'>{displayed_text}</p>", unsafe_allow_html=True)
+            question_placeholder.markdown(
+                f"<p class='question'>{displayed_text}</p>",
+                unsafe_allow_html=True
+            )
             time.sleep(0.2)  # 逐字动画
         st.session_state.question_displayed = True
     else:
-        question_placeholder.markdown(f"<p class='question'>{text}</p>", unsafe_allow_html=True)
+        question_placeholder.markdown(
+            f"<p class='question'>{text}</p>",
+            unsafe_allow_html=True
+        )
 
     # **🔹 居中显示按钮**
     st.markdown("<div class='button-container'>", unsafe_allow_html=True)
