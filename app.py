@@ -5,12 +5,12 @@ import random
 # **🔹 设置网页标题**
 st.set_page_config(page_title="问答演示", layout="centered")
 
-# **🔹 自定义 CSS，确保动画字体正确**
+# **🔹 直接使用 HTML + CSS + JS 让字体在动画时正确变大**
 CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
-    
-    /* 🔹 适配 iPhone 16 Max */
+
+    /* 🔹 确保字体在动画过程中正确显示 */
     .pretty-text {
         font-family: 'Lobster', cursive;
         font-size: 220px;  /* 🚀 “王喆” 绝对醒目 */
@@ -24,21 +24,19 @@ CUSTOM_STYLE = """
         font-size: 72px;  /* 🚀 “谁是世界上最美的女人啊？” */
         text-align: center;
         font-weight: bold;
-        margin-bottom: 20px;
         color: black;
     }
     .thinking {
-        font-size: 22px; /* 📌 适中，避免过大 */
+        font-size: 22px;
         text-align: center;
-        margin-top: 10px;
         color: black;
     }
     .button-container {
-        text-align: center; /* ✅ 确保按钮居中 */
+        text-align: center;
         margin-top: 20px;
     }
     .btn-style {
-        font-size: 24px;  /* 🚀 按钮合适 */
+        font-size: 24px;
         padding: 10px 24px;
         font-weight: bold;
         border-radius: 8px;
@@ -53,42 +51,42 @@ CUSTOM_STYLE = """
     </style>
 """
 
-# **🔹 逐字显示问题（动画字体生效）**
+# **🔹 逐字动画：用 JavaScript 确保字体大小正确**
+QUESTION_JS = """
+    <script>
+    function typeText(elementId, text, speed) {
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+    </script>
+"""
+
+# **🔹 逐字显示问题**
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
-    
-    # **使用 HTML 让字体动画生效**
-    question_placeholder = st.empty()
-    text = "谁是世界上最美的女人啊？"
-    displayed_text = ""
 
-    if "question_displayed" not in st.session_state:
-        st.session_state.question_displayed = False
-
-    # **确保字体生效，使用 HTML**
-    if not st.session_state.question_displayed:
-        for char in text:
-            displayed_text += char
-            question_placeholder.markdown(
-                f"<p class='question'>{displayed_text}</p>",
-                unsafe_allow_html=True
-            )
-            time.sleep(0.2)  # 逐字动画
-        st.session_state.question_displayed = True
-    else:
-        question_placeholder.markdown(
-            f"<p class='question'>{text}</p>",
-            unsafe_allow_html=True
-        )
+    # **逐字显示问题**
+    question_text = "谁是世界上最美的女人啊？"
+    question_html = f"""
+        <p class="question" id="question"></p>
+        {QUESTION_JS}
+        <script>typeText('question', "{question_text}", 200);</script>
+    """
+    st.components.v1.html(question_html, height=100)
 
     # **🔹 居中显示按钮**
-    st.markdown("<div class='button-container'>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1,2,1])  # 确保按钮绝对居中
     with col2:
         if st.button("✨ 点我告诉你 ✨", key="reveal_button"):
             time.sleep(1)  # **按钮点击后短暂停顿**
             show_thinking_process()  # 进入下一个步骤
-    st.markdown("</div>", unsafe_allow_html=True)
 
 # **🔹 进入“手机正在思考中”阶段**
 def show_thinking_process():
@@ -96,15 +94,15 @@ def show_thinking_process():
     placeholder = st.empty()
     start_number = random.randint(100000, 500000)
     end_number = random.randint(3000000000, 4000000000)
-    step = (end_number - start_number) // 10  # 每步增加数值
-    
+    step = (end_number - start_number) // 10
+
     for i in range(10):
         current_number = start_number + (step * i)
-        placeholder.markdown(
-            f"<p class='thinking'>🔍 手机正在思考中，分析了 {current_number:,} 个女人...</p>",
-            unsafe_allow_html=True
-        )
-        time.sleep(0.8)  # **调整节奏**
+        thinking_html = f"""
+            <p class="thinking">🔍 手机正在思考中，分析了 {current_number:,} 个女人...</p>
+        """
+        placeholder.markdown(thinking_html, unsafe_allow_html=True)
+        time.sleep(0.8)
 
     placeholder.success("✅ 筛选完成！答案即将揭晓...")
     time.sleep(2)  # **增强 suspense 效果**
@@ -115,16 +113,12 @@ def show_thinking_process():
 # **🔹 显示最终答案**
 def show_final_result():
     answer = "王喆"
-    answer_placeholder = st.empty()
-    revealed_text = ""
-
-    for char in answer:
-        revealed_text += char
-        answer_placeholder.markdown(
-            CUSTOM_STYLE + f"<p class='pretty-text'>{revealed_text}</p>",
-            unsafe_allow_html=True
-        )
-        time.sleep(1)  # **逐字慢速出现**
+    answer_html = f"""
+        <p class="pretty-text" id="answer"></p>
+        {QUESTION_JS}
+        <script>typeText('answer', "{answer}", 500);</script>
+    """
+    st.components.v1.html(answer_html, height=200)
 
 # **🔘 启动页面**
 show_intro()
