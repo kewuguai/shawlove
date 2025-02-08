@@ -2,13 +2,15 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.7"
+VERSION = "2.1.8"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔥 样式简化**
+# **🔥 更新样式，换更美观的字体**
 CUSTOM_STYLE = """
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
     .version {
         font-family: Arial, sans-serif;
         font-size: 16px;
@@ -24,18 +26,21 @@ CUSTOM_STYLE = """
     }
 
     .question {
+        font-family: 'Pacifico', cursive;
         font-size: 50px;
         text-align: center;
         color: red;
     }
 
     .thinking {
+        font-family: 'Pacifico', cursive;
         font-size: 20px;
         text-align: center;
         color: black;
     }
 
     .final-answer {
+        font-family: 'Pacifico', cursive;
         font-size: 140px;
         text-align: center;
         color: red;
@@ -43,7 +48,7 @@ CUSTOM_STYLE = """
     </style>
 """
 
-# **🔥 动态更新文本**
+# **🔥 逐字动画**
 def type_text(placeholder, text, speed=0.3, css_class="question"):
     output = ""
     for char in text:
@@ -77,8 +82,9 @@ def show_thinking_process():
     placeholder.markdown("<p class='thinking'>🔍 正在筛选...</p>", unsafe_allow_html=True)
     time.sleep(0.5)
 
+    # **🔥 修正数字范围，确保符合全球女性数量（约40亿）**
     start_number = random.uniform(100000.123, 500000.456)
-    end_number = random.uniform(3000000000.789, 4000000000.987)
+    end_number = random.uniform(1000000000.789, 4000000000.987)  # 上限设为 40 亿
     step = (end_number - start_number) / 10
 
     for i in range(10):
