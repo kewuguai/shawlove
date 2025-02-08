@@ -3,7 +3,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 
 os.system("git pull origin main")
 
@@ -50,10 +50,10 @@ CUSTOM_STYLE = f"""
     }}
     .final-answer {{
         font-family: 'Lobster', cursive;
-        font-size: 140px; /* 🚀 超大字体 */
+        font-size: 140px; /* 🚀 确保字体足够大 */
         text-align: center;
         font-weight: bold;
-        color: red; /* 🔴 红色字体 */
+        color: red; /* 🔴 确保字体为红色 */
         white-space: nowrap;
         overflow: hidden;
         margin-top: 50px;
