@@ -3,6 +3,9 @@ import streamlit as st
 import time
 import random
 
+# **🔹 版本号（手动更新）**
+VERSION = "1.0.1"
+
 # **🔹 自动拉取 GitHub 最新代码**
 os.system("git pull origin main")
 
@@ -11,7 +14,10 @@ st.cache_data.clear()
 st.cache_resource.clear()
 
 # **🔹 设置网页标题**
-st.set_page_config(page_title="问答演示", layout="centered")
+st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
+
+# **🔹 在页面左上角显示版本号**
+st.sidebar.markdown(f"**当前版本：v{VERSION}**")
 
 # **🔹 自定义 CSS + JavaScript 逐字动画**
 CUSTOM_STYLE = """
