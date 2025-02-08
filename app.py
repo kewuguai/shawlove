@@ -1,9 +1,8 @@
 import streamlit as st
 import time
 import random
-import streamlit.components.v1 as components  # **用于嵌入 HTML 代码**
 
-VERSION = "2.1.21"
+VERSION = "2.1.22"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -60,8 +59,14 @@ def type_text(placeholder, text, speed=0.3, css_class="question"):
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **🔥 渲染问题，不重复动画**
+    # **🔥 重新筛选前，先清空答案**
+    if "rerun_triggered" in st.session_state:
+        st.session_state.pop("rerun_triggered")  # **移除触发标记**
+        st.session_state["answer_hidden"] = True  # **标记答案已清除**
+    
     question_placeholder = st.empty()
+    
+    # **🔥 渲染问题，不重复动画**
     if "question_displayed" not in st.session_state:
         type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)  # **问题显示速度变慢**
         st.session_state["question_displayed"] = True
@@ -109,18 +114,12 @@ def show_final_result():
     answer_placeholder = st.empty()
     type_text(answer_placeholder, "王喆", 0.6, css_class="final-answer")
 
-    # **🔥 重新筛选：使用 JavaScript 触发真正的页面刷新**
+    # **🔥 重新筛选：先清空答案，再加载问题**
     st.markdown("<br><br>", unsafe_allow_html=True)
-
     if st.button("🔄 重新筛选"):
-        components.html(
-            """
-            <script>
-                window.location.reload();
-            </script>
-            """,
-            height=0,  # **隐藏 HTML 组件**
-        )
+        answer_placeholder.empty()  # **立即清空答案**
+        st.session_state["rerun_triggered"] = True  # **设置触发标记**
+        st.experimental_rerun()  # **强制刷新页面，避免 UI 残留**
 
 # **🔥 运行程序**
 if __name__ == "__main__":
