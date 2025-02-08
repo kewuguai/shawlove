@@ -3,43 +3,41 @@ import streamlit as st
 import time
 import random
 
-# **🔹 版本号**
-VERSION = "1.0.5"
+VERSION = "1.0.6"
 
-# **🔹 自动拉取 GitHub 最新代码**
 os.system("git pull origin main")
 
-# **🔹 禁用缓存**
 st.cache_data.clear()
 st.cache_resource.clear()
 
-# **🔹 设置网页标题**
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔹 自定义 CSS + JavaScript**
 CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 版本号样式（页面右下角） */
+    /* 🔹 固定版本号位置 */
     .version {{
         font-family: Arial, sans-serif;
         font-size: 16px;
         color: grey;
         position: fixed;
-        bottom: 10px;
-        right: 10px;
-        z-index: 1000;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        background-color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }}
 
-    /* 🔹 问题及动画样式 */
     .question-container {{
         text-align: center;
         margin-top: 50px;
     }}
     .question {{
         font-family: 'Lobster', cursive;
-        font-size: 80px; /* 🚀 大字体 */
+        font-size: 80px;
         text-align: center;
         font-weight: bold;
         color: black;
@@ -71,7 +69,6 @@ CUSTOM_STYLE = f"""
     </style>
 """
 
-# **🔹 逐字显示 JavaScript 代码**
 JS_SCRIPT = """
     <script>
     function typeText(elementId, text, speed) {
@@ -83,17 +80,15 @@ JS_SCRIPT = """
                 setTimeout(type, speed);
             }
         }
-        document.getElementById(elementId).innerHTML = "";  // 清空内容
+        document.getElementById(elementId).innerHTML = "";
         type();
     }
     </script>
 """
 
-# **🔹 显示问题逐字动画**
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **HTML 渲染问题文本**
     question_text = "谁是世界上最美的女人？"
     html_content = f"""
         {JS_SCRIPT}
@@ -101,22 +96,18 @@ def show_intro():
             <div class="question" id="question"></div>
             <script>typeText('question', "{question_text}", 200);</script>
         </div>
-        <div class="version">版本：v{VERSION}</div>  <!-- 版本号放置页面右下角 -->
+        <div class="version">版本：v{VERSION}</div>
     """
     st.components.v1.html(html_content, height=150)
 
-    # **按钮**
     st.markdown("<div class='button-container'>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("✨ 点我告诉你 ✨"):
             show_thinking_process()
 
-# **🔹 显示“手机正在思考中”动画**
 def show_thinking_process():
     placeholder = st.empty()
-
-    # **随机浮点数变化**
     start_number = random.uniform(100000.123, 500000.456)
     end_number = random.uniform(3000000000.789, 4000000000.987)
     step = (end_number - start_number) / 10
@@ -132,7 +123,6 @@ def show_thinking_process():
     time.sleep(2)
     show_final_result()
 
-# **🔹 显示最终答案**
 def show_final_result():
     answer = "王喆"
     html_content = f"""
@@ -141,9 +131,8 @@ def show_final_result():
             <div class="final-answer" id="answer"></div>
             <script>typeText('answer', "{answer}", 500);</script>
         </div>
-        <div class="version">版本：v{VERSION}</div>  <!-- 确保最终页面也显示版本号 -->
+        <div class="version">版本：v{VERSION}</div>
     """
     st.components.v1.html(html_content, height=200)
 
-# **🔘 启动页面**
 show_intro()
