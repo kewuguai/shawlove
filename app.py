@@ -3,7 +3,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.6.0"
+VERSION = "1.7.0"
 
 os.system("git pull origin main")
 
@@ -12,7 +12,7 @@ st.cache_resource.clear()
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **新增：强制指定样式加载顺序，避免被覆盖**
+# **🔥 确保所有字体、颜色、动画正确加载**
 CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
@@ -31,39 +31,27 @@ CUSTOM_STYLE = f"""
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }}
 
-    .question {{
+    /* 🔹 确保问题和答案的字体足够大，并且是红色 */
+    .question, .final-answer {{
         font-family: 'Lobster', cursive;
-        font-size: 80px;  /* 🚀 问题字体大小 */
+        font-size: 140px;
         text-align: center;
         font-weight: bold;
-        color: black;  /* 问题颜色 */
+        color: red;
         white-space: nowrap;
         overflow: hidden;
     }}
 
-    .final-answer {{
-        font-family: 'Lobster', cursive;
-        font-size: 140px;  /* 🚀 答案字体大小 */
-        text-align: center;
-        font-weight: bold;
-        color: red;  /* 答案颜色 */
-        white-space: nowrap;
-        overflow: hidden;
-        margin-top: 50px;
-    }}
-
+    /* 🔹 手机适配 */
     @media (max-width: 768px) {{
-        .question {{
-            font-size: 50px;  /* 手机问题字体大小 */
-        }}
-        .final-answer {{
-            font-size: 100px;  /* 手机答案字体大小 */
+        .question, .final-answer {{
+            font-size: 100px;
         }}
     }}
     </style>
 """
 
-# **新增：更灵活的 JavaScript 动画函数**
+# **🔥 逐字动画 JavaScript**
 JS_SCRIPT = """
     <script>
     function typeText(elementId, text, speed) {
@@ -75,7 +63,7 @@ JS_SCRIPT = """
                 setTimeout(type, speed);
             }
         }
-        document.getElementById(elementId).innerHTML = "";  // 清空内容
+        document.getElementById(elementId).innerHTML = "";
         type();
     }
     </script>
@@ -84,7 +72,7 @@ JS_SCRIPT = """
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **问题逐字动画显示**
+    # **🔥 问题逐字动画**
     question_text = "谁是世界上最美的女人？"
     html_content = f"""
         {JS_SCRIPT}
@@ -95,13 +83,14 @@ def show_intro():
     """
     st.components.v1.html(html_content, height=200)
 
-    # **按钮放置在页面中间**
+    # **✨ 按钮**
     st.markdown("<div class='button-container'>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("✨ 点我告诉你 ✨"):
             show_thinking_process()
 
+    # **🔥 版本号单独显示，不影响动画**
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
 def show_thinking_process():
@@ -127,11 +116,9 @@ def show_final_result():
         {JS_SCRIPT}
         <div>
             <div class="final-answer" id="answer"></div>
-            <script>typeText('answer', "{answer}", 800);</script>  <!-- 答案动画更慢 -->
+            <script>typeText('answer', "{answer}", 800);</script>  <!-- 🔥 逐字动画更慢 -->
         </div>
     """
     st.components.v1.html(html_content, height=300)
-
-    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
 show_intro()
