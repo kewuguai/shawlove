@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.28"
+VERSION = "2.1.29"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -61,7 +61,7 @@ def reset_ui():
     st.session_state.clear()
     st.markdown(" ")  # **强制清空 UI**
     time.sleep(0.5)  # **确保 UI 彻底刷新**
-    st.session_state["animation_ready"] = False  # **阻止问题动画立即执行**
+    st.session_state["animation_ready"] = True  # **重启动画**
     st.experimental_rerun()
 
 def show_intro():
@@ -75,10 +75,14 @@ def show_intro():
 
     question_placeholder = st.empty()
 
-    # **🔥 渲染问题，不重复动画**
-    if "animation_ready" in st.session_state and st.session_state["animation_ready"]:
+    # **🔥 确保问题动画可以播放**
+    if "animation_ready" not in st.session_state:
+        st.session_state["animation_ready"] = True
+
+    # **🔥 渲染问题**
+    if st.session_state["animation_ready"]:
         if "question_displayed" not in st.session_state:
-            type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)  # **问题显示速度变慢**
+            type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)
             st.session_state["question_displayed"] = True
         else:
             question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
@@ -128,7 +132,7 @@ def show_final_result():
     st.markdown("<br><br>", unsafe_allow_html=True)
     if st.button("🔄 重新筛选"):
         st.session_state["reset_triggered"] = True  # **标记 UI 需要彻底清空**
-        st.session_state["animation_ready"] = False  # **阻止问题动画提前出现**
+        st.session_state["animation_ready"] = False  # **防止问题动画提前执行**
         st.experimental_rerun()  # **刷新页面**
 
 # **🔥 运行程序**
