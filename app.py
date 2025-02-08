@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.22"
+VERSION = "2.1.23"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -59,13 +59,14 @@ def type_text(placeholder, text, speed=0.3, css_class="question"):
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **🔥 重新筛选前，先清空答案**
-    if "rerun_triggered" in st.session_state:
-        st.session_state.pop("rerun_triggered")  # **移除触发标记**
-        st.session_state["answer_hidden"] = True  # **标记答案已清除**
+    # **🔥 先判断是否是重新筛选**
+    if "clear_ui" in st.session_state:
+        st.session_state.pop("clear_ui")  # **删除标记，避免多次触发**
+        st.empty().empty()  # **彻底清空所有 UI 组件**
+        time.sleep(0.5)  # **确保 UI 彻底刷新**
     
     question_placeholder = st.empty()
-    
+
     # **🔥 渲染问题，不重复动画**
     if "question_displayed" not in st.session_state:
         type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)  # **问题显示速度变慢**
@@ -114,12 +115,11 @@ def show_final_result():
     answer_placeholder = st.empty()
     type_text(answer_placeholder, "王喆", 0.6, css_class="final-answer")
 
-    # **🔥 重新筛选：先清空答案，再加载问题**
+    # **🔥 重新筛选：彻底清空 UI**
     st.markdown("<br><br>", unsafe_allow_html=True)
     if st.button("🔄 重新筛选"):
-        answer_placeholder.empty()  # **立即清空答案**
-        st.session_state["rerun_triggered"] = True  # **设置触发标记**
-        st.experimental_rerun()  # **强制刷新页面，避免 UI 残留**
+        st.session_state["clear_ui"] = True  # **标记需要彻底清空 UI**
+        st.experimental_rerun()  # **强制刷新页面**
 
 # **🔥 运行程序**
 if __name__ == "__main__":
