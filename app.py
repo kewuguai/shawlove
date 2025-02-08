@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.31"
+VERSION = "2.1.32"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -110,6 +110,9 @@ def show_thinking_process():
 
     placeholder.success("✅ 筛选完成！答案即将揭晓...")
     time.sleep(2)
+
+    # **🔥 彻底清除对话框**
+    placeholder.empty()
 
     # **🔥 进入答案筛选**
     show_name_selection()
