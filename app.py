@@ -3,7 +3,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.6"
+VERSION = "1.0.7"
 
 os.system("git pull origin main")
 
@@ -16,7 +16,7 @@ CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 固定版本号位置 */
+    /* 🔹 固定版本号位置，独立样式 */
     .version {{
         font-family: Arial, sans-serif;
         font-size: 16px;
@@ -96,7 +96,6 @@ def show_intro():
             <div class="question" id="question"></div>
             <script>typeText('question', "{question_text}", 200);</script>
         </div>
-        <div class="version">版本：v{VERSION}</div>
     """
     st.components.v1.html(html_content, height=150)
 
@@ -105,6 +104,8 @@ def show_intro():
     with col2:
         if st.button("✨ 点我告诉你 ✨"):
             show_thinking_process()
+
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)  # 版本号固定到右下角
 
 def show_thinking_process():
     placeholder = st.empty()
@@ -131,8 +132,9 @@ def show_final_result():
             <div class="final-answer" id="answer"></div>
             <script>typeText('answer', "{answer}", 500);</script>
         </div>
-        <div class="version">版本：v{VERSION}</div>
     """
     st.components.v1.html(html_content, height=200)
+
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)  # 版本号固定到右下角
 
 show_intro()
