@@ -1,23 +1,17 @@
-import os
 import streamlit as st
 import time
 import random
 
-VERSION = "1.7.0"
-
-os.system("git pull origin main")
-
-st.cache_data.clear()
-st.cache_resource.clear()
+VERSION = "2.0.0"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔥 确保所有字体、颜色、动画正确加载**
-CUSTOM_STYLE = f"""
+# **🔥 重新定义样式，确保生效**
+CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    .version {{
+    .version {
         font-family: Arial, sans-serif;
         font-size: 16px;
         color: grey;
@@ -29,10 +23,10 @@ CUSTOM_STYLE = f"""
         padding: 5px 10px;
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    }}
+    }
 
-    /* 🔹 确保问题和答案的字体足够大，并且是红色 */
-    .question, .final-answer {{
+    /* 🔥 确保问题和答案字体大且红色 */
+    .question, .final-answer {
         font-family: 'Lobster', cursive;
         font-size: 140px;
         text-align: center;
@@ -40,57 +34,41 @@ CUSTOM_STYLE = f"""
         color: red;
         white-space: nowrap;
         overflow: hidden;
-    }}
+    }
 
-    /* 🔹 手机适配 */
-    @media (max-width: 768px) {{
-        .question, .final-answer {{
+    /* 🔥 适配手机屏幕 */
+    @media (max-width: 768px) {
+        .question, .final-answer {
             font-size: 100px;
-        }}
-    }}
+        }
+    }
+
     </style>
 """
 
-# **🔥 逐字动画 JavaScript**
-JS_SCRIPT = """
-    <script>
-    function typeText(elementId, text, speed) {
-        let i = 0;
-        function type() {
-            if (i < text.length) {
-                document.getElementById(elementId).innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            }
-        }
-        document.getElementById(elementId).innerHTML = "";
-        type();
-    }
-    </script>
-"""
+# **🔥 逐字动画的新逻辑**
+def type_text(text, speed=0.3):
+    output = ""
+    for char in text:
+        output += char
+        st.markdown(f"<p class='question'>{output}</p>", unsafe_allow_html=True)
+        time.sleep(speed)
 
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **🔥 问题逐字动画**
-    question_text = "谁是世界上最美的女人？"
-    html_content = f"""
-        {JS_SCRIPT}
-        <div style="margin-top: 100px;">
-            <div class="question" id="question"></div>
-            <script>typeText('question', "{question_text}", 300);</script>
-        </div>
-    """
-    st.components.v1.html(html_content, height=200)
+    # **🔥 逐字显示问题**
+    type_text("谁是世界上最美的女人？", 0.2)
 
-    # **✨ 按钮**
-    st.markdown("<div class='button-container'>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # **✨ 居中按钮**
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("✨ 点我告诉你 ✨"):
             show_thinking_process()
 
-    # **🔥 版本号单独显示，不影响动画**
+    # **🔥 版本号独立放置，防止影响动画**
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
 def show_thinking_process():
@@ -102,7 +80,7 @@ def show_thinking_process():
     for i in range(10):
         current_number = start_number + (step * i)
         placeholder.markdown(
-            f"<p class='thinking'>🔍 手机正在思考中，分析了 {current_number:,.3f} 个女人...</p>",
+            f"<p class='question'>🔍 手机正在思考中，分析了 {current_number:,.3f} 个女人...</p>",
             unsafe_allow_html=True
         )
         time.sleep(0.8)
@@ -111,14 +89,6 @@ def show_thinking_process():
     show_final_result()
 
 def show_final_result():
-    answer = "王喆"
-    html_content = f"""
-        {JS_SCRIPT}
-        <div>
-            <div class="final-answer" id="answer"></div>
-            <script>typeText('answer', "{answer}", 800);</script>  <!-- 🔥 逐字动画更慢 -->
-        </div>
-    """
-    st.components.v1.html(html_content, height=300)
+    type_text("王喆", 0.6)  # **🔥 答案逐字显示更慢**
 
 show_intro()
