@@ -3,7 +3,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.4.0"
+VERSION = "1.5.0"
 
 os.system("git pull origin main")
 
@@ -30,22 +30,24 @@ CUSTOM_STYLE = f"""
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }}
 
-    /* 🔹 大标题样式 */
+    /* 🔹 问题样式 */
     .question {{
         font-family: 'Lobster', cursive;
-        font-size: 80px;  /* 🚀 问题字体 */
+        font-size: 80px;
         text-align: center;
         font-weight: bold;
         color: black;
         white-space: nowrap;
         overflow: hidden;
     }}
+
+    /* 🔹 答案样式 */
     .final-answer {{
         font-family: 'Lobster', cursive;
-        font-size: 140px;  /* 🚀 答案字体 */
+        font-size: 140px;  /* 🚀 确保字体足够大 */
         text-align: center;
         font-weight: bold;
-        color: red;  /* 🔴 答案颜色 */
+        color: red;  /* 🔴 答案颜色为红色 */
         white-space: nowrap;
         overflow: hidden;
         margin-top: 50px;
@@ -54,10 +56,10 @@ CUSTOM_STYLE = f"""
     /* 🔹 手机适配 */
     @media (max-width: 768px) {{
         .question {{
-            font-size: 50px;  /* 🔹 问题适配手机字体 */
+            font-size: 50px;
         }}
         .final-answer {{
-            font-size: 100px;  /* 🔹 答案适配手机字体 */
+            font-size: 100px;
         }}
     }}
     </style>
@@ -74,7 +76,7 @@ JS_SCRIPT = """
                 setTimeout(type, speed);
             }
         }
-        document.getElementById(elementId).innerHTML = "";
+        document.getElementById(elementId).innerHTML = "";  // 清空内容
         type();
     }
     </script>
@@ -88,7 +90,7 @@ def show_intro():
         {JS_SCRIPT}
         <div style="margin-top: 100px;">
             <div class="question" id="question"></div>
-            <script>typeText('question', "{question_text}", 200);</script>
+            <script>typeText('question', "{question_text}", 300);</script>
         </div>
     """
     st.components.v1.html(html_content, height=200)
@@ -124,7 +126,7 @@ def show_final_result():
         {JS_SCRIPT}
         <div>
             <div class="final-answer" id="answer"></div>
-            <script>typeText('answer', "{answer}", 500);</script>
+            <script>typeText('answer', "{answer}", 800);</script>  <!-- 动画速度变慢 -->
         </div>
     """
     st.components.v1.html(html_content, height=300)
