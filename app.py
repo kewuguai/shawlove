@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.24"
+VERSION = "2.1.25"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -59,14 +59,13 @@ def type_text(placeholder, text, speed=0.3, css_class="question"):
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **🔥 如果是重新筛选，先清空 UI**
+    # **🔥 重新筛选前，彻底清空 UI**
     if "clear_ui" in st.session_state:
-        st.session_state.pop("clear_ui")  # **删除标记**
-        st.session_state.clear()  # **清除所有缓存**
-        st.empty().empty()  # **彻底清空所有 UI**
-        time.sleep(0.5)  # **等待 0.5s，确保 UI 彻底刷新**
-        st.experimental_rerun()  # **强制刷新页面**
-        return
+        st.session_state.clear()  # **彻底清空缓存**
+        st.markdown(" ")  # **强制清空所有 UI**
+        time.sleep(0.5)  # **等待 UI 彻底刷新**
+        st.experimental_rerun()  # **强制重启整个 Streamlit 代码**
+        return  # **确保后续代码不会执行**
 
     question_placeholder = st.empty()
 
