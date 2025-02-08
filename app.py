@@ -3,7 +3,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.7"
+VERSION = "1.0.9"
 
 os.system("git pull origin main")
 
@@ -16,7 +16,6 @@ CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 固定版本号位置，独立样式 */
     .version {{
         font-family: Arial, sans-serif;
         font-size: 16px;
@@ -48,6 +47,16 @@ CUSTOM_STYLE = f"""
         font-size: 24px;
         text-align: center;
         color: black;
+    }}
+    .final-answer {{
+        font-family: 'Lobster', cursive;
+        font-size: 120px; /* 🚀 超大字体 */
+        text-align: center;
+        font-weight: bold;
+        color: red;
+        white-space: nowrap;
+        overflow: hidden;
+        margin-top: 50px;
     }}
     .button-container {{
         text-align: center;
@@ -92,7 +101,7 @@ def show_intro():
     question_text = "谁是世界上最美的女人？"
     html_content = f"""
         {JS_SCRIPT}
-        <div class="question-container">
+        <div style="margin-top: 100px;">
             <div class="question" id="question"></div>
             <script>typeText('question', "{question_text}", 200);</script>
         </div>
@@ -105,7 +114,7 @@ def show_intro():
         if st.button("✨ 点我告诉你 ✨"):
             show_thinking_process()
 
-    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)  # 版本号固定到右下角
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
 def show_thinking_process():
     placeholder = st.empty()
@@ -128,13 +137,13 @@ def show_final_result():
     answer = "王喆"
     html_content = f"""
         {JS_SCRIPT}
-        <div class="question-container">
+        <div>
             <div class="final-answer" id="answer"></div>
             <script>typeText('answer', "{answer}", 500);</script>
         </div>
     """
-    st.components.v1.html(html_content, height=200)
+    st.components.v1.html(html_content, height=300)
 
-    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)  # 版本号固定到右下角
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
 show_intro()
