@@ -3,42 +3,42 @@ import streamlit as st
 import time
 import random
 
-# **🔹 版本号（手动更新）**
-VERSION = "1.0.2"
+# **🔹 版本号**
+VERSION = "1.0.3"
 
 # **🔹 自动拉取 GitHub 最新代码**
 os.system("git pull origin main")
 
-# **🔹 禁用 Streamlit 缓存，确保显示最新数据**
+# **🔹 禁用缓存**
 st.cache_data.clear()
 st.cache_resource.clear()
 
 # **🔹 设置网页标题**
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔹 自定义 CSS + JavaScript 逐字动画**
+# **🔹 版本号显示在问题左上角**
 CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 版本号样式（放在问题的左上角） */
-    .version {
+    /* 🔹 版本号样式（放在问题左上角） */
+    .version {{
         font-family: Arial, sans-serif;
         font-size: 18px;
         color: grey;
         position: absolute;
         top: 10px;
         left: 10px;
-    }
+    }}
 
     /* 🔹 确保字体提前放大 */
-    .question-container {
+    .question-container {{
         position: relative;
         text-align: center;
         margin-top: 50px;
-    }
+    }}
 
-    .question {
+    .question {{
         font-family: 'Lobster', cursive;
         font-size: 80px; /* 🚀 大字体 */
         text-align: center;
@@ -46,17 +46,17 @@ CUSTOM_STYLE = f"""
         color: black;
         white-space: nowrap;
         overflow: hidden;
-    }
-    .thinking {
+    }}
+    .thinking {{
         font-size: 24px;
         text-align: center;
         color: black;
-    }
-    .button-container {
+    }}
+    .button-container {{
         text-align: center;
         margin-top: 40px;
-    }
-    .btn-style {
+    }}
+    .btn-style {{
         font-size: 28px;
         padding: 12px 24px;
         font-weight: bold;
@@ -65,12 +65,15 @@ CUSTOM_STYLE = f"""
         color: white;
         border: none;
         cursor: pointer;
-    }
-    .btn-style:hover {
+    }}
+    .btn-style:hover {{
         background-color: #ff0000;
-    }
+    }}
     </style>
+"""
 
+# **🔹 逐字显示 JavaScript 代码**
+JS_SCRIPT = """
     <script>
     function typeText(elementId, text, speed) {
         let i = 0;
@@ -94,8 +97,9 @@ def show_intro():
     # **HTML 渲染问题文本，并在左上角显示版本号**
     question_text = "谁是世界上最美的女人？"
     html_content = f"""
+        {JS_SCRIPT}
         <div class="question-container">
-            <div class="version">版本：v{VERSION}</div>  <!-- 版本号放置在左上角 -->
+            <div class="version">版本：v{VERSION}</div>  <!-- 版本号左上角 -->
             <div class="question" id="question"></div>
             <script>typeText('question', "{question_text}", 200);</script>
         </div>
@@ -133,6 +137,7 @@ def show_thinking_process():
 def show_final_result():
     answer = "王喆"
     html_content = f"""
+        {JS_SCRIPT}
         <div class="question-container">
             <div class="final-answer" id="answer"></div>
             <script>typeText('answer', "{answer}", 500);</script>
