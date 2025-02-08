@@ -1,8 +1,9 @@
 import streamlit as st
 import time
 import random
+import streamlit.components.v1 as components  # **用于嵌入 HTML 代码**
 
-VERSION = "2.1.20"
+VERSION = "2.1.21"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -111,16 +112,15 @@ def show_final_result():
     # **🔥 重新筛选：使用 JavaScript 触发真正的页面刷新**
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    refresh_script = """
-    <script>
-    function reloadPage() {
-        location.reload();
-    }
-    </script>
-    """
-    st.markdown(refresh_script, unsafe_allow_html=True)
     if st.button("🔄 重新筛选"):
-        st.markdown("<script>reloadPage();</script>", unsafe_allow_html=True)  # **执行页面刷新**
+        components.html(
+            """
+            <script>
+                window.location.reload();
+            </script>
+            """,
+            height=0,  # **隐藏 HTML 组件**
+        )
 
 # **🔥 运行程序**
 if __name__ == "__main__":
