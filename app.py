@@ -4,7 +4,7 @@ import time
 import random
 
 # **🔹 版本号**
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 # **🔹 自动拉取 GitHub 最新代码**
 os.system("git pull origin main")
@@ -16,24 +16,23 @@ st.cache_resource.clear()
 # **🔹 设置网页标题**
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔹 版本号显示在问题左上角**
+# **🔹 自定义 CSS + JavaScript 逐字动画**
 CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 版本号样式（放在问题左上角） */
+    /* 🔹 版本号样式（放在页面右下角） */
     .version {{
         font-family: Arial, sans-serif;
         font-size: 18px;
         color: grey;
-        position: absolute;
-        top: 10px;
-        left: 10px;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
     }}
 
     /* 🔹 确保字体提前放大 */
     .question-container {{
-        position: relative;
         text-align: center;
         margin-top: 50px;
     }}
@@ -94,15 +93,15 @@ JS_SCRIPT = """
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **HTML 渲染问题文本，并在左上角显示版本号**
+    # **HTML 渲染问题文本**
     question_text = "谁是世界上最美的女人？"
     html_content = f"""
         {JS_SCRIPT}
         <div class="question-container">
-            <div class="version">版本：v{VERSION}</div>  <!-- 版本号左上角 -->
             <div class="question" id="question"></div>
             <script>typeText('question', "{question_text}", 200);</script>
         </div>
+        <div class="version">版本：v{VERSION}</div>  <!-- 版本号放置在右下角 -->
     """
     st.components.v1.html(html_content, height=150)
 
@@ -142,6 +141,7 @@ def show_final_result():
             <div class="final-answer" id="answer"></div>
             <script>typeText('answer', "{answer}", 500);</script>
         </div>
+        <div class="version">版本：v{VERSION}</div>  <!-- 确保最终页面也显示版本号 -->
     """
     st.components.v1.html(html_content, height=200)
 
