@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.12"
+VERSION = "2.1.13"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -108,9 +108,9 @@ def show_final_result():
     answer_placeholder = st.empty()
     type_text(answer_placeholder, "王喆", 0.6, css_class="final-answer")
 
-    # **🔥 添加“再看一遍”按钮**
+    # **🔥 修改按钮文本为“再选一遍”**
     st.markdown("<br><br>", unsafe_allow_html=True)
-    if st.button("🔄 再看一遍"):
+    if st.button("🔄 再选一遍"):
         st.session_state.clear()  # **清除状态**
         st.experimental_rerun()  # **重新运行整个应用**
 
