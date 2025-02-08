@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.25"
+VERSION = "2.1.26"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -64,7 +64,7 @@ def show_intro():
         st.session_state.clear()  # **彻底清空缓存**
         st.markdown(" ")  # **强制清空所有 UI**
         time.sleep(0.5)  # **等待 UI 彻底刷新**
-        st.experimental_rerun()  # **强制重启整个 Streamlit 代码**
+        st.experimental_rerun()  # **强制重启 Streamlit 代码**
         return  # **确保后续代码不会执行**
 
     question_placeholder = st.empty()
