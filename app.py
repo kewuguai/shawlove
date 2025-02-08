@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.17"
+VERSION = "2.1.19"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -62,7 +62,7 @@ def show_intro():
     # **🔥 渲染问题，不重复动画**
     question_placeholder = st.empty()
     if "question_displayed" not in st.session_state:
-        type_text(question_placeholder, "谁是世界上最美的女人？", 0.2)
+        type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)  # **问题显示速度变慢**
         st.session_state["question_displayed"] = True
     else:
         question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
@@ -108,13 +108,11 @@ def show_final_result():
     answer_placeholder = st.empty()
     type_text(answer_placeholder, "王喆", 0.6, css_class="final-answer")
 
-    # **🔥 重新筛选前，先清屏彻底移除答案**
+    # **🔥 重新筛选：彻底清屏 + 强制刷新**
     st.markdown("<br><br>", unsafe_allow_html=True)
     if st.button("🔄 重新筛选"):
-        answer_placeholder.empty()  # **立即清空答案**
         st.session_state.clear()  # **清除所有缓存**
-        time.sleep(0.5)  # **强制等待 0.5s，确保 UI 清空**
-        st.experimental_rerun()  # **强制刷新页面，彻底清除残留**
+        st.experimental_rerun()  # **强制刷新页面，确保 UI 立即重置**
 
 # **🔥 运行程序**
 if __name__ == "__main__":
