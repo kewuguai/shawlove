@@ -1,49 +1,69 @@
+import os
 import streamlit as st
 import time
 import random
 
-# **🔹 设置网页标题**
-st.set_page_config(page_title="问答演示", layout="centered")
+VERSION = "1.4.0"
 
-# **🔹 自定义 CSS + JavaScript 逐字动画**
-CUSTOM_STYLE = """
+os.system("git pull origin main")
+
+st.cache_data.clear()
+st.cache_resource.clear()
+
+st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
+
+CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 确保字体提前放大 */
-    .question, .final-answer {
+    .version {{
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: grey;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        z-index: 9999;
+        background-color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    }}
+
+    /* 🔹 大标题样式 */
+    .question {{
         font-family: 'Lobster', cursive;
-        font-size: 80px; /* 🚀 大字体 */
+        font-size: 80px;  /* 🚀 问题字体 */
         text-align: center;
         font-weight: bold;
         color: black;
         white-space: nowrap;
         overflow: hidden;
-    }
-    .thinking {
-        font-size: 24px;
+    }}
+    .final-answer {{
+        font-family: 'Lobster', cursive;
+        font-size: 140px;  /* 🚀 答案字体 */
         text-align: center;
-        color: black;
-    }
-    .button-container {
-        text-align: center;
-        margin-top: 40px;
-    }
-    .btn-style {
-        font-size: 28px;
-        padding: 12px 24px;
         font-weight: bold;
-        border-radius: 12px;
-        background-color: #ff4b4b;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    .btn-style:hover {
-        background-color: #ff0000;
-    }
-    </style>
+        color: red;  /* 🔴 答案颜色 */
+        white-space: nowrap;
+        overflow: hidden;
+        margin-top: 50px;
+    }}
 
+    /* 🔹 手机适配 */
+    @media (max-width: 768px) {{
+        .question {{
+            font-size: 50px;  /* 🔹 问题适配手机字体 */
+        }}
+        .final-answer {{
+            font-size: 100px;  /* 🔹 答案适配手机字体 */
+        }}
+    }}
+    </style>
+"""
+
+JS_SCRIPT = """
     <script>
     function typeText(elementId, text, speed) {
         let i = 0;
@@ -54,36 +74,35 @@ CUSTOM_STYLE = """
                 setTimeout(type, speed);
             }
         }
-        document.getElementById(elementId).innerHTML = "";  // 清空内容
+        document.getElementById(elementId).innerHTML = "";
         type();
     }
     </script>
 """
 
-# **🔹 显示问题逐字动画**
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **HTML 渲染逐字显示动画**
     question_text = "谁是世界上最美的女人？"
     html_content = f"""
-        <div class="question" id="question"></div>
-        <script>typeText('question', "{question_text}", 200);</script>
+        {JS_SCRIPT}
+        <div style="margin-top: 100px;">
+            <div class="question" id="question"></div>
+            <script>typeText('question', "{question_text}", 200);</script>
+        </div>
     """
-    st.components.v1.html(html_content, height=100)
+    st.components.v1.html(html_content, height=200)
 
-    # **按钮**
     st.markdown("<div class='button-container'>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("✨ 点我告诉你 ✨"):
             show_thinking_process()
 
-# **🔹 显示“手机正在思考中”动画**
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
+
 def show_thinking_process():
     placeholder = st.empty()
-
-    # **随机浮点数变化**
     start_number = random.uniform(100000.123, 500000.456)
     end_number = random.uniform(3000000000.789, 4000000000.987)
     step = (end_number - start_number) / 10
@@ -99,14 +118,17 @@ def show_thinking_process():
     time.sleep(2)
     show_final_result()
 
-# **🔹 显示最终答案**
 def show_final_result():
     answer = "王喆"
     html_content = f"""
-        <div class="final-answer" id="answer"></div>
-        <script>typeText('answer', "{answer}", 500);</script>
+        {JS_SCRIPT}
+        <div>
+            <div class="final-answer" id="answer"></div>
+            <script>typeText('answer', "{answer}", 500);</script>
+        </div>
     """
-    st.components.v1.html(html_content, height=200)
+    st.components.v1.html(html_content, height=300)
 
-# **🔘 启动页面**
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
+
 show_intro()
