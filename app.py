@@ -4,7 +4,7 @@ import time
 import random
 
 # **🔹 版本号**
-VERSION = "1.0.4"
+VERSION = "1.0.5"
 
 # **🔹 自动拉取 GitHub 最新代码**
 os.system("git pull origin main")
@@ -16,27 +16,27 @@ st.cache_resource.clear()
 # **🔹 设置网页标题**
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔹 自定义 CSS + JavaScript 逐字动画**
+# **🔹 自定义 CSS + JavaScript**
 CUSTOM_STYLE = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 版本号样式（放在页面右下角） */
+    /* 🔹 版本号样式（页面右下角） */
     .version {{
         font-family: Arial, sans-serif;
-        font-size: 18px;
+        font-size: 16px;
         color: grey;
         position: fixed;
         bottom: 10px;
         right: 10px;
+        z-index: 1000;
     }}
 
-    /* 🔹 确保字体提前放大 */
+    /* 🔹 问题及动画样式 */
     .question-container {{
         text-align: center;
         margin-top: 50px;
     }}
-
     .question {{
         font-family: 'Lobster', cursive;
         font-size: 80px; /* 🚀 大字体 */
@@ -101,7 +101,7 @@ def show_intro():
             <div class="question" id="question"></div>
             <script>typeText('question', "{question_text}", 200);</script>
         </div>
-        <div class="version">版本：v{VERSION}</div>  <!-- 版本号放置在右下角 -->
+        <div class="version">版本：v{VERSION}</div>  <!-- 版本号放置页面右下角 -->
     """
     st.components.v1.html(html_content, height=150)
 
