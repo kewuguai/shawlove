@@ -2,11 +2,11 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.8"
+VERSION = "2.1.9"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔥 更新样式，换更美观的字体**
+# **🔥 更新样式，增加颜色区分**
 CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
@@ -25,13 +25,15 @@ CUSTOM_STYLE = """
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
+    /* 🔥 问题颜色为深红 */
     .question {
         font-family: 'Pacifico', cursive;
         font-size: 50px;
         text-align: center;
-        color: red;
+        color: darkred;
     }
 
+    /* 🔥 筛选状态为黑色 */
     .thinking {
         font-family: 'Pacifico', cursive;
         font-size: 20px;
@@ -39,11 +41,12 @@ CUSTOM_STYLE = """
         color: black;
     }
 
+    /* 🔥 答案颜色为深蓝 */
     .final-answer {
         font-family: 'Pacifico', cursive;
         font-size: 140px;
         text-align: center;
-        color: red;
+        color: darkblue;
     }
     </style>
 """
