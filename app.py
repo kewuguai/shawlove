@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.30"
+VERSION = "2.1.31"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -25,24 +25,33 @@ CUSTOM_STYLE = """
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
+    .question {
+        font-family: 'Pacifico', cursive;
+        font-size: 50px;
+        text-align: center;
+        color: red;
+    }
+
     .answer-box {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100px;
         width: 300px;
-        border: 2px solid black;
         border-radius: 10px;
         margin: 20px auto;
         font-size: 40px;
         font-weight: bold;
         text-align: center;
         transition: all 0.3s ease-in-out;
+        background-color: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
     .final-answer {
         font-size: 60px;
         color: red;
+        font-weight: bold;
     }
     </style>
 """
@@ -67,7 +76,7 @@ def show_intro():
 
     question_placeholder = st.empty()
     if "question_displayed" not in st.session_state:
-        type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)
+        type_text(question_placeholder, "谁是世界上最美的女人？", 0.5, css_class="question")
         st.session_state["question_displayed"] = True
     else:
         question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
@@ -86,7 +95,7 @@ def show_thinking_process():
     placeholder.markdown("<p class='thinking'>🔍 正在筛选...</p>", unsafe_allow_html=True)
     time.sleep(0.5)
 
-    # **🔥 保留原有数字筛选过程**
+    # **🔥 数字筛选过程**
     start_number = random.uniform(100000.123, 500000.456)
     end_number = random.uniform(1000000000.789, 4000000000.987)  # 最高 40 亿
     step = (end_number - start_number) / 10
@@ -109,7 +118,7 @@ def show_name_selection():
     name_placeholder = st.empty()
 
     # **🔥 创建文本框**
-    st.markdown("<div class='answer-box'>", unsafe_allow_html=True)
+    name_box = st.markdown("<div class='answer-box'>", unsafe_allow_html=True)
 
     # **🔥 前 40 次完全随机**
     for _ in range(40):
@@ -126,6 +135,10 @@ def show_name_selection():
     # **🔥 最终确定“王喆”**
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
     time.sleep(2)  # **短暂停留**
+
+    # **🔥 清除空白对话框**
+    name_box.empty()
+    name_placeholder.empty()
 
     # **🔥 进入最终展示**
     show_final_result()
