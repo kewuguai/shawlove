@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.16"
+VERSION = "2.1.17"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -108,12 +108,13 @@ def show_final_result():
     answer_placeholder = st.empty()
     type_text(answer_placeholder, "王喆", 0.6, css_class="final-answer")
 
-    # **🔥 添加“重新筛选”按钮，并立即清屏**
+    # **🔥 重新筛选前，先清屏彻底移除答案**
     st.markdown("<br><br>", unsafe_allow_html=True)
     if st.button("🔄 重新筛选"):
         answer_placeholder.empty()  # **立即清空答案**
-        st.session_state.clear()  # **清除状态**
-        st.experimental_rerun()  # **重新加载界面**
+        st.session_state.clear()  # **清除所有缓存**
+        time.sleep(0.5)  # **强制等待 0.5s，确保 UI 清空**
+        st.experimental_rerun()  # **强制刷新页面，彻底清除残留**
 
 # **🔥 运行程序**
 if __name__ == "__main__":
