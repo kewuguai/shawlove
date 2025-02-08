@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.5"
+VERSION = "2.1.6"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -25,7 +25,7 @@ CUSTOM_STYLE = """
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
-    /* 🔥 进一步缩小问题字体 */
+    /* 🔥 问题字体 */
     .question {
         font-family: 'Lobster', cursive;
         font-size: 50px;
@@ -93,12 +93,14 @@ def show_intro():
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # **✨ 按钮居中**
-    st.markdown('<div class="button-container">', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button("✨ 点我筛选 ✨"):
-            show_thinking_process()
+    # **✨ 按钮居中，点击后消失**
+    button_placeholder = st.empty()
+    with button_placeholder:
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            if st.button("✨ 点我筛选 ✨"):
+                button_placeholder.empty()  # **🔥 清除按钮**
+                show_thinking_process()
 
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
