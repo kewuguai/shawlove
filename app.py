@@ -1,9 +1,8 @@
 import streamlit as st
 import time
 import random
-import streamlit.components.v1 as components  # **用于执行 JavaScript**
 
-VERSION = "2.1.27"
+VERSION = "2.1.28"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -57,17 +56,32 @@ def type_text(placeholder, text, speed=0.3, css_class="question"):
         placeholder.markdown(f"<p class='{css_class}'>{output}</p>", unsafe_allow_html=True)
         time.sleep(speed)
 
+def reset_ui():
+    """彻底清空 UI，确保页面完全刷新"""
+    st.session_state.clear()
+    st.markdown(" ")  # **强制清空 UI**
+    time.sleep(0.5)  # **确保 UI 彻底刷新**
+    st.session_state["animation_ready"] = False  # **阻止问题动画立即执行**
+    st.experimental_rerun()
+
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
+
+    # **🔥 重新筛选时先彻底清空 UI**
+    if "reset_triggered" in st.session_state:
+        del st.session_state["reset_triggered"]
+        reset_ui()
+        return  # **防止 UI 继续渲染**
 
     question_placeholder = st.empty()
 
     # **🔥 渲染问题，不重复动画**
-    if "question_displayed" not in st.session_state:
-        type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)  # **问题显示速度变慢**
-        st.session_state["question_displayed"] = True
-    else:
-        question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
+    if "animation_ready" in st.session_state and st.session_state["animation_ready"]:
+        if "question_displayed" not in st.session_state:
+            type_text(question_placeholder, "谁是世界上最美的女人？", 0.5)  # **问题显示速度变慢**
+            st.session_state["question_displayed"] = True
+        else:
+            question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
@@ -110,18 +124,12 @@ def show_final_result():
     answer_placeholder = st.empty()
     type_text(answer_placeholder, "王喆", 0.6, css_class="final-answer")
 
-    # **🔥 重新筛选：使用 JavaScript 触发浏览器 F5 刷新**
+    # **🔥 重新筛选**
     st.markdown("<br><br>", unsafe_allow_html=True)
-
     if st.button("🔄 重新筛选"):
-        components.html(
-            """
-            <script>
-                window.location.reload();
-            </script>
-            """,
-            height=0,  # **隐藏 HTML 组件**
-        )
+        st.session_state["reset_triggered"] = True  # **标记 UI 需要彻底清空**
+        st.session_state["animation_ready"] = False  # **阻止问题动画提前出现**
+        st.experimental_rerun()  # **刷新页面**
 
 # **🔥 运行程序**
 if __name__ == "__main__":
