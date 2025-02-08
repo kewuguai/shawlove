@@ -5,37 +5,26 @@ import random
 # **🔹 设置网页标题**
 st.set_page_config(page_title="问答演示", layout="centered")
 
-# **🔹 自定义 CSS 样式**
+# **🔹 自定义 CSS + JavaScript 逐字动画**
 CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-    /* 🔹 问题字体样式 */
-    .question {
+    /* 🔹 确保字体提前放大 */
+    .question, .final-answer {
         font-family: 'Lobster', cursive;
-        font-size: 72px; /* 🚀 字体放大 */
+        font-size: 80px; /* 🚀 大字体 */
         text-align: center;
+        font-weight: bold;
         color: black;
-        margin-bottom: 30px;
+        white-space: nowrap;
+        overflow: hidden;
     }
-
-    /* 🔹 思考文本样式 */
     .thinking {
         font-size: 24px;
         text-align: center;
         color: black;
     }
-
-    /* 🔹 答案字体样式 */
-    .pretty-text {
-        font-family: 'Lobster', cursive;
-        font-size: 100px; /* 🚀 超大字体 */
-        color: red;
-        text-align: center;
-        margin-top: 50px;
-    }
-
-    /* 🔹 按钮样式 */
     .button-container {
         text-align: center;
         margin-top: 40px;
@@ -54,37 +43,36 @@ CUSTOM_STYLE = """
         background-color: #ff0000;
     }
     </style>
+
+    <script>
+    function typeText(elementId, text, speed) {
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                document.getElementById(elementId).innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        document.getElementById(elementId).innerHTML = "";  // 清空内容
+        type();
+    }
+    </script>
 """
 
-# **🔹 逐字显示问题**
+# **🔹 显示问题逐字动画**
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # 动态逐字显示
-    question_text = "谁是世界上最美的女人啊？"
-    placeholder = st.empty()
+    # **HTML 渲染逐字显示动画**
+    question_text = "谁是世界上最美的女人？"
+    html_content = f"""
+        <div class="question" id="question"></div>
+        <script>typeText('question', "{question_text}", 200);</script>
+    """
+    st.components.v1.html(html_content, height=100)
 
-    if "question_displayed" not in st.session_state:
-        st.session_state.question_displayed = False
-
-    # **逐字显示内容**
-    if not st.session_state.question_displayed:
-        displayed_text = ""
-        for char in question_text:
-            displayed_text += char
-            placeholder.markdown(
-                f"<p class='question'>{displayed_text}</p>",
-                unsafe_allow_html=True
-            )
-            time.sleep(0.2)  # **逐字动画**
-        st.session_state.question_displayed = True
-    else:
-        placeholder.markdown(
-            f"<p class='question'>{question_text}</p>",
-            unsafe_allow_html=True
-        )
-
-    # **显示按钮**
+    # **按钮**
     st.markdown("<div class='button-container'>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
@@ -96,9 +84,9 @@ def show_thinking_process():
     placeholder = st.empty()
 
     # **随机浮点数变化**
-    start_number = random.uniform(100000.123, 500000.456)  # 起始浮点数
-    end_number = random.uniform(3000000000.789, 4000000000.987)  # 结束浮点数
-    step = (end_number - start_number) / 10  # 每次增加的浮点数
+    start_number = random.uniform(100000.123, 500000.456)
+    end_number = random.uniform(3000000000.789, 4000000000.987)
+    step = (end_number - start_number) / 10
 
     for i in range(10):
         current_number = start_number + (step * i)
@@ -106,14 +94,19 @@ def show_thinking_process():
             f"<p class='thinking'>🔍 手机正在思考中，分析了 {current_number:,.3f} 个女人...</p>",
             unsafe_allow_html=True
         )
-        time.sleep(0.8)  # 延迟0.8秒，模拟计算
+        time.sleep(0.8)
     placeholder.success("✅ 筛选完成！答案即将揭晓...")
     time.sleep(2)
     show_final_result()
 
 # **🔹 显示最终答案**
 def show_final_result():
-    st.markdown("<div class='pretty-text'>王喆</div>", unsafe_allow_html=True)
+    answer = "王喆"
+    html_content = f"""
+        <div class="final-answer" id="answer"></div>
+        <script>typeText('answer', "{answer}", 500);</script>
+    """
+    st.components.v1.html(html_content, height=200)
 
 # **🔘 启动页面**
 show_intro()
