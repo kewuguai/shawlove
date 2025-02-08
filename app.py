@@ -2,11 +2,11 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.4"
+VERSION = "2.1.5"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
-# **🔥 更新样式，确保字体大小、按钮居中、动画流畅**
+# **🔥 更新样式**
 CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
@@ -25,16 +25,16 @@ CUSTOM_STYLE = """
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
-    /* 🔥 缩小问题字体 30% */
+    /* 🔥 进一步缩小问题字体 */
     .question {
         font-family: 'Lobster', cursive;
-        font-size: 50px;  /* 70px → 50px */
+        font-size: 50px;
         text-align: center;
         font-weight: bold;
         color: red;
     }
 
-    /* 🔥 保持“手机正在思考”小字体 */
+    /* 🔥 筛选状态 */
     .thinking {
         font-family: 'Lobster', cursive;
         font-size: 20px;
@@ -42,7 +42,7 @@ CUSTOM_STYLE = """
         color: black;
     }
 
-    /* 🔥 王喆字体不变 */
+    /* 🔥 答案 */
     .final-answer {
         font-family: 'Lobster', cursive;
         font-size: 140px;
@@ -60,7 +60,7 @@ CUSTOM_STYLE = """
 
     @media (max-width: 768px) {
         .question {
-            font-size: 40px; /* 手机端进一步缩小 */
+            font-size: 40px;
         }
         .thinking {
             font-size: 16px;
@@ -83,11 +83,11 @@ def type_text(placeholder, text, speed=0.3, css_class="question"):
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **🔥 先渲染静态文本，确保不重复执行动画**
+    # **🔥 先渲染静态文本**
     question_placeholder = st.empty()
     if "question_displayed" not in st.session_state:
         type_text(question_placeholder, "谁是世界上最美的女人？", 0.2)
-        st.session_state["question_displayed"] = True  # 记录状态，防止重复动画
+        st.session_state["question_displayed"] = True
     else:
         question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
 
@@ -97,14 +97,14 @@ def show_intro():
     st.markdown('<div class="button-container">', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("✨ 点我告诉你 ✨"):
+        if st.button("✨ 点我筛选 ✨"):
             show_thinking_process()
 
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
 def show_thinking_process():
     placeholder = st.empty()
-    placeholder.markdown("<p class='thinking'>🔍 手机正在思考中...</p>", unsafe_allow_html=True)
+    placeholder.markdown("<p class='thinking'>🔍 正在筛选...</p>", unsafe_allow_html=True)
     time.sleep(0.5)
 
     start_number = random.uniform(100000.123, 500000.456)
@@ -114,7 +114,7 @@ def show_thinking_process():
     for i in range(10):
         current_number = start_number + (step * i)
         placeholder.markdown(
-            f"<p class='thinking'>🔍 手机正在思考中，分析了 {current_number:,.3f} 个女人...</p>",
+            f"<p class='thinking'>🔍 正在筛选，分析了 {current_number:,.3f} 个女人...</p>",
             unsafe_allow_html=True
         )
         time.sleep(0.8)
@@ -122,8 +122,9 @@ def show_thinking_process():
     placeholder.success("✅ 筛选完成！答案即将揭晓...")
     time.sleep(2)
 
-    # **🔥 增加清屏步骤**
-    st.empty()
+    # **🔥 清屏步骤**
+    placeholder.empty()  # **清空内容**
+    st.session_state.clear()  # **清除所有状态**
     time.sleep(1)
 
     show_final_result()
