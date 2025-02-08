@@ -1,8 +1,9 @@
 import streamlit as st
 import time
 import random
+import streamlit.components.v1 as components  # **用于执行 JavaScript**
 
-VERSION = "2.1.26"
+VERSION = "2.1.27"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -59,14 +60,6 @@ def type_text(placeholder, text, speed=0.3, css_class="question"):
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-    # **🔥 重新筛选前，彻底清空 UI**
-    if "clear_ui" in st.session_state:
-        st.session_state.clear()  # **彻底清空缓存**
-        st.markdown(" ")  # **强制清空所有 UI**
-        time.sleep(0.5)  # **等待 UI 彻底刷新**
-        st.experimental_rerun()  # **强制重启 Streamlit 代码**
-        return  # **确保后续代码不会执行**
-
     question_placeholder = st.empty()
 
     # **🔥 渲染问题，不重复动画**
@@ -117,11 +110,18 @@ def show_final_result():
     answer_placeholder = st.empty()
     type_text(answer_placeholder, "王喆", 0.6, css_class="final-answer")
 
-    # **🔥 重新筛选：彻底清空 UI**
+    # **🔥 重新筛选：使用 JavaScript 触发浏览器 F5 刷新**
     st.markdown("<br><br>", unsafe_allow_html=True)
+
     if st.button("🔄 重新筛选"):
-        st.session_state["clear_ui"] = True  # **标记需要彻底清空 UI**
-        st.experimental_rerun()  # **强制刷新页面**
+        components.html(
+            """
+            <script>
+                window.location.reload();
+            </script>
+            """,
+            height=0,  # **隐藏 HTML 组件**
+        )
 
 # **🔥 运行程序**
 if __name__ == "__main__":
