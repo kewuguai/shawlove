@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.35"
+VERSION = "2.1.36"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -56,11 +56,29 @@ CUSTOM_STYLE = """
     </style>
 """
 
-# **🔥 名字筛选逻辑**
+# **🔥 全球前100位最美女性的名字（+王喆，共101个名字）**
 NAME_POOL = [
-    "李伟", "张晨", "赵磊", "陈思", "吴敏", "刘翔", "杨阳", "何婷", "孙超", "冯涛",
-    "高峰", "郭雪", "王强", "林杰", "董辉", "马艳", "韩磊", "罗静", "郑凯", "范敏",
-    "胡杰", "曹伟", "谭明", "宋婷", "王喆"
+    "Scarlett Johansson", "Angelina Jolie", "Gal Gadot", "Emma Watson", "Margot Robbie",
+    "Taylor Swift", "Ariana Grande", "Beyoncé", "Natalie Portman", "Charlize Theron",
+    "Anne Hathaway", "Jessica Alba", "Mila Kunis", "Selena Gomez", "Rihanna",
+    "Zendaya", "Emma Stone", "Gigi Hadid", "Bella Hadid", "Dua Lipa",
+    "Jennifer Lawrence", "Keira Knightley", "Blake Lively", "Shakira", "Priyanka Chopra",
+    "Deepika Padukone", "Fan Bingbing", "Liu Yifei", "Dilraba Dilmurat", "Zhao Liying",
+    "Tang Wei", "Lee Sung Kyung", "Kim Ji-won", "IU", "Suzy Bae",
+    "Song Hye-kyo", "Jun Ji-hyun", "Park Shin-hye", "Lisa (BLACKPINK)", "Jennie (BLACKPINK)",
+    "Jisoo (BLACKPINK)", "Rosé (BLACKPINK)", "Amber Heard", "Sophie Turner", "Emilia Clarke",
+    "Rachel McAdams", "Monica Bellucci", "Gisele Bündchen", "Adriana Lima", "Miranda Kerr",
+    "Barbara Palvin", "Irina Shayk", "Cara Delevingne", "Lily Collins", "Amanda Seyfried",
+    "Meghan Markle", "Kate Middleton", "Keisha Castle-Hughes", "Olivia Wilde", "Lupita Nyong'o",
+    "Rosario Dawson", "Vanessa Hudgens", "Eva Mendes", "Jessica Biel", "Kristen Stewart",
+    "Halle Berry", "Megan Fox", "Lucy Liu", "Zhang Ziyi", "Gong Li",
+    "Sun Li", "Crystal Liu", "Angelababy", "Dilireba", "Zhou Dongyu",
+    "Brie Larson", "Florence Pugh", "Saoirse Ronan", "Dakota Johnson", "Elle Fanning",
+    "Camila Cabello", "Hailee Steinfeld", "Lana Del Rey", "Madison Beer", "Billie Eilish",
+    "Sydney Sweeney", "Alexandra Daddario", "Anya Taylor-Joy", "Zoey Deutch", "Margaret Qualley",
+    "Hunter Schafer", "Lily-Rose Depp", "Josephine Langford", "Yara Shahidi", "Jenna Ortega",
+    "Willa Holland", "Chloe Grace Moretz", "Bailee Madison", "Kaitlyn Dever", "Isabela Merced",
+    "王喆"
 ]
 TARGET_NAME = "王喆"
 
@@ -86,45 +104,15 @@ def show_intro():
     button_placeholder = st.empty()
     if button_placeholder.button("✨ 点我筛选 ✨"):
         button_placeholder.empty()
-        show_thinking_process()
+        show_name_selection()
 
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
-
-def show_thinking_process():
-    placeholder = st.empty()
-    placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
-    time.sleep(0.5)
-
-    # **🔥 数字筛选过程**
-    start_number = random.randint(100000, 500000)
-    end_number = random.randint(1000000000, 4000000000)  # 最高 40 亿
-    step = (end_number - start_number) // 10
-
-    for i in range(10):
-        current_number = start_number + (step * i)
-        placeholder.markdown(
-            f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>",
-            unsafe_allow_html=True
-        )
-        time.sleep(0.8)
-
-    placeholder.success("✅ 筛选完成！答案即将揭晓...")
-    time.sleep(2)
-
-    # **🔥 清除所有多余的框**
-    placeholder.empty()
-
-    # **🔥 进入答案筛选**
-    show_name_selection()
 
 def show_name_selection():
     name_placeholder = st.empty()
 
-    # **🔥 清除下方重复框**
-    st.markdown("", unsafe_allow_html=True)
-
-    # **🔥 前 40 次完全随机**
-    for _ in range(40):
+    # **🔥 前 90 次完全随机**
+    for _ in range(90):
         random_name = random.choice(NAME_POOL)
         name_placeholder.markdown(f"<p class='answer-box'>{random_name}</p>", unsafe_allow_html=True)
         time.sleep(0.1)
