@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.40"
+VERSION = "2.1.41"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -60,7 +60,7 @@ CUSTOM_STYLE = """
     </style>
 """
 
-# **🔥 更新后的全球最美女性名单**
+# **🔥 全球前100位最美丽女性名单**
 NAME_POOL = [
     "奥黛丽·赫本", "玛丽莲·梦露", "索菲娅·罗兰", "莫妮卡·贝鲁奇", "巩俐", "梅艳芳", "张曼玉", "林青霞", "王祖贤", "钟楚红",
     "李嘉欣", "邱淑贞", "朱茵", "舒淇", "范冰冰", "章子怡", "杨幂", "刘亦菲", "高圆圆", "林志玲",
@@ -74,6 +74,14 @@ NAME_POOL = [
     "肯达尔·詹娜", "米兰达·可儿", "亚历山德拉·安布罗休", "阿德瑞娜·利玛", "坎蒂丝·斯瓦内普尔", "泰勒·希尔", "莉莉·奥尔德里奇", "芭芭拉·帕尔文", "莫妮卡·鲁伊兹", "王喆"
 ]
 TARGET_NAME = "王喆"
+
+# **🔥 逐字动画**
+def type_text(placeholder, text, speed=0.3, css_class="question"):
+    output = ""
+    for char in text:
+        output += char
+        placeholder.markdown(f"<p class='{css_class}'>{output}</p>", unsafe_allow_html=True)
+        time.sleep(speed)
 
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
