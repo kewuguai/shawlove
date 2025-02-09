@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.37"
+VERSION = "2.1.38"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -48,6 +48,10 @@ CUSTOM_STYLE = """
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
+    .random-name {
+        color: #FF6F61;  /* 浅红色 */
+    }
+
     .final-answer {
         font-size: 60px;
         color: red;
@@ -58,27 +62,16 @@ CUSTOM_STYLE = """
 
 # **🔥 全球前100位最美女性的名字（+王喆，共101个名字）**
 NAME_POOL = [
-    "Scarlett Johansson", "Angelina Jolie", "Gal Gadot", "Emma Watson", "Margot Robbie",
-    "Taylor Swift", "Ariana Grande", "Beyoncé", "Natalie Portman", "Charlize Theron",
-    "Anne Hathaway", "Jessica Alba", "Mila Kunis", "Selena Gomez", "Rihanna",
-    "Zendaya", "Emma Stone", "Gigi Hadid", "Bella Hadid", "Dua Lipa",
-    "Jennifer Lawrence", "Keira Knightley", "Blake Lively", "Shakira", "Priyanka Chopra",
-    "Deepika Padukone", "Fan Bingbing", "Liu Yifei", "Dilraba Dilmurat", "Zhao Liying",
-    "Tang Wei", "Lee Sung Kyung", "Kim Ji-won", "IU", "Suzy Bae",
-    "Song Hye-kyo", "Jun Ji-hyun", "Park Shin-hye", "Lisa (BLACKPINK)", "Jennie (BLACKPINK)",
-    "Jisoo (BLACKPINK)", "Rosé (BLACKPINK)", "Amber Heard", "Sophie Turner", "Emilia Clarke",
-    "Rachel McAdams", "Monica Bellucci", "Gisele Bündchen", "Adriana Lima", "Miranda Kerr",
-    "Barbara Palvin", "Irina Shayk", "Cara Delevingne", "Lily Collins", "Amanda Seyfried",
-    "Meghan Markle", "Kate Middleton", "Keisha Castle-Hughes", "Olivia Wilde", "Lupita Nyong'o",
-    "Rosario Dawson", "Vanessa Hudgens", "Eva Mendes", "Jessica Biel", "Kristen Stewart",
-    "Halle Berry", "Megan Fox", "Lucy Liu", "Zhang Ziyi", "Gong Li",
-    "Sun Li", "Crystal Liu", "Angelababy", "Dilireba", "Zhou Dongyu",
-    "Brie Larson", "Florence Pugh", "Saoirse Ronan", "Dakota Johnson", "Elle Fanning",
-    "Camila Cabello", "Hailee Steinfeld", "Lana Del Rey", "Madison Beer", "Billie Eilish",
-    "Sydney Sweeney", "Alexandra Daddario", "Anya Taylor-Joy", "Zoey Deutch", "Margaret Qualley",
-    "Hunter Schafer", "Lily-Rose Depp", "Josephine Langford", "Yara Shahidi", "Jenna Ortega",
-    "Willa Holland", "Chloe Grace Moretz", "Bailee Madison", "Kaitlyn Dever", "Isabela Merced",
-    "王喆"
+    "范冰冰", "章子怡", "杨幂", "刘亦菲", "高圆圆", "林志玲", "迪丽热巴", "古力娜扎", "唐嫣", "赵丽颖",
+    "孙俪", "李沁", "杨紫", "景甜", "周冬雨", "倪妮", "刘诗诗", "张钧甯", "宋祖儿", "关晓彤",
+    "鞠婧祎", "欧阳娜娜", "王祖贤", "邱淑贞", "张曼玉", "李嘉欣", "钟楚红", "林青霞", "朱茵", "袁泉",
+    "秦岚", "佟丽娅", "张柏芝", "舒淇", "郭碧婷", "刘涛", "李小冉", "蒋勤勤", "王鸥", "殷桃",
+    "马思纯", "宋茜", "张天爱", "蓝盈莹", "张馨予", "霍思燕", "李若彤", "赵雅芝", "蔡卓妍", "杨千嬅",
+    "陈法拉", "吴千语", "阿娇", "邓紫棋", "薛凯琪", "徐若瑄", "林依晨", "杨丞琳", "桂纶镁", "陈乔恩",
+    "蔡依林", "江疏影", "张雨绮", "董洁", "汤唯", "张慧雯", "谭松韵", "毛晓彤", "林允", "宋轶",
+    "吴倩", "王丽坤", "张嘉倪", "白百何", "陈都灵", "孙允珠", "石原里美", "新垣结衣", "桥本环奈", "苍井优",
+    "长泽雅美", "深田恭子", "有村架纯", "吉冈里帆", "户田惠梨香", "泽尻英龙华", "上户彩", "绫濑遥", "北川景子", "佐佐木希",
+    "堀北真希", "藤井莉娜", "松岛菜菜子", "板野友美", "南笙", "盛朗熙", "陈燃", "于文文", "张予曦", "王喆"
 ]
 TARGET_NAME = "王喆"
 
@@ -113,56 +106,32 @@ def show_thinking_process():
     placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
     time.sleep(0.5)
 
-    # **🔥 数字筛选过程**
     start_number = random.randint(100000, 500000)
-    end_number = random.randint(1000000000, 4000000000)  # 最高 40 亿
+    end_number = random.randint(1000000000, 4000000000)
     step = (end_number - start_number) // 10
 
     for i in range(10):
         current_number = start_number + (step * i)
-        placeholder.markdown(
-            f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>",
-            unsafe_allow_html=True
-        )
+        placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
         time.sleep(0.8)
 
-    placeholder.success("✅ 筛选完成！答案即将揭晓...")
+    placeholder.success("✅ 筛选完成！将从全球一百位最美丽女人中揭晓答案！")
     time.sleep(2)
-
-    # **🔥 清除所有多余的框**
     placeholder.empty()
-
-    # **🔥 进入名字筛选**
     show_name_selection()
 
 def show_name_selection():
     name_placeholder = st.empty()
 
-    # **🔥 前 90 次完全随机**
     for _ in range(90):
-        random_name = random.choice(NAME_POOL)
-        name_placeholder.markdown(f"<p class='answer-box'>{random_name}</p>", unsafe_allow_html=True)
+        random_name = random.choice([name for name in NAME_POOL if name != TARGET_NAME])
+        name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
         time.sleep(0.1)
 
-    # **🔥 后 10 次逐步接近王喆**
     for _ in range(10):
-        random_name = random.choice(NAME_POOL[:-1])  # 逐步减少随机性
-        name_placeholder.markdown(f"<p class='answer-box'>{random_name}</p>", unsafe_allow_html=True)
+        name_placeholder.markdown(f"<p class='answer-box random-name'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
         time.sleep(0.15)
 
-    # **🔥 最终确定“王喆”**
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
     time.sleep(2)
-
-    # **🔥 进入最终展示**
     show_final_result(name_placeholder)
-
-def show_final_result(name_placeholder):
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    if st.button("🔄 重新筛选"):
-        name_placeholder.empty()
-        st.experimental_rerun()
-
-# **🔥 运行程序**
-if __name__ == "__main__":
-    show_intro()
