@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.33"
+VERSION = "2.1.34"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -111,7 +111,7 @@ def show_thinking_process():
     placeholder.success("✅ 筛选完成！答案即将揭晓...")
     time.sleep(2)
 
-    # **🔥 彻底清除对话框**
+    # **🔥 清除所有多余的框**
     placeholder.empty()
 
     # **🔥 进入答案筛选**
@@ -120,8 +120,8 @@ def show_thinking_process():
 def show_name_selection():
     name_placeholder = st.empty()
 
-    # **🔥 创建文本框**
-    name_box = st.markdown("<div class='answer-box'>", unsafe_allow_html=True)
+    # **🔥 清除下方重复框**
+    st.markdown("", unsafe_allow_html=True)
 
     # **🔥 前 40 次完全随机**
     for _ in range(40):
@@ -140,14 +140,13 @@ def show_name_selection():
     time.sleep(2)  # **短暂停留**
 
     # **🔥 显示重新筛选按钮**
-    show_final_result(name_box, name_placeholder)
+    show_final_result(name_placeholder)
 
-def show_final_result(name_box, name_placeholder):
+def show_final_result(name_placeholder):
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # **🔥 只有答案出现后才显示“重新筛选”按钮**
     if st.button("🔄 重新筛选"):
-        name_box.empty()  # **清除答案框**
         name_placeholder.empty()  # **清除答案**
         st.experimental_rerun()  # **刷新页面**
 
