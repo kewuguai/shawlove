@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.36"
+VERSION = "2.1.37"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -104,9 +104,36 @@ def show_intro():
     button_placeholder = st.empty()
     if button_placeholder.button("✨ 点我筛选 ✨"):
         button_placeholder.empty()
-        show_name_selection()
+        show_thinking_process()
 
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
+
+def show_thinking_process():
+    placeholder = st.empty()
+    placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
+    time.sleep(0.5)
+
+    # **🔥 数字筛选过程**
+    start_number = random.randint(100000, 500000)
+    end_number = random.randint(1000000000, 4000000000)  # 最高 40 亿
+    step = (end_number - start_number) // 10
+
+    for i in range(10):
+        current_number = start_number + (step * i)
+        placeholder.markdown(
+            f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>",
+            unsafe_allow_html=True
+        )
+        time.sleep(0.8)
+
+    placeholder.success("✅ 筛选完成！答案即将揭晓...")
+    time.sleep(2)
+
+    # **🔥 清除所有多余的框**
+    placeholder.empty()
+
+    # **🔥 进入名字筛选**
+    show_name_selection()
 
 def show_name_selection():
     name_placeholder = st.empty()
@@ -125,18 +152,16 @@ def show_name_selection():
 
     # **🔥 最终确定“王喆”**
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
-    time.sleep(2)  # **短暂停留**
+    time.sleep(2)
 
-    # **🔥 显示重新筛选按钮**
+    # **🔥 进入最终展示**
     show_final_result(name_placeholder)
 
 def show_final_result(name_placeholder):
     st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # **🔥 只有答案出现后才显示“重新筛选”按钮**
     if st.button("🔄 重新筛选"):
-        name_placeholder.empty()  # **清除答案**
-        st.experimental_rerun()  # **刷新页面**
+        name_placeholder.empty()
+        st.experimental_rerun()
 
 # **🔥 运行程序**
 if __name__ == "__main__":
