@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.32"
+VERSION = "2.1.33"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -139,17 +139,17 @@ def show_name_selection():
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
     time.sleep(2)  # **短暂停留**
 
-    # **🔥 清除空白对话框**
-    name_box.empty()
-    name_placeholder.empty()
+    # **🔥 显示重新筛选按钮**
+    show_final_result(name_box, name_placeholder)
 
-    # **🔥 进入最终展示**
-    show_final_result()
-
-def show_final_result():
+def show_final_result(name_box, name_placeholder):
     st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # **🔥 只有答案出现后才显示“重新筛选”按钮**
     if st.button("🔄 重新筛选"):
-        st.experimental_rerun()  # **刷新页面，清空 UI**
+        name_box.empty()  # **清除答案框**
+        name_placeholder.empty()  # **清除答案**
+        st.experimental_rerun()  # **刷新页面**
 
 # **🔥 运行程序**
 if __name__ == "__main__":
