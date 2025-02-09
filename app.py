@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.34"
+VERSION = "2.1.35"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -92,18 +92,18 @@ def show_intro():
 
 def show_thinking_process():
     placeholder = st.empty()
-    placeholder.markdown("<p class='thinking'>🔍 正在筛选...</p>", unsafe_allow_html=True)
+    placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
     time.sleep(0.5)
 
     # **🔥 数字筛选过程**
-    start_number = random.uniform(100000.123, 500000.456)
-    end_number = random.uniform(1000000000.789, 4000000000.987)  # 最高 40 亿
-    step = (end_number - start_number) / 10
+    start_number = random.randint(100000, 500000)
+    end_number = random.randint(1000000000, 4000000000)  # 最高 40 亿
+    step = (end_number - start_number) // 10
 
     for i in range(10):
         current_number = start_number + (step * i)
         placeholder.markdown(
-            f"<p class='thinking'>🔍 正在筛选，分析了 {current_number:,.3f} 个女人...</p>",
+            f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>",
             unsafe_allow_html=True
         )
         time.sleep(0.8)
