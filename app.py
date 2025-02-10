@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.7"  # 更新版本号
+VERSION = "1.0.8"  # 更新版本号
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -44,15 +44,9 @@ CUSTOM_STYLE = """
         font-weight: bold;
         text-align: center;
         transition: all 0.5s ease-in-out;
-        background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        background-color: white;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         font-family: 'FangSong', serif;
-        animation: fadeInOut 1s infinite alternate;
-    }
-
-    @keyframes fadeInOut {
-        from { opacity: 0.6; }
-        to { opacity: 1; }
     }
 
     .random-name {
@@ -64,13 +58,12 @@ CUSTOM_STYLE = """
         color: red;
         font-weight: bold;
         text-shadow: 0px 0px 20px rgba(255, 0, 0, 0.8);
-        animation: flashEffect 1.5s ease-in-out 3;
+        animation: bounceEffect 1s ease-in-out 3;
     }
 
-    @keyframes flashEffect {
-        0% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.2); opacity: 0.5; }
-        100% { transform: scale(1); opacity: 1; }
+    @keyframes bounceEffect {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
     }
 
     .thinking {
@@ -120,15 +113,15 @@ def show_intro():
 def show_thinking_process():
     placeholder = st.empty()
     placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
-    time.sleep(0.5)
+    time.sleep(1)
 
     current_number = 1
     max_number = 3_922_276_273  
-    for _ in range(10):
-        increment = random.randint(max_number // 100, max_number // 10)
+    for _ in range(15):  # 🔥 增加筛选时间
+        increment = random.randint(max_number // 200, max_number // 20)
         current_number = min(current_number + increment, max_number)
         placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
-        time.sleep(0.5)
+        time.sleep(0.7)
 
     placeholder.success("✅ 筛选完成！将从全球一百位最美丽女人中揭晓答案！")
     time.sleep(2)
@@ -137,9 +130,11 @@ def show_thinking_process():
 
 def show_name_selection():
     name_placeholder = st.empty()
+    displayed_names = set()
 
     for _ in range(90):
-        random_name = random.choice(NAME_POOL)
+        random_name = random.choice([name for name in NAME_POOL if name not in displayed_names])
+        displayed_names.add(random_name)
         name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
         time.sleep(0.05)
 
