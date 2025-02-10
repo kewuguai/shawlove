@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.1"  # 更新版本号
+VERSION = "1.0.2"  # 更新版本号
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -138,6 +138,10 @@ def show_name_selection():
     name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
     time.sleep(1.5)
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
+
+    if st.button("🔄 重新筛选"):
+        st.session_state.clear()
+        st.experimental_rerun()
 
 if __name__ == "__main__":
     show_intro()
