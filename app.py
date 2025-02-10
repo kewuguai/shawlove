@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.46"
+VERSION = "2.1.47"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -100,6 +100,21 @@ def show_intro():
         show_thinking_process()
 
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
+
+def show_thinking_process():
+    placeholder = st.empty()
+    placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
+    time.sleep(0.5)
+
+    for i in range(10):
+        num = random.randint(100000000, 4000000000)
+        placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {num:,} 个女人...</p>", unsafe_allow_html=True)
+        time.sleep(0.8)
+
+    placeholder.success("✅ 筛选完成！将从全球一百位最美丽女人中揭晓答案！")
+    time.sleep(2)
+    placeholder.empty()
+    show_name_selection()
 
 def show_name_selection():
     name_placeholder = st.empty()
