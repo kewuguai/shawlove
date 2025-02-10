@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.48"
+VERSION = "2.1.49"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -62,8 +62,16 @@ CUSTOM_STYLE = """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
+# **🔥 逐字动画**
+def type_text(placeholder, text, speed=0.2, css_class="question"):
+    output = ""
+    for char in text:
+        output += char
+        placeholder.markdown(f"<p class='{css_class}'>{output}</p>", unsafe_allow_html=True)
+        time.sleep(speed)
+
 # **🔥 全球前100位最美女性的名字（+王喆，共101个名字）**
-NAME_POOL = [ 
+NAME_POOL = [
     "奥黛丽·赫本", "玛丽莲·梦露", "索菲娅·罗兰", "莫妮卡·贝鲁奇", "巩俐", "梅艳芳", "张曼玉", "林青霞", "王祖贤", "钟楚红",
     "李嘉欣", "邱淑贞", "朱茵", "舒淇", "范冰冰", "章子怡", "杨幂", "刘亦菲", "高圆圆", "林志玲",
     "迪丽热巴", "古力娜扎", "唐嫣", "赵丽颖", "孙俪", "李沁", "杨紫", "景甜", "周冬雨", "倪妮",
@@ -80,7 +88,7 @@ TARGET_NAME = "王喆"
 def show_intro():
     question_placeholder = st.empty()
     if "question_displayed" not in st.session_state:
-        question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
+        type_text(question_placeholder, "谁是世界上最美的女人？", 0.2, css_class="question")
         st.session_state["question_displayed"] = True
     else:
         question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
@@ -111,28 +119,6 @@ def show_thinking_process():
     time.sleep(2)
     placeholder.empty()
     show_name_selection()
-
-def show_name_selection():
-    name_placeholder = st.empty()
-
-    for _ in range(90):
-        random_name = random.choice([name for name in NAME_POOL if name != TARGET_NAME])
-        name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
-        time.sleep(0.01)  
-
-    delay = 0.05
-    for _ in range(10):
-        name_placeholder.markdown(f"<p class='answer-box random-name'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
-        time.sleep(delay)
-        delay += 0.02  
-
-    name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
-    time.sleep(1.5)
-    name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
-
-    if st.button("🔄 重新筛选"):
-        st.session_state.clear()
-        st.experimental_rerun()
 
 if __name__ == "__main__":
     show_intro()
