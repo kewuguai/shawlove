@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.5"  # 更新版本号
+VERSION = "1.0.6"  # 更新版本号
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -27,7 +27,7 @@ CUSTOM_STYLE = """
 
     .question {
         font-family: 'ZCOOL XiaoWei', serif;
-        font-size: 60px;  /* 🔥 增大字号 */
+        font-size: 60px;
         text-align: center;
         color: red;
     }
@@ -36,17 +36,23 @@ CUSTOM_STYLE = """
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 150px; /* 🔥 增大对话框 */
-        width: 600px; /* 🔥 进一步优化宽度 */
+        height: 150px;
+        width: 600px;
         border-radius: 15px;
         margin: 20px auto;
-        font-size: 60px; /* 🔥 增大人名字号 */
+        font-size: 60px;
         font-weight: bold;
         text-align: center;
-        transition: all 0.3s ease-in-out;
-        background-color: white;
+        transition: all 0.5s ease-in-out;
+        background: linear-gradient(45deg, #ff9a9e, #fad0c4);
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-        font-family: 'FangSong', serif; /* 🔥 采用更优雅的字体 */
+        font-family: 'FangSong', serif;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     .random-name {
@@ -54,23 +60,39 @@ CUSTOM_STYLE = """
     }
 
     .final-answer {
-        font-size: 80px; /* 🔥 增大最终答案字号 */
+        font-size: 80px;
         color: red;
         font-weight: bold;
+        text-shadow: 0px 0px 20px rgba(255, 0, 0, 0.8);
+        animation: zoomIn 0.5s ease-in-out;
+    }
+
+    @keyframes zoomIn {
+        from { transform: scale(0.5); opacity: 0.5; }
+        to { transform: scale(1); opacity: 1; }
     }
 
     .thinking {
-        font-size: 30px; /* 🔥 增大筛选文本字号 */
+        font-size: 30px;
         color: #333;
         text-align: center;
         font-weight: bold;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .bounce-button {
+        animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
     }
     </style>
 """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
-# **🔥 全球前100位最美女性的名字（不含王喆，王喆仅作为最终答案）**
 NAME_POOL = [
     "奥黛丽·赫本", "玛丽莲·梦露", "索菲娅·罗兰", "莫妮卡·贝鲁奇", "巩俐", "梅艳芳", "张曼玉", "林青霞", "王祖贤", "钟楚红",
     "李嘉欣", "邱淑贞", "朱茵", "舒淇", "范冰冰", "章子怡", "杨幂", "刘亦菲", "高圆圆", "林志玲",
@@ -80,7 +102,6 @@ NAME_POOL = [
 
 TARGET_NAME = "王喆"
 
-# **🔥 逐字动画**
 def type_text(placeholder, text, speed=0.2, css_class="question"):
     output = ""
     for char in text:
@@ -88,7 +109,6 @@ def type_text(placeholder, text, speed=0.2, css_class="question"):
         placeholder.markdown(f"<p class='{css_class}'>{output}</p>", unsafe_allow_html=True)
         time.sleep(speed)
 
-# **🔥 问题动画**
 def show_intro():
     question_placeholder = st.empty()
     if "question_displayed" not in st.session_state:
@@ -100,11 +120,10 @@ def show_intro():
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     button_placeholder = st.empty()
-    if button_placeholder.button("✨ 点我筛选 ✨"):
+    if button_placeholder.button("✨ 点我筛选 ✨", key="start_button"):
         button_placeholder.empty()
         show_thinking_process()
 
-# **🔥 数字筛选**
 def show_thinking_process():
     placeholder = st.empty()
     placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
@@ -113,22 +132,21 @@ def show_thinking_process():
     current_number = 1
     max_number = 3_922_276_273  
     for _ in range(10):
-        increment = random.randint(max_number // 100, max_number // 10)  
-        current_number = min(current_number + increment, max_number)  
+        increment = random.randint(max_number // 100, max_number // 10)
+        current_number = min(current_number + increment, max_number)
         placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
-        time.sleep(0.8)
+        time.sleep(0.5)
 
     placeholder.success("✅ 筛选完成！将从全球一百位最美丽女人中揭晓答案！")
     time.sleep(2)
     placeholder.empty()
     show_name_selection()
 
-# **🔥 人名筛选**
 def show_name_selection():
     name_placeholder = st.empty()
 
     for _ in range(90):
-        random_name = random.choice(NAME_POOL)  # 🔥 确保前90次随机人名不含王喆
+        random_name = random.choice(NAME_POOL)
         name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
         time.sleep(0.05)
 
@@ -142,7 +160,7 @@ def show_name_selection():
     time.sleep(1.5)
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
 
-    if st.button("🔄 重新筛选"):
+    if st.button("🔄 重新筛选", key="reset_button", help="重新开始筛选", args=None, kwargs=None):
         st.session_state.clear()
         st.experimental_rerun()
 
