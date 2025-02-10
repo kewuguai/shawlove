@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.6"  # 更新版本号
+VERSION = "1.0.7"  # 更新版本号
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -47,11 +47,11 @@ CUSTOM_STYLE = """
         background: linear-gradient(45deg, #ff9a9e, #fad0c4);
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         font-family: 'FangSong', serif;
-        animation: fadeIn 0.8s ease-in-out;
+        animation: fadeInOut 1s infinite alternate;
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
+    @keyframes fadeInOut {
+        from { opacity: 0.6; }
         to { opacity: 1; }
     }
 
@@ -64,12 +64,13 @@ CUSTOM_STYLE = """
         color: red;
         font-weight: bold;
         text-shadow: 0px 0px 20px rgba(255, 0, 0, 0.8);
-        animation: zoomIn 0.5s ease-in-out;
+        animation: flashEffect 1.5s ease-in-out 3;
     }
 
-    @keyframes zoomIn {
-        from { transform: scale(0.5); opacity: 0.5; }
-        to { transform: scale(1); opacity: 1; }
+    @keyframes flashEffect {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
     }
 
     .thinking {
@@ -77,16 +78,8 @@ CUSTOM_STYLE = """
         color: #333;
         text-align: center;
         font-weight: bold;
-        animation: fadeIn 1s ease-in-out;
-    }
-
-    .bounce-button {
-        animation: bounce 1.5s infinite;
-    }
-
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
+        width: 800px; /* 🔥 增加宽度，确保内容完整 */
+        margin: auto;
     }
     </style>
 """
@@ -160,7 +153,7 @@ def show_name_selection():
     time.sleep(1.5)
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
 
-    if st.button("🔄 重新筛选", key="reset_button", help="重新开始筛选", args=None, kwargs=None):
+    if st.button("🔄 重新筛选", key="reset_button"):
         st.session_state.clear()
         st.experimental_rerun()
 
