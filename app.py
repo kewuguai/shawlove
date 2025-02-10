@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.2"  # 更新版本号
+VERSION = "1.0.3"  # 更新版本号
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -98,7 +98,9 @@ def show_intro():
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    if st.button("✨ 点我筛选 ✨"):
+    button_placeholder = st.empty()
+    if button_placeholder.button("✨ 点我筛选 ✨"):
+        button_placeholder.empty()  # **🔥 按钮点击后消失**
         show_thinking_process()
 
 # **🔥 数字筛选**
