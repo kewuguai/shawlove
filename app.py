@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.45"
+VERSION = "2.1.46"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -75,12 +75,19 @@ NAME_POOL = [
 ]
 TARGET_NAME = "王喆"
 
+def type_text(placeholder, text, speed=0.2, css_class="question"):
+    output = ""
+    for char in text:
+        output += char
+        placeholder.markdown(f"<p class='{css_class}'>{output}</p>", unsafe_allow_html=True)
+        time.sleep(speed)
+
 def show_intro():
     st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
     question_placeholder = st.empty()
     if "question_displayed" not in st.session_state:
-        question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
+        type_text(question_placeholder, "谁是世界上最美的女人？", 0.2, css_class="question")
         st.session_state["question_displayed"] = True
     else:
         question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
@@ -93,21 +100,6 @@ def show_intro():
         show_thinking_process()
 
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
-
-def show_thinking_process():
-    placeholder = st.empty()
-    placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
-    time.sleep(0.5)
-
-    for i in range(10):
-        num = random.randint(100000000, 4000000000)
-        placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {num:,} 个女人...</p>", unsafe_allow_html=True)
-        time.sleep(0.8)
-
-    placeholder.success("✅ 筛选完成！将从全球一百位最美丽女人中揭晓答案！")
-    time.sleep(2)
-    placeholder.empty()
-    show_name_selection()
 
 def show_name_selection():
     name_placeholder = st.empty()
