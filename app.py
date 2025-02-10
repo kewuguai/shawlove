@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.44"
+VERSION = "2.1.45"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -112,12 +112,18 @@ def show_thinking_process():
 def show_name_selection():
     name_placeholder = st.empty()
 
-    delay = 0.05
+    # **🔥 提高前 90 个名字的显示速度**
     for _ in range(90):
         random_name = random.choice([name for name in NAME_POOL if name != TARGET_NAME])
         name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
+        time.sleep(0.01)  # **更快切换**
+
+    # **🔥 最后 11 个名字逐渐减速**
+    delay = 0.05
+    for _ in range(10):
+        name_placeholder.markdown(f"<p class='answer-box random-name'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
         time.sleep(delay)
-        delay += 0.02  # **逐步变慢**
+        delay += 0.02  # **逐步减速**
 
     name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
     time.sleep(1.5)
