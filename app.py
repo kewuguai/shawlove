@@ -2,14 +2,14 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.0.4"  # 更新版本号
+VERSION = "1.0.5"  # 更新版本号
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
 # **🔥 更新样式**
 CUSTOM_STYLE = """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=FangSong&display=swap');
 
     .version {
         font-family: Arial, sans-serif;
@@ -27,7 +27,7 @@ CUSTOM_STYLE = """
 
     .question {
         font-family: 'ZCOOL XiaoWei', serif;
-        font-size: 50px;
+        font-size: 60px;  /* 🔥 增大字号 */
         text-align: center;
         color: red;
     }
@@ -36,17 +36,17 @@ CUSTOM_STYLE = """
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 120px;
-        width: 500px; /* 🔥 调整宽度，确保长名字完整显示 */
-        border-radius: 10px;
+        height: 150px; /* 🔥 增大对话框 */
+        width: 600px; /* 🔥 进一步优化宽度 */
+        border-radius: 15px;
         margin: 20px auto;
-        font-size: 50px;
+        font-size: 60px; /* 🔥 增大人名字号 */
         font-weight: bold;
         text-align: center;
         transition: all 0.3s ease-in-out;
         background-color: white;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        font-family: 'ZCOOL XiaoWei', serif; /* 🔥 更换字体 */
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        font-family: 'FangSong', serif; /* 🔥 采用更优雅的字体 */
     }
 
     .random-name {
@@ -54,8 +54,15 @@ CUSTOM_STYLE = """
     }
 
     .final-answer {
-        font-size: 60px;
+        font-size: 80px; /* 🔥 增大最终答案字号 */
         color: red;
+        font-weight: bold;
+    }
+
+    .thinking {
+        font-size: 30px; /* 🔥 增大筛选文本字号 */
+        color: #333;
+        text-align: center;
         font-weight: bold;
     }
     </style>
@@ -68,9 +75,7 @@ NAME_POOL = [
     "奥黛丽·赫本", "玛丽莲·梦露", "索菲娅·罗兰", "莫妮卡·贝鲁奇", "巩俐", "梅艳芳", "张曼玉", "林青霞", "王祖贤", "钟楚红",
     "李嘉欣", "邱淑贞", "朱茵", "舒淇", "范冰冰", "章子怡", "杨幂", "刘亦菲", "高圆圆", "林志玲",
     "迪丽热巴", "古力娜扎", "唐嫣", "赵丽颖", "孙俪", "李沁", "杨紫", "景甜", "周冬雨", "倪妮",
-    "刘诗诗", "张钧甯", "宋祖儿", "关晓彤", "鞠婧祎", "欧阳娜娜", "秦岚", "佟丽娅", "张柏芝", "郭碧婷",
-    "赵雅芝", "李若彤", "蔡卓妍", "杨千嬅", "徐若瑄", "林依晨", "杨丞琳", "桂纶镁", "蔡依林", "汤唯",
-    "石原里美", "新垣结衣", "桥本环奈", "苍井优", "长泽雅美", "深田恭子", "有村架纯", "户田惠梨香", "绫濑遥", "北川景子"
+    "刘诗诗", "张钧甯", "宋祖儿", "关晓彤", "鞠婧祎", "欧阳娜娜", "秦岚", "佟丽娅", "张柏芝", "郭碧婷"
 ]
 
 TARGET_NAME = "王喆"
