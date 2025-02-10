@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "2.1.43"
+VERSION = "2.1.44"
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -94,10 +94,24 @@ def show_intro():
 
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
+def show_thinking_process():
+    placeholder = st.empty()
+    placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
+    time.sleep(0.5)
+
+    for i in range(10):
+        num = random.randint(100000000, 4000000000)
+        placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {num:,} 个女人...</p>", unsafe_allow_html=True)
+        time.sleep(0.8)
+
+    placeholder.success("✅ 筛选完成！将从全球一百位最美丽女人中揭晓答案！")
+    time.sleep(2)
+    placeholder.empty()
+    show_name_selection()
+
 def show_name_selection():
     name_placeholder = st.empty()
 
-    # **🔥 随机人名筛选，逐渐变慢**
     delay = 0.05
     for _ in range(90):
         random_name = random.choice([name for name in NAME_POOL if name != TARGET_NAME])
@@ -106,7 +120,7 @@ def show_name_selection():
         delay += 0.02  # **逐步变慢**
 
     name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
-    time.sleep(1.5)  # **短暂停顿增强期待感**
+    time.sleep(1.5)
     name_placeholder.markdown(f"<p class='answer-box final-answer'>{TARGET_NAME}</p>", unsafe_allow_html=True)
 
     if st.button("🔄 重新筛选"):
