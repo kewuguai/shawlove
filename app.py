@@ -54,7 +54,7 @@ CUSTOM_STYLE = """
     }
 
     .final-answer {
-        font-size: 80px;
+        font-size: 100px;
         color: gold;
         font-weight: bold;
         text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
@@ -79,6 +79,7 @@ CUSTOM_STYLE = """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
+# **✅ 人名列表**
 NAME_POOL = [
     "奥黛丽·赫本", "玛丽莲·梦露", "索菲娅·罗兰", "莫妮卡·贝鲁奇", "巩俐", "梅艳芳", "张曼玉", "林青霞", "王祖贤", "钟楚红",
     "李嘉欣", "邱淑贞", "朱茵", "舒淇", "范冰冰", "章子怡", "杨幂", "刘亦菲", "高圆圆", "林志玲",
@@ -151,20 +152,26 @@ def show_name_selection():
         time.sleep(delay)
         delay += 0.02
 
+    # **✅ 先显示“即将揭晓…”**
+    name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
+    time.sleep(1.5)
+
     show_final_result()
 
 def show_final_result():
     placeholder = st.empty()
 
+    # **✅ 倒计时动画**
     for countdown in ["3...", "2...", "1..."]:
         placeholder.markdown(f"<p class='question' style='font-size:80px;'>{countdown}</p>", unsafe_allow_html=True)
         time.sleep(1)
 
-    placeholder.markdown("<p class='final-answer' style='filter: blur(5px);'>王喆 👑</p>", unsafe_allow_html=True)
+    # **✅ 先模糊，光晕**
+    placeholder.markdown("<p class='final-answer' style='filter: blur(5px); text-shadow: 0px 0px 30px gold;'>王喆 👑</p>", unsafe_allow_html=True)
     time.sleep(2)
-    placeholder.markdown("<p class='final-answer'>王喆 👑</p>", unsafe_allow_html=True)
 
-    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
+    # **✅ 清晰呈现**
+    placeholder.markdown("<p class='final-answer'>王喆 👑</p>", unsafe_allow_html=True)
 
     if st.button("🔄 重新筛选", key="reset_button"):
         st.session_state.clear()
