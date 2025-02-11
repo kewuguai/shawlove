@@ -179,7 +179,7 @@ def show_intro():
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     button_placeholder = st.empty()
-    if button_placeholder.button("✨ 点我筛选 ✨", key="start_button"):
+    if button_placeholder.button("✨ 点击筛选 ✨", key="start_button"):
         button_placeholder.empty()
         show_thinking_process()
 
@@ -192,7 +192,7 @@ def show_thinking_process():
     # **✅ 先显示第一行**
     thinking_placeholder.markdown("""
     <div class="thinking-container">
-        <p class="thinking">系统正在筛选…</p>
+        <p class="thinking">正在全球女性数据库中筛选…</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -206,7 +206,7 @@ def show_thinking_process():
         current_number = min(current_number + increment, max_number)
         thinking_placeholder.markdown(f"""
         <div class="thinking-container">
-            <p class="thinking">系统正在筛选…</p>
+            <p class="thinking">正在全球女性数据库中筛选…</p>
             <p class="thinking">已经分析了 {current_number:,} 个女人…</p>
         </div>
         """, unsafe_allow_html=True)
@@ -219,8 +219,8 @@ def show_thinking_process():
     final_message_placeholder = st.empty()
     final_message_placeholder.markdown("""
     <div class="thinking-container">
-        <p class="thinking">✅ 筛选完成！</p>
-        <p class="thinking">将从全球前100名中选出最终胜者！</p>
+        <p class="thinking">✅ 系统筛选完成！</p>
+        <p class="thinking">将从全球前100名中选出最终人选！</p>
     </div>
     """, unsafe_allow_html=True)
     
