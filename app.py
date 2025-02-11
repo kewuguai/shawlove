@@ -75,13 +75,16 @@ CUSTOM_STYLE = """
     }
 
     .thinking {
-        font-size: 30px;
-        color: #333;
-        text-align: center;
-        font-weight: bold;
-        width: 800px;
-        margin: auto;
-    }
+    font-size: 30px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    word-wrap: break-word; /* ✅ 确保超长数字在手机端换行 */
+    overflow-wrap: break-word; /* ✅ 确保内容不会超出屏幕 */
+}
     </style>
 """
 
@@ -174,17 +177,21 @@ def show_name_selection():
 
 def show_final_result(placeholder):
     # **✅ 先显示“即将揭晓...” 并保留 1.5 秒**
-    placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
+    placeholder.markdown(f"""
+    <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
+        即将揭晓...
+    </p>
+""", unsafe_allow_html=True)
     time.sleep(1.5)
 
-    # **✅ 倒计时 3...2...1...**
-    for countdown in ["3...", "2...", "1..."]:
-        placeholder.markdown(f"""
-            <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
-                {countdown}
-            </p>
-        """, unsafe_allow_html=True)
-        time.sleep(1)
+# **✅ 倒计时 3...2...1...**
+for countdown in ["3...", "2...", "1..."]:
+    placeholder.markdown(f"""
+        <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
+            {countdown}
+        </p>
+    """, unsafe_allow_html=True)
+    time.sleep(1)
 
     # **✅ 直接覆盖倒计时，显示最终答案**
     placeholder.markdown("<p class='final-answer' style='font-size: 100px; color: red; text-align: center; text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>👑 王喆 👑</p>", unsafe_allow_html=True)
