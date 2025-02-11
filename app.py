@@ -198,7 +198,7 @@ def show_final_result(placeholder):
     time.sleep(3)
 
     # **✅ 重新筛选按钮**
-    if st.button("🔄 重新筛选", key="reset_button"):
+if st.button("🔄 重新筛选", key="reset_button"):
     st.session_state.clear()
     st.experimental_rerun()
 
