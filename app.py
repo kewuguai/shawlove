@@ -135,27 +135,18 @@ def type_text(placeholder, text, speed=0.2, css_class="question"):
 
 def show_intro():
     question_placeholder = st.empty()
-    
+
     if "question_displayed" not in st.session_state:
-        # **✅ 先显示第一行**
-        question_placeholder.markdown("""
-        <div class="question-container">
-            <p class="question">谁是这个世界上</p>
-        </div>
-        """, unsafe_allow_html=True)
-        time.sleep(0.8)  # **🔥 延迟执行第二行**
-        
-        # **✅ 追加第二行，而不是替换**
-        question_placeholder.markdown("""
-        <div class="question-container">
-            <p class="question">谁是这个世界上</p>
-            <p class="question">最聪明最美丽的女人？</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
+        # **✅ 先逐字显示第一行**
+        type_text(question_placeholder, "谁是这个世界上", 0.2, css_class="question")
+
+        # **✅ 追加第二行动画**
+        time.sleep(0.5)
+        type_text(question_placeholder, "最聪明最美丽的女人？", 0.2, css_class="question")
+
         st.session_state["question_displayed"] = True
     else:
-        # **✅ 直接显示最终文本**
+        # **✅ 直接显示完整问题**
         question_placeholder.markdown("""
         <div class="question-container">
             <p class="question">谁是这个世界上</p>
@@ -170,7 +161,7 @@ def show_intro():
         button_placeholder.empty()
         show_thinking_process()
 
-     # **✅ 在 `show_intro()` 末尾添加版本号**
+    # **✅ 版本号**
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True) 
 
 def show_thinking_process():
