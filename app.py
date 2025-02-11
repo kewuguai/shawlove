@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.8"  #从新构建页面
+VERSION = "1.1.9"  #从新构建页面
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -250,14 +250,14 @@ def show_name_selection():
 
     # **✅ 先显示“即将揭晓...”**
     name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
-    time.sleep(1.5)
+        time.sleep(1.5)
 
     # **✅ 调用最终答案**
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
     # ✅ 先让 “即将揭晓...” 渐隐，防止跳动
-        placeholder.markdown("""
+    placeholder.markdown("""
     <p class='answer-box final-answer' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
@@ -270,7 +270,7 @@ def show_final_result(placeholder):
         time.sleep(1)
 
     # ✅ 让 `王喆 👑` 100% 居中，防止位移
-        placeholder.markdown("""
+    placeholder.markdown("""
     <p class='answer-box final-answer' 
        style="background: transparent; opacity: 1; color: gold; font-size: 100px; font-weight: bold; text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);">
        👑 王喆 👑
