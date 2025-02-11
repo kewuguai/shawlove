@@ -266,14 +266,14 @@ def show_final_result(placeholder):
     time.sleep(1.5)
 
     # ✅ 直接替换文本，防止 `p` 标签新增导致跳动，并确保 **手机端居中**
-    for countdown in ["3...", "2...", "1..."]:
+for countdown in ["3...", "2...", "1..."]:
     placeholder.markdown(f"""
     <p class='answer-box final-answer' style='font-size:80px; text-align:center; 
         color:red; min-height: 150px; width: 100%; display:flex; align-items:center; justify-content:center;">
         {countdown}
     </p>
     """, unsafe_allow_html=True)
-    time.sleep(1)
+    time.sleep(1)  # ✅ 确保 sleep 也是循环的一部分
 
     # ✅ 让 `王喆 👑` 100% 居中，防止位移
     placeholder.markdown("""
