@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.9"  #从新构建页面
+VERSION = "1.2.0"  #调整手机页面显示
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -61,14 +61,16 @@ CUSTOM_STYLE = """
         justify-content: center;
         margin: 0 auto !important; /* ✅ 确保手机端完全居中 */
     }
-    .final-answer { 
-        font-size: 80px !important; 
-        text-align: center;
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        width: 100% !important; /* ✅ 让答案框占满屏幕宽度，防止位移 */
-    }
+    .final-answer {
+    font-size: 100px;
+    color: gold;
+    font-weight: bold;
+    text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+    min-height: 150px; /* 🔥 ✅ 确保文本框高度固定，防止位移 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out; /* ✅ 让“即将揭晓”过渡消失，不闪烁 */
 }
 
     .answer-box {
@@ -258,23 +260,32 @@ def show_name_selection():
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
-    # ✅ 先让 “即将揭晓...” 渐隐，防止跳动
+    # **✅ 先让 “即将揭晓...” 渐隐，防止跳动**
     placeholder.markdown("""
-    <p class='answer-box final-answer' id="final-text">即将揭晓...</p>
+    <p class='answer-box final-answer' id="final-text" style="opacity:1;">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
-    countdown_text = ["3...", "2...", "1...", "👑 王喆 👑"]
+    # **✅ 让即将揭晓淡出，而不是直接消失，避免跳动**
+    placeholder.markdown("""
+    <p class='answer-box final-answer' id="final-text" style="opacity:0;">即将揭晓...</p>
+    """, unsafe_allow_html=True)
+    time.sleep(0.5)  # ✅ 让透明过渡生效，防止直接替换跳动
+
+    # **✅ 倒计时**
+    countdown_text = ["3...", "2...", "1..."]
     for text in countdown_text:
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' id="final-text">{text}</p>
+        <p class='answer-box final-answer' id="final-text" style="opacity:1;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-    # ✅ 让 `王喆 👑` 100% 居中，防止位移
+    # **✅ 让 `王喆 👑` 100% 居中，防止位移**
     placeholder.markdown("""
     <p class='answer-box final-answer' 
-       style="background: transparent; opacity: 1; color: gold; font-size: 100px; font-weight: bold; text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);">
+       style="background: transparent; opacity: 1; color: gold; font-size: 100px; font-weight: bold; 
+              text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8); min-height: 150px; display: flex; 
+              align-items: center; justify-content: center;">
        👑 王喆 👑
     </p>
     """, unsafe_allow_html=True)
