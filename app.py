@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.4"  # 版本更新
+VERSION = "1.1.5"  # 版本更新
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -194,11 +194,12 @@ def show_final_result(placeholder):
         </p>
     """, unsafe_allow_html=True)
 
-    # **✅ 让最终答案停留 3 秒后再出现重新筛选按钮**
+    # **✅ 让最终答案正确停留 3 秒**
     time.sleep(3)
 
     # **✅ 重新筛选按钮**
-    if st.button("🔄 重新筛选", key="reset_button"):
+    button_placeholder = st.empty()
+    if button_placeholder.button("🔄 重新筛选", key="reset_button"):
         st.session_state.clear()
         st.experimental_rerun()
 
