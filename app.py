@@ -145,9 +145,20 @@ def show_intro():
         """, unsafe_allow_html=True)
         time.sleep(0.8)  # **🔥 延迟执行第二行**
         
-        # **✅ 再显示第二行**
+        # **✅ 追加第二行，而不是替换**
         question_placeholder.markdown("""
         <div class="question-container">
+            <p class="question">谁是这个世界上</p>
+            <p class="question">最聪明最美丽的女人？</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.session_state["question_displayed"] = True
+    else:
+        # **✅ 直接显示最终文本**
+        question_placeholder.markdown("""
+        <div class="question-container">
+            <p class="question">谁是这个世界上</p>
             <p class="question">最聪明最美丽的女人？</p>
         </div>
         """, unsafe_allow_html=True)
@@ -202,7 +213,8 @@ def show_thinking_process():
     thinking_placeholder.empty()
     
     # **✅ 显示最终筛选完成提示**
-    st.markdown("""
+    final_message_placeholder = st.empty()
+    final_message_placeholder.markdown("""
     <div class="thinking-container">
         <p class="thinking">✅ 筛选完成！</p>
         <p class="thinking">将从全球前100名中选出最终胜者！</p>
@@ -211,8 +223,10 @@ def show_thinking_process():
     
     time.sleep(2)  # **🔥 短暂显示后消失**
     
-    # **✅ 清除文本，进入人名筛选**
-    st.empty()
+    # **✅ 清除文本**
+    final_message_placeholder.empty()
+
+    # **✅ 进入人名筛选**
     show_name_selection()
 
 def show_name_selection():
