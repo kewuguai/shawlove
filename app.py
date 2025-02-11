@@ -189,7 +189,7 @@ def show_final_result(placeholder):
     # **✅ 直接覆盖倒计时，显示最终答案**
     placeholder.markdown("<p class='final-answer' style='font-size: 100px; color: red; text-align: center; text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>👑 王喆 👑</p>", unsafe_allow_html=True)
 
-    time.sleep(5)  # **✅ 让答案停留 5 秒后再显示按钮**
+    time.sleep(3)  # **✅ 让答案停留 3 秒后再显示按钮**
 
     # **✅ 让按钮始终位于页面底部**
     st.markdown("<br><br>", unsafe_allow_html=True)  # 🔥 增加空行，让按钮下移
