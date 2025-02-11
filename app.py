@@ -258,35 +258,25 @@ def show_name_selection():
 def show_final_result(placeholder):
     # ✅ 让 `answer-box` 高度 & 宽度固定，避免位移 & 确保居中
     placeholder.markdown(f"""
-    <p class='answer-box final-answer' style='font-size:80px; text-align:center; 
-    color:red; min-height: 150px; width: 100%; display:flex; align-items:center; justify-content:center;'>
-    即将揭晓...
-    </p>
+    <p class='answer-box final-answer'>即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
     # ✅ 直接替换文本，防止 `p` 标签新增导致跳动，并确保 **手机端居中**
-for countdown in ["3...", "2...", "1..."]:
-    placeholder.markdown(f"""
-    <p class='answer-box final-answer' style='font-size:80px; text-align:center; 
-        color:red; min-height: 150px; width: 100%; display:flex; align-items:center; justify-content:center;">
-        {countdown}
-    </p>
-    """, unsafe_allow_html=True)
-    time.sleep(1)  # ✅ 确保 sleep 也是循环的一部分
+    for countdown in ["3...", "2...", "1..."]:
+        placeholder.markdown(f"""
+        <p class='answer-box final-answer'>{countdown}</p>
+        """, unsafe_allow_html=True)
+        time.sleep(1)  # ✅ 确保 sleep 也是循环的一部分
 
     # ✅ 让 `王喆 👑` 100% 居中，防止位移
     placeholder.markdown("""
-    <p class='answer-box final-answer' style='font-size: 100px; color: red; text-align: center;
-    text-shadow: 0px 0px 40px gold, 0px 0px 80px red; min-height: 150px; width: 100%;
-    display:flex; align-items:center; justify-content:center;'>
-    👑 王喆 👑
-    </p>
+    <p class='answer-box final-answer'>👑 王喆 👑</p>
     """, unsafe_allow_html=True)
 
-    time.sleep(3)  # **✅ 让答案停留 3 秒后再显示按钮**
+    time.sleep(3)  # ✅ 让答案停留 3 秒后再显示按钮
 
-    # **✅ 让按钮始终位于页面底部**
+    # ✅ 让按钮始终位于页面底部
     st.markdown("<br><br>", unsafe_allow_html=True)  # 🔥 增加空行，让按钮下移
     reset_button_placeholder = st.empty()
 
