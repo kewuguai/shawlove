@@ -162,16 +162,6 @@ def show_intro():
             <p class="question">最聪明最美丽的女人？</p>
         </div>
         """, unsafe_allow_html=True)
-        
-        st.session_state["question_displayed"] = True
-    else:
-        # **✅ 直接显示最终文本**
-        question_placeholder.markdown("""
-        <div class="question-container">
-            <p class="question">谁是这个世界上</p>
-            <p class="question">最聪明最美丽的女人？</p>
-        </div>
-        """, unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
