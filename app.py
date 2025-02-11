@@ -256,18 +256,18 @@ def show_name_selection():
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
-    # ✅ 让 `answer-box` 高度 & 宽度固定，避免位移 & 确保居中
-    placeholder.markdown(f"""
-    <p class='answer-box final-answer'>即将揭晓...</p>
+    # ✅ 先让 “即将揭晓...” 渐隐，防止跳动
+    placeholder.markdown("""
+    <p class='answer-box final-answer' style="opacity: 1; transition: opacity 1.5s;">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
-    # ✅ 直接替换文本，防止 `p` 标签新增导致跳动，并确保 **手机端居中**
+    # ✅ 直接替换文本，防止 `p` 标签新增导致跳动
     for countdown in ["3...", "2...", "1..."]:
         placeholder.markdown(f"""
         <p class='answer-box final-answer'>{countdown}</p>
         """, unsafe_allow_html=True)
-        time.sleep(1)  # ✅ 确保 sleep 也是循环的一部分
+        time.sleep(1)
 
     # ✅ 让 `王喆 👑` 100% 居中，防止位移
     placeholder.markdown("""
