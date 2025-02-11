@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.1"  # 版本更新
+VERSION = "1.1.2"  # 版本更新
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -118,6 +118,9 @@ def show_intro():
         button_placeholder.empty()
         show_thinking_process()
 
+     # **✅ 在 `show_intro()` 末尾添加版本号**
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)   
+
 def show_thinking_process():
     placeholder = st.empty()
     placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
@@ -167,21 +170,18 @@ def show_final_result(placeholder):
 
     # **✅ 321倒计时**
     for countdown in ["3...", "2...", "1..."]:
-        placeholder.markdown(f"<p class='answer-box final-answer' style='font-size:80px;'>{countdown}</p>", unsafe_allow_html=True)
+        placeholder.markdown(f"""
+            <p class='answer-box final-answer' style='font-size:80px; text-align:center;'>
+                {countdown}
+            </p>
+        """, unsafe_allow_html=True)
         time.sleep(1)
 
-    # **✅ 先模糊，光晕 + 透明度渐变**
+    # **✅ 直接清晰显示 + 光晕 + 渐变**
     placeholder.markdown("""
-        <p class='final-answer' style='filter: blur(5px); text-shadow: 0px 0px 30px gold; opacity: 0.5;'>
-            王喆 👑
-        </p>
-    """, unsafe_allow_html=True)
-    time.sleep(2)
-
-    # **✅ 清晰呈现 + 渐变过渡**
-    placeholder.markdown("""
-        <p class='final-answer' style='font-size: 100px; color: red; opacity: 1; transition: opacity 1.5s ease-in-out;'>
-            王喆 👑
+        <p class='final-answer' style='font-size: 100px; color: red; font-weight: bold; text-align: center;
+            text-shadow: 0px 0px 30px gold, 0px 0px 50px red; animation: glowEffect 2s infinite alternate;">
+            👑 王喆 👑
         </p>
     """, unsafe_allow_html=True)
 
