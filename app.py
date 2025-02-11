@@ -50,6 +50,24 @@ CUSTOM_STYLE = """
         .final-answer { font-size: 70px !important; }
     }
 
+     /* 🔥 新增：适配手机端答案框居中 */
+    @media (max-width: 768px) {
+        .answer-box { 
+            width: 90% !important; 
+            font-size: 40px !important;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .final-answer { 
+            font-size: 70px !important; 
+            text-align: center;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+    }
+
     .answer-box {
         display: flex;
         justify-content: center;
@@ -235,9 +253,10 @@ def show_name_selection():
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
-    # ✅ 让 `answer-box` 高度保持一致，避免位移
+    # ✅ 让 `answer-box` 高度保持一致，避免位移 & 居中对齐
     placeholder.markdown(f"""
-    <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red; min-height: 150px;'>
+    <p class='answer-box final-answer' style='font-size:80px; text-align:center; 
+        color:red; min-height: 150px; display:flex; align-items:center; justify-content:center;'>
         即将揭晓...
     </p>
     """, unsafe_allow_html=True)
@@ -246,16 +265,18 @@ def show_final_result(placeholder):
     # ✅ 直接替换文本，避免新增 `p` 标签导致跳动
     for countdown in ["3...", "2...", "1..."]:
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red; min-height: 150px;'>
+        <p class='answer-box final-answer' style='font-size:80px; text-align:center; 
+            color:red; min-height: 150px; display:flex; align-items:center; justify-content:center;'>
             {countdown}
         </p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-    # ✅ 直接替换倒计时，防止新增文本框导致跳动
+    # ✅ 直接替换倒计时，防止新增文本框导致跳动，并确保 **手机端居中**
     placeholder.markdown("""
     <p class='answer-box final-answer' style='font-size: 100px; color: red; text-align: center;
-        text-shadow: 0px 0px 40px gold, 0px 0px 80px red; min-height: 150px;'>
+        text-shadow: 0px 0px 40px gold, 0px 0px 80px red; min-height: 150px; 
+        display:flex; align-items:center; justify-content:center;'>
         👑 王喆 👑
     </p>
     """, unsafe_allow_html=True)
