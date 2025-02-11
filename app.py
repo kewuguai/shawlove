@@ -106,7 +106,7 @@ def type_text(placeholder, text, speed=0.2, css_class="question"):
 def show_intro():
     question_placeholder = st.empty()
     if "question_displayed" not in st.session_state:
-        type_text(question_placeholder, "谁是世界上最美的女人？", 0.2, css_class="question")
+        type_text(question_placeholder, "谁是世界上最美的女人？", 0.4, css_class="question")
         st.session_state["question_displayed"] = True
     else:
         question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
@@ -134,7 +134,7 @@ def show_thinking_process():
         placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
         time.sleep(0.5)
 
-    placeholder.success("✅ 筛选完成！即将揭晓最终答案！")
+    placeholder.success("✅ 筛选完成！将从全球100名最美丽女人中选出")
     time.sleep(2)
     placeholder.empty()
     show_name_selection()
