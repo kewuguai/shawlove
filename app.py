@@ -180,7 +180,7 @@ def show_final_result(placeholder):
     # **✅ 先清空倒计时内容**
     placeholder.empty()
 
-    # **✅ 确保王喆 👑 绝对正确显示**
+    # **✅ 直接显示“王喆 👑”，并确保不会被清空**
     placeholder.markdown("""
         <p class='final-answer' style='font-size: 100px; color: red; text-align: center;
             text-shadow: 0px 0px 40px gold, 0px 0px 80px red; animation: fadeIn 2s ease-in;">
@@ -188,7 +188,7 @@ def show_final_result(placeholder):
         </p>
     """, unsafe_allow_html=True)
 
-    # **✅ 让最终答案正确停留 3 秒**
+    # **✅ 确保最终答案正确停留**
     time.sleep(3)
 
     # **✅ 重新筛选按钮**
