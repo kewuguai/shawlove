@@ -187,23 +187,17 @@ def show_final_result(placeholder):
         time.sleep(1)
 
     # **✅ 直接覆盖倒计时，显示最终答案**
-    placeholder.markdown("""
-        <p class='final-answer' style='font-size: 100px; color: red; text-align: center; margin: auto;
-    text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>
-    👑 王喆 👑
-</p>
-    """, unsafe_allow_html=True)
+    placeholder.markdown("<p class='final-answer' style='font-size: 100px; color: red; text-align: center; text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>👑 王喆 👑</p>", unsafe_allow_html=True)
 
-    # **✅ 先让最终答案停留 3 秒**
-time.sleep(5)
+    time.sleep(3)  # **✅ 让答案停留 3 秒后再显示按钮**
 
-# **✅ 让按钮单独显示在页面底部**
-st.markdown("<br><br>", unsafe_allow_html=True)  # 🔥 增加空行，让按钮下移
-reset_button_placeholder = st.empty()
+    # **✅ 让按钮始终位于页面底部**
+    st.markdown("<br><br>", unsafe_allow_html=True)  # 🔥 增加空行，让按钮下移
+    reset_button_placeholder = st.empty()
 
-if reset_button_placeholder.button("🔄 重新筛选", key="reset_button"):
-    st.session_state.clear()
-    st.rerun()
+    if reset_button_placeholder.button("🔄 重新筛选", key="reset_button"):
+        st.session_state.clear()
+        st.rerun()
 
 if __name__ == "__main__":
     show_intro()
