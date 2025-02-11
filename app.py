@@ -224,7 +224,7 @@ def show_thinking_process():
     </div>
     """, unsafe_allow_html=True)
     
-    time.sleep(2)  # **🔥 短暂显示后消失**
+    time.sleep(3)  # **🔥 短暂显示后消失**
     
     # **✅ 清除文本**
     final_message_placeholder.empty()
@@ -241,7 +241,7 @@ def show_name_selection():
         random_name = random.choice([name for name in NAME_POOL if name not in displayed_names])
         displayed_names.add(random_name)
         name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
-        time.sleep(0.08)
+        time.sleep(0.10)
 
     # **✅ 逐渐放慢速度，最后 10 个名字**
     delay = 0.1
@@ -283,7 +283,7 @@ def show_final_result(placeholder):
     # **✅ 让 `王喆 👑` 100% 居中，防止位移**
     placeholder.markdown("""
     <p class='answer-box final-answer' 
-       style="background: transparent; opacity: 1; color: gold; font-size: 100px; font-weight: bold; 
+       style="background: transparent; opacity: 1; color: gold; font-size: 120px; font-weight: bold; 
               text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8); min-height: 150px; display: flex; 
               align-items: center; justify-content: center;">
        👑 王喆 👑
