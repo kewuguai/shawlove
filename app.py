@@ -134,7 +134,7 @@ def show_thinking_process():
         placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
         time.sleep(0.5)
 
-    placeholder.success("✅ 筛选完成！将从全球100名最美丽女人中选出")
+    placeholder.success("✅ 筛选完成！将从全球100名最美丽女人中选出最终胜者！")
     time.sleep(2)
     placeholder.empty()
     show_name_selection()
