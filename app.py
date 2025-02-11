@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.2"  # 版本更新
+VERSION = "1.1.3"  # 版本更新
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -177,6 +177,14 @@ def show_final_result(placeholder):
         """, unsafe_allow_html=True)
         time.sleep(1)
 
+    # **✅ 先显示占位答案，避免闪屏**
+    placeholder.markdown("""
+        <p class='final-answer' style='font-size: 100px; color: transparent; text-align: center;'>
+            👑 王喆 👑
+        </p>
+    """, unsafe_allow_html=True)
+    time.sleep(0.5)
+
     # **✅ 直接清晰显示 + 光晕 + 渐变**
     placeholder.markdown("""
         <p class='final-answer' style='font-size: 100px; color: red; font-weight: bold; text-align: center;
@@ -184,6 +192,9 @@ def show_final_result(placeholder):
             👑 王喆 👑
         </p>
     """, unsafe_allow_html=True)
+
+    # **✅ 让最终答案停留 3 秒后再出现重新筛选按钮**
+    time.sleep(3)
 
     # **✅ 重新筛选按钮**
     if st.button("🔄 重新筛选", key="reset_button"):
