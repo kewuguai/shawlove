@@ -185,9 +185,8 @@ def show_final_result(placeholder):
     time.sleep(1.5)
 
     # **✅ 倒计时 3...2...1...**
-    countdown_placeholder = st.empty()  # **🔥 确保倒计时和最终答案在同一个位置**
     for countdown in ["3...", "2...", "1..."]:
-        countdown_placeholder.markdown(f"""
+        placeholder.markdown(f"""
         <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
             {countdown}
         </p>
@@ -195,7 +194,7 @@ def show_final_result(placeholder):
         time.sleep(1)
 
     # **✅ 直接覆盖倒计时，显示最终答案**
-    countdown_placeholder.markdown("""
+    placeholder.markdown("""
     <p class='final-answer' style='font-size: 100px; color: red; text-align: center; text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>
         👑 王喆 👑
     </p>
