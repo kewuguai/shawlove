@@ -25,11 +25,18 @@ CUSTOM_STYLE = """
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
-    .question {
+       .question {
         font-family: 'ZCOOL XiaoWei', serif;
         font-size: 60px;
         text-align: center;
         color: red;
+    }
+
+    /* 🔥 新增：适配手机端字体大小 */
+    @media (max-width: 768px) {
+        .question { font-size: 40px !important; }
+        .answer-box { width: 90% !important; font-size: 40px !important; }
+        .final-answer { font-size: 70px !important; }
     }
 
     .answer-box {
@@ -132,7 +139,7 @@ def show_thinking_process():
         increment = random.randint(max_number // 100, max_number // 10)
         current_number = min(current_number + increment, max_number)
         placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
-        time.sleep(0.5)
+        time.sleep(0.8)
 
     placeholder.success("✅ 筛选完成！将从全球100名最美丽女人中选出最终胜者！")
     time.sleep(2)
@@ -180,10 +187,10 @@ def show_final_result(placeholder):
 
     # **✅ 直接覆盖倒计时，显示最终答案**
     placeholder.markdown("""
-        <p class='final-answer' style='font-size: 100px; color: red; text-align: center;
-            text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>
-            👑 王喆 👑
-        </p>
+        <p class='final-answer' style='font-size: 100px; color: red; text-align: center; margin: auto;
+    text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>
+    👑 王喆 👑
+</p>
     """, unsafe_allow_html=True)
 
     # **✅ 确保最终答案停留**
@@ -191,9 +198,11 @@ def show_final_result(placeholder):
 
     # **✅ 重新筛选按钮**
     button_placeholder = st.empty()
-    if button_placeholder.button("🔄 重新筛选", key="reset_button"):
-        st.session_state.clear()
-        st.experimental_rerun()
+    button_placeholder.markdown("""
+        <div style='text-align:center;'>
+            <button class='stButton' style='font-size: 20px; padding: 10px 20px;'>🔄 重新筛选</button>
+        </div>
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     show_intro()
