@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.5"  # 版本更新
+VERSION = "1.1.6"  #完美运行版本
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
