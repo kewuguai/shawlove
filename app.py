@@ -119,7 +119,7 @@ def show_intro():
         show_thinking_process()
 
      # **✅ 在 `show_intro()` 末尾添加版本号**
-    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)   
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True) 
 
 def show_thinking_process():
     placeholder = st.empty()
@@ -180,7 +180,7 @@ def show_final_result(placeholder):
     # **✅ 先清空倒计时内容**
     placeholder.empty()
 
-    # **✅ 显示最终答案**
+    # **✅ 确保王喆 👑 绝对正确显示**
     placeholder.markdown("""
         <p class='final-answer' style='font-size: 100px; color: red; text-align: center;
             text-shadow: 0px 0px 40px gold, 0px 0px 80px red; animation: fadeIn 2s ease-in;">
