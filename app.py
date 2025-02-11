@@ -194,13 +194,16 @@ def show_final_result(placeholder):
 </p>
     """, unsafe_allow_html=True)
 
-    # **✅ 确保最终答案停留**
-    time.sleep(3)
+    # **✅ 先让最终答案停留 3 秒**
+time.sleep(5)
 
-    # **✅ 重新筛选按钮**
-if st.button("🔄 重新筛选", key="reset_button"):
+# **✅ 让按钮单独显示在页面底部**
+st.markdown("<br><br>", unsafe_allow_html=True)  # 🔥 增加空行，让按钮下移
+reset_button_placeholder = st.empty()
+
+if reset_button_placeholder.button("🔄 重新筛选", key="reset_button"):
     st.session_state.clear()
-    st.experimental_rerun()
+    st.rerun()
 
 if __name__ == "__main__":
     show_intro()
