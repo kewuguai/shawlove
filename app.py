@@ -257,7 +257,7 @@ def show_name_selection():
 
 def show_final_result(placeholder):
     # ✅ 先让 “即将揭晓...” 渐隐，防止跳动
-    placeholder.markdown("""
+        placeholder.markdown("""
     <p class='answer-box final-answer' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
