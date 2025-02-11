@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.7"  #适配手机
+VERSION = "1.1.8"  #从新构建页面
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -24,6 +24,16 @@ CUSTOM_STYLE = """
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
+    
+    .question-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    min-width: 350px; /* ✅ 让文本不会因屏幕过窄而换行 */
+}
 
        .question {
     font-family: 'ZCOOL XiaoWei', serif;
@@ -74,6 +84,15 @@ CUSTOM_STYLE = """
         to { text-shadow: 0px 0px 30px rgba(255, 0, 0, 1); }
     }
 
+    .thinking-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+    }
+
     .thinking {
     font-size: 30px;
     color: #333;
@@ -116,11 +135,32 @@ def type_text(placeholder, text, speed=0.2, css_class="question"):
 
 def show_intro():
     question_placeholder = st.empty()
+    
     if "question_displayed" not in st.session_state:
-        type_text(question_placeholder, "谁是世界上最美的女人？", 0.4, css_class="question")
+        # **✅ 先显示第一行**
+        question_placeholder.markdown("""
+        <div class="question-container">
+            <p class="question">谁是这个世界上</p>
+        </div>
+        """, unsafe_allow_html=True)
+        time.sleep(0.8)  # **🔥 延迟执行第二行**
+        
+        # **✅ 再显示第二行**
+        question_placeholder.markdown("""
+        <div class="question-container">
+            <p class="question">最聪明最美丽的女人？</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
         st.session_state["question_displayed"] = True
     else:
-        question_placeholder.markdown("<p class='question'>谁是世界上最美的女人？</p>", unsafe_allow_html=True)
+        # **✅ 直接显示最终文本**
+        question_placeholder.markdown("""
+        <div class="question-container">
+            <p class="question">谁是这个世界上</p>
+            <p class="question">最聪明最美丽的女人？</p>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
@@ -133,21 +173,46 @@ def show_intro():
     st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True) 
 
 def show_thinking_process():
-    placeholder = st.empty()
-    placeholder.markdown("<p class='thinking'>🔍 系统正在筛选...</p>", unsafe_allow_html=True)
+    thinking_placeholder = st.empty()
+    
+    # **✅ 先显示第一行**
+    thinking_placeholder.markdown("""
+    <div class="thinking-container">
+        <p class="thinking">系统正在筛选…</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
     time.sleep(1)
-
+    
+    # **✅ 再显示第二行**
     current_number = 1
-    max_number = 3_922_276_273  
+    max_number = 3_922_276_273
     for _ in range(10):
         increment = random.randint(max_number // 100, max_number // 10)
         current_number = min(current_number + increment, max_number)
-        placeholder.markdown(f"<p class='thinking' style='text-align: center;'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
-        time.sleep(0.8)
-
-    placeholder.success("✅ 筛选完成！将从全球100名最美丽女人中选出最终胜者！")
-    time.sleep(2)
-    placeholder.empty()
+        thinking_placeholder.markdown(f"""
+        <div class="thinking-container">
+            <p class="thinking">系统正在筛选…</p>
+            <p class="thinking">已经分析了 {current_number:,} 个女人…</p>
+        </div>
+        """, unsafe_allow_html=True)
+        time.sleep(1)
+    
+    # **✅ 执行完成后清除**
+    thinking_placeholder.empty()
+    
+    # **✅ 显示最终筛选完成提示**
+    st.markdown("""
+    <div class="thinking-container">
+        <p class="thinking">✅ 筛选完成！</p>
+        <p class="thinking">将从全球前100名中选出最终胜者！</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    time.sleep(2)  # **🔥 短暂显示后消失**
+    
+    # **✅ 清除文本，进入人名筛选**
+    st.empty()
     show_name_selection()
 
 def show_name_selection():
