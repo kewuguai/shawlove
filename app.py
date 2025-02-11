@@ -181,20 +181,25 @@ def show_final_result(placeholder):
     <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
         即将揭晓...
     </p>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
     time.sleep(1.5)
 
-# **✅ 倒计时 3...2...1...**
-for countdown in ["3...", "2...", "1..."]:
-    placeholder.markdown(f"""
+    # **✅ 倒计时 3...2...1...**
+    countdown_placeholder = st.empty()  # **🔥 确保倒计时和最终答案在同一个位置**
+    for countdown in ["3...", "2...", "1..."]:
+        countdown_placeholder.markdown(f"""
         <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
             {countdown}
         </p>
-    """, unsafe_allow_html=True)
-    time.sleep(1)
+        """, unsafe_allow_html=True)
+        time.sleep(1)
 
     # **✅ 直接覆盖倒计时，显示最终答案**
-    placeholder.markdown("<p class='final-answer' style='font-size: 100px; color: red; text-align: center; text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>👑 王喆 👑</p>", unsafe_allow_html=True)
+    countdown_placeholder.markdown("""
+    <p class='final-answer' style='font-size: 100px; color: red; text-align: center; text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>
+        👑 王喆 👑
+    </p>
+    """, unsafe_allow_html=True)
 
     time.sleep(3)  # **✅ 让答案停留 3 秒后再显示按钮**
 
