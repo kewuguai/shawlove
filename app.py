@@ -258,14 +258,14 @@ def show_name_selection():
 def show_final_result(placeholder):
     # ✅ 先让 “即将揭晓...” 渐隐，防止跳动
     placeholder.markdown("""
-    <p class='answer-box final-answer' style="opacity: 1; transition: opacity 1.5s;">即将揭晓...</p>
+    <p class='answer-box final-answer' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
-    # ✅ 直接替换文本，防止 `p` 标签新增导致跳动
-    for countdown in ["3...", "2...", "1..."]:
+    countdown_text = ["3...", "2...", "1...", "👑 王喆 👑"]
+    for text in countdown_text:
         placeholder.markdown(f"""
-        <p class='answer-box final-answer'>{countdown}</p>
+        <p class='answer-box final-answer' id="final-text">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
