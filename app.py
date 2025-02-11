@@ -249,7 +249,9 @@ def show_name_selection():
         delay += 0.02  # 逐渐增加延迟，营造悬念
 
     # **✅ 先显示“即将揭晓...”**
-    name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
+    name_placeholder.markdown("""
+<p class='answer-box final-answer' id="final-text">即将揭晓...</p>
+""", unsafe_allow_html=True)
     time.sleep(1.5)  # ✅ 修正缩进，确保与上一行对齐
 
     # **✅ 调用最终答案**
