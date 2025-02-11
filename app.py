@@ -140,43 +140,52 @@ def show_name_selection():
     name_placeholder = st.empty()
     displayed_names = set()
 
+    # **✅ 先随机显示前 90 个名字**
     for _ in range(90):
         random_name = random.choice([name for name in NAME_POOL if name not in displayed_names])
         displayed_names.add(random_name)
         name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
         time.sleep(0.05)
 
+    # **✅ 逐渐放慢速度，最后 10 个名字**
     delay = 0.1
     for _ in range(10):
         name_placeholder.markdown(f"<p class='answer-box random-name'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
         time.sleep(delay)
-        delay += 0.02
+        delay += 0.02  # 逐渐增加延迟，营造悬念
 
-    # **✅ 先显示“即将揭晓…”**
+    # **✅ 先显示“即将揭晓...”**
     name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
     time.sleep(1.5)
 
-    show_final_result()
+    # **✅ 调用最终答案**
+    show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
-def show_final_result():
-    placeholder = st.empty()
-
-    # **✅ 先显示“即将揭晓…”**
-    placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
-    time.sleep(1.5)
+def show_final_result(placeholder):
+    # **✅ 清除“即将揭晓...” 避免重叠**
+    placeholder.empty()
 
     # **✅ 321倒计时**
     for countdown in ["3...", "2...", "1..."]:
         placeholder.markdown(f"<p class='answer-box final-answer' style='font-size:80px;'>{countdown}</p>", unsafe_allow_html=True)
         time.sleep(1)
 
-    # **✅ 先模糊，光晕**
-    placeholder.markdown("<p class='final-answer' style='filter: blur(5px); text-shadow: 0px 0px 30px gold;'>王喆 👑</p>", unsafe_allow_html=True)
+    # **✅ 先模糊，光晕 + 透明度渐变**
+    placeholder.markdown("""
+        <p class='final-answer' style='filter: blur(5px); text-shadow: 0px 0px 30px gold; opacity: 0.5;'>
+            王喆 👑
+        </p>
+    """, unsafe_allow_html=True)
     time.sleep(2)
 
-    # **✅ 清晰呈现**
-    placeholder.markdown("<p class='final-answer'>王喆 👑</p>", unsafe_allow_html=True)
+    # **✅ 清晰呈现 + 渐变过渡**
+    placeholder.markdown("""
+        <p class='final-answer' style='font-size: 100px; color: red; opacity: 1; transition: opacity 1.5s ease-in-out;'>
+            王喆 👑
+        </p>
+    """, unsafe_allow_html=True)
 
+    # **✅ 重新筛选按钮**
     if st.button("🔄 重新筛选", key="reset_button"):
         st.session_state.clear()
         st.experimental_rerun()
