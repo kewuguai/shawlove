@@ -235,26 +235,27 @@ def show_name_selection():
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
-    # **✅ 先显示“即将揭晓...” 并保留 1.5 秒**
+    # ✅ 让 `answer-box` 高度保持一致，避免位移
     placeholder.markdown(f"""
-    <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
+    <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red; min-height: 150px;'>
         即将揭晓...
     </p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
-    # **✅ 倒计时 3...2...1...**
+    # ✅ 直接替换文本，避免新增 `p` 标签导致跳动
     for countdown in ["3...", "2...", "1..."]:
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
+        <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red; min-height: 150px;'>
             {countdown}
         </p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-    # **✅ 直接覆盖倒计时，显示最终答案**
+    # ✅ 直接替换倒计时，防止新增文本框导致跳动
     placeholder.markdown("""
-    <p class='final-answer' style='font-size: 100px; color: red; text-align: center; text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>
+    <p class='answer-box final-answer' style='font-size: 100px; color: red; text-align: center;
+        text-shadow: 0px 0px 40px gold, 0px 0px 80px red; min-height: 150px;'>
         👑 王喆 👑
     </p>
     """, unsafe_allow_html=True)
