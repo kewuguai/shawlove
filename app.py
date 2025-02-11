@@ -137,8 +137,16 @@ def show_intro():
     question_placeholder = st.empty()
 
     if "question_displayed" not in st.session_state:
-        # **✅ 先逐字显示第一行**
-        type_text(question_placeholder, "谁是这个世界上", 0.2, css_class="question")
+        # **✅ 先显示第一行**
+        temp_placeholder = st.empty()  # 🔥 用临时变量，避免覆盖
+        type_text(temp_placeholder, "谁是这个世界上", 0.2, css_class="question")
+
+        # **✅ 第一行动画完成后，固定显示**
+        question_placeholder.markdown("""
+        <div class="question-container">
+            <p class="question">谁是这个世界上</p>
+        </div>
+        """, unsafe_allow_html=True)
 
         # **✅ 追加第二行动画**
         time.sleep(0.5)
@@ -162,7 +170,7 @@ def show_intro():
         show_thinking_process()
 
     # **✅ 版本号**
-    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True) 
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)  
 
 def show_thinking_process():
     thinking_placeholder = st.empty()
