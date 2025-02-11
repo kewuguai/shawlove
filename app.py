@@ -270,8 +270,8 @@ def show_final_result(placeholder):
         time.sleep(1)
 
     # ✅ 让 `王喆 👑` 100% 居中，防止位移
-    placeholder.markdown("""
-    <p class='answer-box final-answer'>👑 王喆 👑</p>
+        placeholder.markdown("""
+    <p class='answer-box final-answer' style="background: transparent; opacity: 0.2; transition: opacity 2s;">👑 王喆 👑</p>
     """, unsafe_allow_html=True)
 
     time.sleep(3)  # ✅ 让答案停留 3 秒后再显示按钮
