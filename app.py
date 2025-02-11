@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.6"  #完美运行版本
+VERSION = "1.1.7"  #适配手机
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -26,10 +26,11 @@ CUSTOM_STYLE = """
     }
 
        .question {
-        font-family: 'ZCOOL XiaoWei', serif;
-        font-size: 60px;
-        text-align: center;
-        color: red;
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-size: 50px;  /* 🔥 字号调整小一点 */
+    text-align: center;
+    color: red;
+    white-space: nowrap; /* 🔥 强制单行显示 */
     }
 
     /* 🔥 新增：适配手机端字体大小 */
@@ -138,7 +139,7 @@ def show_thinking_process():
     for _ in range(10):
         increment = random.randint(max_number // 100, max_number // 10)
         current_number = min(current_number + increment, max_number)
-        placeholder.markdown(f"<p class='thinking'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
+        placeholder.markdown(f"<p class='thinking' style='text-align: center;'>🔍 系统正在筛选，已经分析了 {current_number:,} 个女人...</p>", unsafe_allow_html=True)
         time.sleep(0.8)
 
     placeholder.success("✅ 筛选完成！将从全球100名最美丽女人中选出最终胜者！")
@@ -197,12 +198,9 @@ def show_final_result(placeholder):
     time.sleep(3)
 
     # **✅ 重新筛选按钮**
-    button_placeholder = st.empty()
-    button_placeholder.markdown("""
-        <div style='text-align:center;'>
-            <button class='stButton' style='font-size: 20px; padding: 10px 20px;'>🔄 重新筛选</button>
-        </div>
-    """, unsafe_allow_html=True)
+    if st.button("🔄 重新筛选", key="reset_button"):
+    st.session_state.clear()
+    st.experimental_rerun()
 
 if __name__ == "__main__":
     show_intro()
