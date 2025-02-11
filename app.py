@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.1.0"  # 版本更新
+VERSION = "1.1.1"  # 版本更新
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -161,9 +161,13 @@ def show_name_selection():
 def show_final_result():
     placeholder = st.empty()
 
-    # **✅ 倒计时动画**
+    # **✅ 先显示“即将揭晓…”**
+    placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
+    time.sleep(1.5)
+
+    # **✅ 321倒计时**
     for countdown in ["3...", "2...", "1..."]:
-        placeholder.markdown(f"<p class='question' style='font-size:80px;'>{countdown}</p>", unsafe_allow_html=True)
+        placeholder.markdown(f"<p class='answer-box final-answer' style='font-size:80px;'>{countdown}</p>", unsafe_allow_html=True)
         time.sleep(1)
 
     # **✅ 先模糊，光晕**
