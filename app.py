@@ -177,20 +177,13 @@ def show_final_result(placeholder):
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-        # **✅ 先隐藏王喆，然后慢慢显示**
+    # **✅ 先清空倒计时内容**
+    placeholder.empty()
+
+    # **✅ 显示最终答案**
     placeholder.markdown("""
-        <p class='final-answer' style='font-size: 100px; color: red; text-align: center; opacity: 0;
-            text-shadow: 0px 0px 30px gold, 0px 0px 50px red; transition: opacity 2s ease-in-out;">
-            👑 王喆 👑
-        </p>
-    """, unsafe_allow_html=True)
-    
-    time.sleep(2)  # **✅ 让它逐渐显现**
-    
-    # **✅ 直接显示清晰版**
-    placeholder.markdown("""
-        <p class='final-answer' style='font-size: 100px; color: red; font-weight: bold; text-align: center;
-            text-shadow: 0px 0px 40px gold, 0px 0px 80px red;">
+        <p class='final-answer' style='font-size: 100px; color: red; text-align: center;
+            text-shadow: 0px 0px 40px gold, 0px 0px 80px red; animation: fadeIn 2s ease-in;">
             👑 王喆 👑
         </p>
     """, unsafe_allow_html=True)
