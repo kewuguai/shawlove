@@ -239,7 +239,7 @@ def show_name_selection():
         random_name = random.choice([name for name in NAME_POOL if name not in displayed_names])
         displayed_names.add(random_name)
         name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
-        time.sleep(0.05)
+        time.sleep(0.08)
 
     # **✅ 逐渐放慢速度，最后 10 个名字**
     delay = 0.1
