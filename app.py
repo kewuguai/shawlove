@@ -250,7 +250,7 @@ def show_name_selection():
 
     # **✅ 先显示“即将揭晓...”**
     name_placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
-        time.sleep(1.5)
+    time.sleep(1.5)  # ✅ 修正缩进，确保与上一行对齐
 
     # **✅ 调用最终答案**
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
