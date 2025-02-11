@@ -134,33 +134,24 @@ def type_text(placeholder, text, speed=0.2, css_class="question"):
         time.sleep(speed)
 
 def show_intro():
-    question_placeholder = st.empty()
+    question_placeholder_1 = st.empty()
+    question_placeholder_2 = st.empty()
 
     if "question_displayed" not in st.session_state:
         # **✅ 先显示第一行**
-        temp_placeholder = st.empty()  # 🔥 用临时变量，避免覆盖
-        type_text(temp_placeholder, "谁是这个世界上", 0.2, css_class="question")
+        type_text(question_placeholder_1, "谁是这个世界上", 0.2, css_class="question")
 
-        # **✅ 第一行动画完成后，固定显示**
-        question_placeholder.markdown("""
-        <div class="question-container">
-            <p class="question">谁是这个世界上</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # **✅ 追加第二行动画**
+        # **✅ 确保第一行静止不动**
         time.sleep(0.5)
-        type_text(question_placeholder, "最聪明最美丽的女人？", 0.2, css_class="question")
+
+        # **✅ 第二行执行动画**
+        type_text(question_placeholder_2, "最聪明最美丽的女人？", 0.2, css_class="question")
 
         st.session_state["question_displayed"] = True
     else:
         # **✅ 直接显示完整问题**
-        question_placeholder.markdown("""
-        <div class="question-container">
-            <p class="question">谁是这个世界上</p>
-            <p class="question">最聪明最美丽的女人？</p>
-        </div>
-        """, unsafe_allow_html=True)
+        question_placeholder_1.markdown("<p class='question'>谁是这个世界上</p>", unsafe_allow_html=True)
+        question_placeholder_2.markdown("<p class='question'>最聪明最美丽的女人？</p>", unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
