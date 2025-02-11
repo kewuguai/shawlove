@@ -165,30 +165,28 @@ def show_name_selection():
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
-    # **✅ 清除“即将揭晓...” 避免重叠**
-    placeholder.empty()
+    # **✅ 先显示“即将揭晓...” 并保留 1.5 秒**
+    placeholder.markdown(f"<p class='answer-box final-answer'>即将揭晓...</p>", unsafe_allow_html=True)
+    time.sleep(1.5)
 
-    # **✅ 321倒计时**
+    # **✅ 倒计时 3...2...1...**
     for countdown in ["3...", "2...", "1..."]:
         placeholder.markdown(f"""
-            <p class='answer-box final-answer' style='font-size:80px; text-align:center;'>
+            <p class='answer-box final-answer' style='font-size:80px; text-align:center; color:red;'>
                 {countdown}
             </p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-    # **✅ 先清空倒计时内容**
-    placeholder.empty()
-
-    # **✅ 直接显示“王喆 👑”，并确保不会被清空**
+    # **✅ 直接覆盖倒计时，显示最终答案**
     placeholder.markdown("""
         <p class='final-answer' style='font-size: 100px; color: red; text-align: center;
-            text-shadow: 0px 0px 40px gold, 0px 0px 80px red; animation: fadeIn 2s ease-in;">
+            text-shadow: 0px 0px 40px gold, 0px 0px 80px red;'>
             👑 王喆 👑
         </p>
     """, unsafe_allow_html=True)
 
-    # **✅ 确保最终答案正确停留**
+    # **✅ 确保最终答案停留**
     time.sleep(3)
 
     # **✅ 重新筛选按钮**
