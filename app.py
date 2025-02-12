@@ -9,133 +9,145 @@ st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 # **🔥 更新样式**
 CUSTOM_STYLE = """
     <style>
-    /* 导入字体样式：ZCOOL XiaoWei 和 FangSong */
+    /* ============================== 导入字体样式 ============================== */
     @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=FangSong&display=swap');
 
-    /* 版本号样式，固定在页面右下角 */
+    /* ============================== 版本号样式 ============================== */
     .version {
-        font-family: Arial, sans-serif; /* 设置字体为 Arial 或 sans-serif */
-        font-size: 16px; /* 设置字号为16px */
-        color: grey; /* 设置字体颜色为灰色 */
-        position: fixed; /* 固定定位 */
-        bottom: 10px; /* 距离底部10px */
-        right: 10px; /* 距离右边10px */
-        z-index: 9999; /* 确保版本号显示在其他元素之上 */
-        background-color: white; /* 背景颜色为白色 */
-        padding: 5px 10px; /* 内边距设置为5px上下，10px左右 */
-        border-radius: 5px; /* 设置边角为圆角 */
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: grey;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        z-index: 9999;
+        background-color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
-    
-    /* 问题文本框容器：确保文本框内的内容居中 */
+
+    /* ============================== 问题文本样式 ============================== */
+    /* 网页端样式 */
     .question-container {
-        display: flex; /* 使用flex布局 */
-        flex-direction: column; /* 设置为垂直排列 */
-        justify-content: center; /* 垂直方向居中 */
-        align-items: center; /* 水平方向居中 */
-        width: 100%; /* 宽度100% */
-        text-align: center; /* 文字居中 */
-        min-width: 350px;  /* 设置最小宽度350px，确保文本不因屏幕过窄而换行 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        min-width: 350px;
     }
 
-    /* 问题文本样式 */
     .question {
-        font-family: 'ZCOOL XiaoWei', serif; /* 设置字体为 ZCOOL XiaoWei 或 serif */
-        font-size: 40px;  /* 字号调整为40px */
-        text-align: center; /* 文字居中 */
-        color: red; /* 字体颜色为红色 */
-        white-space: nowrap; /* 强制单行显示，防止文本换行 */
+        font-family: 'ZCOOL XiaoWei', serif;
+        font-size: 40px;
+        text-align: center;
+        color: red;
+        white-space: nowrap; /* 强制单行显示 */
     }
 
-    /* 手机端适配：字体大小和答案框大小的调整 */
+    /* 手机端适配：调整问题文本 */
     @media (max-width: 768px) {
-        .question { font-size: 40px !important; } /* 手机端字体大小为40px */
-        .answer-box { width: 90% !important; font-size: 40px !important; } /* 答案框宽度为90%，字体为40px */
-        .final-answer { font-size: 70px !important; } /* 最终答案字号为70px */
-    }
-
-    /* 手机端：确保答案框居中，适配不同尺寸屏幕 */
-    @media (max-width: 768px) {
-        .answer-box { 
-            width: 95% !important;  /* 答案框宽度95% */
-            font-size: 40px !important; /* 答案框字体40px */
-            min-height: 150px !important;  /* 最小高度150px，确保文本框高度固定 */
-            display: flex;  /* 使用flex布局 */
-            align-items: center;  /* 垂直居中 */
-            justify-content: center; /* 水平居中 */
-            margin: 0 auto !important;  /* 保证居中 */
-        }
-        .final-answer {
-            font-size: 200px;  /* 最终答案的字体大小更大 */
-            color: gold; /* 颜色为金色 */
-            font-weight: bold; /* 字体加粗 */
-            text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);  /* 设置文字光晕效果 */
-            min-height: 150px;  /* 最小高度150px */
-            display: flex;  /* 使用flex布局 */
-            align-items: center;  /* 垂直居中 */
-            justify-content: center;  /* 水平居中 */
-            transition: opacity 0.5s ease-in-out; /* 使“即将揭晓”过渡消失，防止闪烁 */
+        .question {
+            font-size: 40px !important;
         }
     }
 
-    /* 通用答案框样式，确保样式一致 */
+    /* ============================== 答案框样式 ============================== */
+    /* 网页端 */
     .answer-box {
-        display: flex;  /* 使用flex布局 */
-        justify-content: center;  /* 水平居中 */
-        align-items: center;  /* 垂直居中 */
-        height: 150px;  /* 高度150px */
-        width: 600px;  /* 宽度600px */
-        border-radius: 15px;  /* 圆角设置 */
-        margin: 20px auto;  /* 上下20px，水平居中 */
-        font-size: 60px;  /* 字号60px */
-        font-weight: bold;  /* 加粗字体 */
-        text-align: center;  /* 文字居中 */
-        transition: all 0.5s ease-in-out;  /* 使动画效果平滑 */
-        background-color: white;  /* 背景色为白色 */
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);  /* 添加阴影 */
-        font-family: 'FangSong', serif;  /* 使用仿宋字体 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150px;
+        width: 600px;
+        border-radius: 15px;
+        margin: 20px auto;
+        font-size: 60px;
+        font-weight: bold;
+        text-align: center;
+        background-color: white;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        font-family: 'FangSong', serif;
     }
 
-    /* 随机名字样式 */
-    .random-name {
-        color: #FF6F61;  /* 名字颜色为橙红色 */
+    /* 手机端适配：答案框 */
+    @media (max-width: 768px) {
+        .answer-box {
+            width: 95% !important;
+            font-size: 40px !important;
+            min-height: 150px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto !important;
+        }
     }
 
-    /* 问题答案样式 - 标准答案 */
+    /* ============================== 即将揭晓和倒计时文本样式 ============================== */
     .final-answer {
-        font-size: 100px;  /* 字号设置为100px */
-        color: gold;  /* 颜色设置为金色 */
-        font-weight: bold;  /* 加粗字体 */
-        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);  /* 添加光晕效果 */
-        animation: glowEffect 1.5s ease-in-out infinite alternate;  /* 闪烁效果 */
+        font-size: 100px;
+        color: gold;
+        font-weight: bold;
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+        animation: glowEffect 1.5s ease-in-out infinite alternate;
     }
 
-    /* 闪烁效果的关键帧动画 */
+    /* 手机端适配：即将揭晓和倒计时 */
+    @media (max-width: 768px) {
+        .final-answer {
+            font-size: 200px !important; /* 增加倒计时字体大小 */
+            color: gold !important;
+            font-weight: bold !important;
+            text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+            min-height: 150px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-in-out;
+        }
+    }
+
+    /* 闪烁效果 */
     @keyframes glowEffect {
-        from { text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.6); }  /* 初始光晕 */
-        to { text-shadow: 0px 0px 30px rgba(255, 0, 0, 1); }  /* 结束时光晕效果加大 */
+        from { text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.6); }
+        to { text-shadow: 0px 0px 30px rgba(255, 0, 0, 1); }
     }
 
-    /* 系统正在筛选文本样式 */
+    /* ============================== 思考中样式 ============================== */
     .thinking-container {
-        display: flex;  /* 使用flex布局 */
-        flex-direction: column;  /* 垂直排列 */
-        justify-content: center;  /* 居中对齐 */
-        align-items: center;  /* 水平居中 */
-        width: 100%;  /* 占据100%的宽度 */
-        text-align: center;  /* 文字居中 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
     }
 
     .thinking {
-        font-size: 30px;  /* 设置字体大小为30px */
-        color: #333;  /* 设置字体颜色 */
-        text-align: center;  /* 文字居中 */
-        font-weight: bold;  /* 加粗字体 */
-        width: 90%;  /* 宽度设置为90% */
-        max-width: 600px;  /* 最大宽度为600px */
-        margin: auto;  /* 居中显示 */
-        word-wrap: break-word;  /* 自动换行，防止文本超出屏幕 */
-        overflow-wrap: break-word;  /* 确保内容不会超出屏幕 */
+        font-size: 30px;
+        color: #333;
+        text-align: center;
+        font-weight: bold;
+        width: 90%;
+        max-width: 600px;
+        margin: auto;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* 手机端适配：思考中样式 */
+    @media (max-width: 768px) {
+        .thinking {
+            font-size: 30px !important;
+            color: #333 !important;
+            text-align: center !important;
+            font-weight: bold !important;
+            width: 90% !important;
+            max-width: 600px !important;
+            margin: auto !important;
+        }
     }
     </style>
 """
