@@ -287,7 +287,7 @@ def show_final_result(placeholder):
     for text in countdown_text:
         # 显示倒计时文本
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' id="final-text" style="opacity:1;">{text}</p>
+        <p class='answer-box final-answer' id="final-text" style="opacity:1; font-size: 200px;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
