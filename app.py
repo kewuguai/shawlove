@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.2.8"  # 调整版本及修复
+VERSION = "1.2.9"  # 调整版本及修复
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -286,52 +286,6 @@ def show_final_answer(placeholder):
     time.sleep(3)
 
     # 显示“重新筛选”按钮
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    reset_button_placeholder = st.empty()
-    if reset_button_placeholder.button("🔄 重新筛选", key="reset_button"):
-        st.session_state.clear()
-        st.rerun()
-
-def show_coming_soon():
-    placeholder = st.empty()
-    placeholder.markdown("""
-    <p class='answer-box coming-soon show' id="final-text">即将揭晓...</p>
-    """, unsafe_allow_html=True)
-    time.sleep(1.5)
-
-    placeholder.markdown("""
-    <p class='answer-box coming-soon hide' id="final-text">即将揭晓...</p>
-    """, unsafe_allow_html=True)
-    time.sleep(0.5)
-
-    show_countdown(placeholder)
-
-def show_countdown():
-    placeholder = st.empty()
-    countdown_text = ["9...", "8...", "7...", "6...", "5...", "4...", "3...", "2...", "1..."]
-
-    for text in countdown_text:
-        placeholder.markdown(f"""
-        <p class='answer-box countdown show' id="final-text">{text}</p>
-        """, unsafe_allow_html=True)
-        time.sleep(1)
-
-        placeholder.markdown(f"""
-        <p class='answer-box countdown hide' id="final-text">{text}</p>
-        """, unsafe_allow_html=True)
-        time.sleep(0.5)
-
-    show_final_answer()
-
-def show_final_answer():
-    placeholder = st.empty()
-    placeholder.markdown("""
-    <p class='answer-box final-answer'>
-       👑 王喆 👑
-    </p>
-    """, unsafe_allow_html=True)
-    time.sleep(3)
-
     st.markdown("<br><br>", unsafe_allow_html=True)
     reset_button_placeholder = st.empty()
     if reset_button_placeholder.button("🔄 重新筛选", key="reset_button"):
