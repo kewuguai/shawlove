@@ -97,25 +97,27 @@ CUSTOM_STYLE = """
     }
 
     /* ============================== 人名筛选部分 ============================== */
-    .name-selection-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        text-align: center;
-    }
+.name-selection-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
 
+.name-selection {
+    font-size: 60px; /* 增加字体大小 */
+    color: #ffcccc; /* 淡红色 */
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
     .name-selection {
-        font-size: 50px;
-        color: blue;
-        text-align: center;
-        font-weight: bold;
+        font-size: 45px !important; /* 手机端字体调整 */
     }
-
-    @media (max-width: 768px) {
-        .name-selection { font-size: 35px !important; } /* 手机端字体调整 */
-    }
+}
 
     /* ============================== 即将揭晓部分 ============================== */
     .coming-soon {
@@ -294,19 +296,20 @@ def show_name_selection():
     for _ in range(90):
         random_name = random.choice([name for name in NAME_POOL if name not in displayed_names])
         displayed_names.add(random_name)
-        name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
+        # 应用新的CSS类
+        name_placeholder.markdown(f"<p class='name-selection'>{random_name}</p>", unsafe_allow_html=True)
         time.sleep(0.10)
 
     # 随后逐渐放慢速度，最后10个名字
     delay = 0.1
     for _ in range(10):
-        name_placeholder.markdown(f"<p class='answer-box random-name'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
+        name_placeholder.markdown(f"<p class='name-selection'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
         time.sleep(delay)
         delay += 0.02
 
     # 显示“即将揭晓...”文本
     name_placeholder.markdown("""
-    <p class='answer-box final-answer' id="final-text">即将揭晓...</p>
+    <p class='name-selection' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
