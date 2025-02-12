@@ -260,33 +260,34 @@ def show_name_selection():
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
-    # **✅ 先显示 "即将揭晓..."**
+    # 先显示 "即将揭晓..."
     placeholder.markdown("""
     <p class='answer-box final-answer' id="final-text" style="opacity:1;">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)  # 显示即将揭晓文本
 
-    # **✅ 让“即将揭晓”淡出，避免跳动**
+    # 让“即将揭晓”淡出，避免跳动
     placeholder.markdown("""
     <p class='answer-box final-answer' id="final-text" style="opacity:0;">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(0.5)  # 透明过渡生效
 
-    # **✅ 倒计时**
+    # 倒计时
     countdown_text = ["9...", "8...", "7...", "6...", "5...", "4...", "3...", "2...", "1..."]
     for text in countdown_text:
+        # 显示倒计时文本
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' id="final-text" style="opacity:0;">{text}</p>
+        <p class='answer-box final-answer' id="final-text" style="opacity:1;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-        # **✅ 每倒计时一次，伴随着文本框消失再出现**
+        # 每倒计时一次，伴随着文本框消失再出现
         placeholder.markdown("""
         <p class='answer-box final-answer' id="final-text" style="opacity:0;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(0.5)  # 让文本框消失一会再显示
 
-    # **✅ 显示最终答案，保证文本框不移动且居中**
+    # 显示最终答案，保证文本框不移动且居中
     placeholder.markdown("""
     <p class='answer-box final-answer' 
        style="background: transparent; opacity: 1; color: gold; font-size: 120px; font-weight: bold; 
