@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.2.0"  #调整手机页面显示
+VERSION = "1.2.1"  #调整手机页面显示
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
