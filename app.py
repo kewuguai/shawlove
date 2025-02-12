@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.2.9"  # 调整版本及修复
+VERSION = "1.3.0"  # 调整版本及修复
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -11,6 +11,7 @@ CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=FangSong&display=swap');
 
+    /* ============================== 版本号样式 ============================== */
     .version {
         font-family: Arial, sans-serif;
         font-size: 16px;
@@ -25,6 +26,7 @@ CUSTOM_STYLE = """
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
 
+    /* ============================== 提出问题部分 ============================== */
     .question-container {
         display: flex;
         flex-direction: column;
@@ -40,9 +42,14 @@ CUSTOM_STYLE = """
         font-size: 40px;
         text-align: center;
         color: red;
-        white-space: nowrap;
+        white-space: nowrap; /* 强制单行显示 */
     }
 
+    @media (max-width: 768px) {
+        .question { font-size: 30px !important; } /* 手机端字体调整 */
+    }
+
+    /* ============================== 数字筛选部分 ============================== */
     .thinking-container {
         display: flex;
         flex-direction: column;
@@ -57,8 +64,18 @@ CUSTOM_STYLE = """
         color: #333;
         text-align: center;
         font-weight: bold;
+        width: 90%;
+        max-width: 600px;
+        margin: auto;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
+    @media (max-width: 768px) {
+        .thinking { font-size: 20px !important; } /* 手机端字体调整 */
+    }
+
+    /* ============================== 筛选完成部分 ============================== */
     .final-message-container {
         display: flex;
         flex-direction: column;
@@ -75,22 +92,34 @@ CUSTOM_STYLE = """
         font-weight: bold;
     }
 
-    .name-selection-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        text-align: center;
+    @media (max-width: 768px) {
+        .final-message { font-size: 25px !important; color: green !important; } /* 手机端字体调整 */
     }
 
+    /* ============================== 人名筛选部分 ============================== */
+.name-selection-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+
+.name-selection {
+    font-size: 60px; /* 增加字体大小 */
+    color: #f28d8d; /* 调整为较深的红色 */
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
     .name-selection {
-        font-size: 60px;
-        color: #f28d8d;
-        text-align: center;
-        font-weight: bold;
+        font-size: 45px !important; /* 手机端字体调整 */
     }
+}
 
+    /* ============================== 即将揭晓部分 ============================== */
     .coming-soon {
         font-size: 100px;
         color: gold;
@@ -100,6 +129,11 @@ CUSTOM_STYLE = """
         text-align: center;
     }
 
+    @media (max-width: 768px) {
+        .coming-soon { font-size: 80px !important; } /* 手机端字体调整 */
+    }
+
+    /* ============================== 倒计时部分 ============================== */
     .countdown {
         font-size: 150px;
         color: gold;
@@ -112,29 +146,39 @@ CUSTOM_STYLE = """
         text-align: center;
     }
 
-    .final-answer {
-        font-size: 200px;
-        color: gold;
-        font-weight: bold;
-        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-        min-height: 150px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.5s ease-in-out;
-        text-align: center;
-        background: transparent;
+    @media (max-width: 768px) {
+        .countdown { font-size: 120px !important; } /* 手机端倒计时字体调整 */
     }
 
-    .show {
+    /* ============================== 最终答案部分 ============================== */
+.final-answer {
+    font-size: 200px;
+    color: gold;
+    font-weight: bold;
+    text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+    text-align: center;
+    background: transparent;
+}
+
+@media (max-width: 768px) {
+    .final-answer { font-size: 150px !important; } /* 手机端最终答案字体调整 */
+}
+
+/* ============================== 淡入/淡出效果 ============================== */
+.show {
         opacity: 1 !important;
-    }
+}
 
-    .hide {
+.hide {
         opacity: 0 !important;
-    }
+}
 
-    </style>
+</style>
 """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
@@ -279,7 +323,7 @@ def show_countdown(placeholder):
 def show_final_answer(placeholder):
     # 显示最终答案“王喆 👑”
     placeholder.markdown("""
-    <p class='answer-box final-answer'>
+    <p class='answer-box final-answer' id="final-answer">
        👑 王喆 👑
     </p>
     """, unsafe_allow_html=True)
