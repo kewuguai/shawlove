@@ -93,7 +93,7 @@ CUSTOM_STYLE = """
     }
 
     @media (max-width: 768px) {
-        .final-message { font-size: 25px !important; color: green !important; } /* 手机端字体调整 */
+        .final-message { font-size: 20px !important; color: green !important; } /* 手机端字体调整 */
     }
 
     /* ============================== 人名筛选部分 ============================== */
@@ -115,7 +115,7 @@ CUSTOM_STYLE = """
 
 @media (max-width: 768px) {
     .name-selection {
-        font-size: 40px !important; /* 手机端字体调整 */
+        font-size: 35px !important; /* 手机端字体调整 */
     }
 }
 
@@ -166,7 +166,7 @@ CUSTOM_STYLE = """
 }
 
 @media (max-width: 768px) {
-    .final-answer { font-size: 80px !important; } /* 手机端最终答案字体调整 */
+    .final-answer { font-size: 70px !important; } /* 手机端最终答案字体调整 */
 }
 
 /* ============================== 淡入/淡出效果 ============================== */
