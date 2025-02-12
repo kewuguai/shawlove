@@ -282,7 +282,7 @@ def show_final_result(placeholder):
         time.sleep(1)
 
         # 每倒计时一次，伴随着文本框消失再出现
-        placeholder.markdown("""
+        placeholder.markdown(f"""
         <p class='answer-box final-answer' id="final-text" style="opacity:0;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(0.5)  # 让文本框消失一会再显示
