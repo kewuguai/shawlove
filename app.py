@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.2.2"  #调整手机页面显示
+VERSION = "1.2.3"  #调整代码清晰结构
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -27,7 +27,6 @@ CUSTOM_STYLE = """
     }
 
     /* ============================== 问题文本样式 ============================== */
-    /* 网页端样式 */
     .question-container {
         display: flex;
         flex-direction: column;
@@ -54,7 +53,6 @@ CUSTOM_STYLE = """
     }
 
     /* ============================== 答案框样式 ============================== */
-    /* 网页端 */
     .answer-box {
         display: flex;
         justify-content: center;
@@ -71,7 +69,6 @@ CUSTOM_STYLE = """
         font-family: 'FangSong', serif;
     }
 
-    /* 手机端适配：答案框 */
     @media (max-width: 768px) {
         .answer-box {
             width: 95% !important;
@@ -84,34 +81,62 @@ CUSTOM_STYLE = """
         }
     }
 
-    /* ============================== 即将揭晓和倒计时文本样式 ============================== */
-    .final-answer {
+    /* ============================== 即将揭晓文本样式 ============================== */
+    .coming-soon {
         font-size: 100px;
         color: gold;
         font-weight: bold;
         text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-        animation: glowEffect 1.5s ease-in-out infinite alternate;
+        transition: opacity 0.5s ease-in-out; /* 防止跳动 */
+        text-align: center;
     }
 
-    /* 手机端适配：即将揭晓和倒计时 */
+    /* 手机端适配：即将揭晓 */
     @media (max-width: 768px) {
-        .final-answer {
-            font-size: 100px !important;  /* 增大倒计时字体 */
-            color: gold !important;
-            font-weight: bold !important;
-            text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-            min-height: 150px !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease-in-out;
+        .coming-soon {
+            font-size: 80px !important;  /* 手机端字体稍微调小 */
         }
     }
 
-    /* 闪烁效果 */
-    @keyframes glowEffect {
-        from { text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.6); }
-        to { text-shadow: 0px 0px 30px rgba(255, 0, 0, 1); }
+    /* ============================== 倒计时数字样式 ============================== */
+    .countdown {
+        font-size: 150px; /* 增大倒计时数字 */
+        color: gold;
+        font-weight: bold;
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease-in-out;
+        text-align: center;
+    }
+
+    /* 手机端适配：倒计时数字 */
+    @media (max-width: 768px) {
+        .countdown {
+            font-size: 120px !important;  /* 增大手机端倒计时数字 */
+        }
+    }
+
+    /* ============================== 最终答案文本样式 ============================== */
+    .final-answer {
+        font-size: 200px;
+        color: gold;
+        font-weight: bold;
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+        min-height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease-in-out; /* 过渡效果 */
+        text-align: center;
+    }
+
+    /* 手机端适配：最终答案 */
+    @media (max-width: 768px) {
+        .final-answer {
+            font-size: 150px !important; /* 适配手机端更小字体 */
+        }
     }
 
     /* ============================== 思考中样式 ============================== */
@@ -283,13 +308,13 @@ def show_name_selection():
 def show_final_result(placeholder):
     # 先显示 "即将揭晓..."
     placeholder.markdown("""
-    <p class='answer-box final-answer' id="final-text" style="opacity:1;">即将揭晓...</p>
+    <p class='answer-box coming-soon' id="final-text" style="opacity:1;">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)  # 显示即将揭晓文本
 
     # 让“即将揭晓”淡出，避免跳动
     placeholder.markdown("""
-    <p class='answer-box final-answer' id="final-text" style="opacity:0;">即将揭晓...</p>
+    <p class='answer-box coming-soon' id="final-text" style="opacity:0;">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(0.5)  # 透明过渡生效
 
@@ -298,13 +323,13 @@ def show_final_result(placeholder):
     for text in countdown_text:
         # 显示倒计时文本
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' id="final-text" style="opacity:1; font-size: 200px;">{text}</p>
+        <p class='answer-box countdown' id="final-text" style="opacity:1;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
         # 每倒计时一次，伴随着文本框消失再出现
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' id="final-text" style="opacity:0;">{text}</p>
+        <p class='answer-box countdown' id="final-text" style="opacity:0;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(0.5)  # 让文本框消失一会再显示
 
