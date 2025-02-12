@@ -276,7 +276,7 @@ def show_final_result(placeholder):
     countdown_text = ["9...", "8...", "7...", "6...", "5...", "4...", "3...", "2...", "1..."]
     for text in countdown_text:
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' id="final-text" style="opacity:1;">{text}</p>
+        <p class='answer-box final-answer' id="final-text" style="opacity:0;">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
