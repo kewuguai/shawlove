@@ -115,7 +115,7 @@ CUSTOM_STYLE = """
 
 @media (max-width: 768px) {
     .name-selection {
-        font-size: 45px !important; /* 手机端字体调整 */
+        font-size: 40px !important; /* 手机端字体调整 */
     }
 }
 
@@ -147,7 +147,7 @@ CUSTOM_STYLE = """
     }
 
     @media (max-width: 768px) {
-        .countdown { font-size: 150px !important; } /* 手机端倒计时字体调整 */
+        .countdown { font-size: 200px !important; } /* 手机端倒计时字体调整 */
     }
 
     /* ============================== 最终答案部分 ============================== */
@@ -166,7 +166,7 @@ CUSTOM_STYLE = """
 }
 
 @media (max-width: 768px) {
-    .final-answer { font-size: 50px !important; } /* 手机端最终答案字体调整 */
+    .final-answer { font-size: 80px !important; } /* 手机端最终答案字体调整 */
 }
 
 /* ============================== 淡入/淡出效果 ============================== */
