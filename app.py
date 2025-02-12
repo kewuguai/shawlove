@@ -27,7 +27,6 @@ CUSTOM_STYLE = """
     }
 
     /* ============================== 提出问题部分 ============================== */
-    /* 网页端 */
     .question-container {
         display: flex;
         flex-direction: column;
@@ -46,15 +45,11 @@ CUSTOM_STYLE = """
         white-space: nowrap; /* 强制单行显示 */
     }
 
-    /* 手机端适配：调整问题文本 */
     @media (max-width: 768px) {
-        .question {
-            font-size: 30px !important; /* 减小手机端字体 */
-        }
+        .question { font-size: 30px !important; } /* 手机端字体调整 */
     }
 
     /* ============================== 数字筛选部分 ============================== */
-    /* 网页端 */
     .thinking-container {
         display: flex;
         flex-direction: column;
@@ -76,21 +71,11 @@ CUSTOM_STYLE = """
         overflow-wrap: break-word;
     }
 
-    /* 手机端适配：思考中样式 */
     @media (max-width: 768px) {
-        .thinking {
-            font-size: 20px !important;  /* 调整思考中字体 */
-            color: #333 !important;
-            text-align: center !important;
-            font-weight: bold !important;
-            width: 90% !important;
-            max-width: 600px !important;
-            margin: auto !important;
-        }
+        .thinking { font-size: 20px !important; } /* 手机端字体调整 */
     }
 
     /* ============================== 筛选完成部分 ============================== */
-    /* 网页端 */
     .final-message-container {
         display: flex;
         flex-direction: column;
@@ -107,16 +92,11 @@ CUSTOM_STYLE = """
         font-weight: bold;
     }
 
-    /* 手机端适配：筛选完成 */
     @media (max-width: 768px) {
-        .final-message {
-            font-size: 25px !important;  /* 调整手机端字体 */
-            color: green !important;
-        }
+        .final-message { font-size: 25px !important; color: green !important; } /* 手机端字体调整 */
     }
 
     /* ============================== 人名筛选部分 ============================== */
-    /* 网页端 */
     .name-selection-container {
         display: flex;
         flex-direction: column;
@@ -133,34 +113,27 @@ CUSTOM_STYLE = """
         font-weight: bold;
     }
 
-    /* 手机端适配：人名筛选 */
     @media (max-width: 768px) {
-        .name-selection {
-            font-size: 35px !important;  /* 调整手机端字体 */
-        }
+        .name-selection { font-size: 35px !important; } /* 手机端字体调整 */
     }
 
     /* ============================== 即将揭晓部分 ============================== */
-    /* 网页端 */
     .coming-soon {
         font-size: 100px;
         color: gold;
         font-weight: bold;
         text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-        transition: opacity 0.5s ease-in-out; /* 防止跳动 */
+        transition: opacity 0.5s ease-in-out;
         text-align: center;
     }
 
-    /* 手机端适配：即将揭晓 */
     @media (max-width: 768px) {
-        .coming-soon {
-            font-size: 80px !important;  /* 手机端字体稍微调小 */
-        }
+        .coming-soon { font-size: 80px !important; } /* 手机端字体调整 */
     }
 
     /* ============================== 倒计时部分 ============================== */
     .countdown {
-        font-size: 150px; /* 增大倒计时数字 */
+        font-size: 150px;
         color: gold;
         font-weight: bold;
         text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
@@ -171,11 +144,8 @@ CUSTOM_STYLE = """
         text-align: center;
     }
 
-    /* 手机端适配：倒计时数字 */
     @media (max-width: 768px) {
-        .countdown {
-            font-size: 120px !important;  /* 增大手机端倒计时数字 */
-        }
+        .countdown { font-size: 120px !important; } /* 手机端倒计时字体调整 */
     }
 
     /* ============================== 最终答案部分 ============================== */
@@ -188,15 +158,12 @@ CUSTOM_STYLE = """
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: opacity 0.5s ease-in-out; /* 过渡效果 */
+        transition: opacity 0.5s ease-in-out;
         text-align: center;
     }
 
-    /* 手机端适配：最终答案 */
     @media (max-width: 768px) {
-        .final-answer {
-            font-size: 150px !important; /* 适配手机端更小字体 */
-        }
+        .final-answer { font-size: 150px !important; } /* 手机端最终答案字体调整 */
     }
     </style>
 """
@@ -291,7 +258,7 @@ def show_thinking_process():
     # **显示筛选完成提示**
     show_final_message()  # 调用独立的筛选完成部分
 
- def show_final_message():
+def show_final_message():
     # **显示筛选完成提示**
     final_message_placeholder = st.empty()
     final_message_placeholder.markdown("""
@@ -395,4 +362,4 @@ def show_final_answer():
         st.rerun()
 
 if __name__ == "__main__":
-    show_question()  # 确保你的 show_question() 函数先被调用，启动页面内容
+    show_question()  # 启动页面内容
