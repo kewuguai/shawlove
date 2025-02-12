@@ -260,17 +260,17 @@ def show_name_selection():
     show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
 
 def show_final_result(placeholder):
-    # **✅ 先让 “即将揭晓...” 渐隐，防止跳动**
+    # **✅ 先显示 "即将揭晓..."**
     placeholder.markdown("""
     <p class='answer-box final-answer' id="final-text" style="opacity:1;">即将揭晓...</p>
     """, unsafe_allow_html=True)
-    time.sleep(1.5)
+    time.sleep(1.5)  # 显示即将揭晓文本
 
-    # **✅ 让即将揭晓淡出，而不是直接消失，避免跳动**
+    # **✅ 让“即将揭晓”淡出，避免跳动**
     placeholder.markdown("""
     <p class='answer-box final-answer' id="final-text" style="opacity:0;">即将揭晓...</p>
     """, unsafe_allow_html=True)
-    time.sleep(0.5)  # ✅ 让透明过渡生效，防止直接替换跳动
+    time.sleep(0.5)  # 透明过渡生效
 
     # **✅ 倒计时**
     countdown_text = ["9...", "8...", "7...", "6...", "5...", "4...", "3...", "2...", "1..."]
@@ -280,7 +280,13 @@ def show_final_result(placeholder):
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-    # **✅ 让 `王喆 👑` 100% 居中，防止位移**
+        # **✅ 每倒计时一次，伴随着文本框消失再出现**
+        placeholder.markdown("""
+        <p class='answer-box final-answer' id="final-text" style="opacity:0;">{text}</p>
+        """, unsafe_allow_html=True)
+        time.sleep(0.5)  # 让文本框消失一会再显示
+
+    # **✅ 显示最终答案，保证文本框不移动且居中**
     placeholder.markdown("""
     <p class='answer-box final-answer' 
        style="background: transparent; opacity: 1; color: gold; font-size: 120px; font-weight: bold; 
@@ -290,10 +296,10 @@ def show_final_result(placeholder):
     </p>
     """, unsafe_allow_html=True)
 
-    time.sleep(3)  # ✅ 让答案停留 3 秒后再显示按钮
+    time.sleep(3)  # 停留3秒后再显示按钮
 
-    # ✅ 让按钮始终位于页面底部
-    st.markdown("<br><br>", unsafe_allow_html=True)  # 🔥 增加空行，让按钮下移
+    # 让按钮始终位于页面底部
+    st.markdown("<br><br>", unsafe_allow_html=True)  # 增加空行让按钮下移
     reset_button_placeholder = st.empty()
 
     if reset_button_placeholder.button("🔄 重新筛选", key="reset_button"):
