@@ -291,7 +291,7 @@ def show_final_message():
 def show_name_selection():
     name_placeholder = st.empty()
     displayed_names = set()
-    
+
     # 随机显示前90个名字
     for _ in range(90):
         random_name = random.choice([name for name in NAME_POOL if name not in displayed_names])
@@ -306,7 +306,19 @@ def show_name_selection():
         name_placeholder.markdown(f"<p class='name-selection'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
         time.sleep(delay)
         delay += 0.02
-        
+
+    # 显示“即将揭晓...”文本并保持一段时间
+    name_placeholder.markdown("""
+    <p class='name-selection' id="final-text">即将揭晓...</p>
+    """, unsafe_allow_html=True)
+    time.sleep(1.5)
+
+    # 淡出“即将揭晓...”文本，确保它消失
+    name_placeholder.markdown("""
+    <p class='name-selection hide' id="final-text">即将揭晓...</p>
+    """, unsafe_allow_html=True)
+    time.sleep(0.5)
+
     # 调用即将揭晓显示函数
     show_coming_soon()
 
