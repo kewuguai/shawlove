@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.2.5"  #调整代码清晰结构
+VERSION = "1.2.6"  #调整代码清晰结构
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -149,23 +149,34 @@ CUSTOM_STYLE = """
     }
 
     /* ============================== 最终答案部分 ============================== */
-    .final-answer {
-        font-size: 200px;
-        color: gold;
-        font-weight: bold;
-        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-        min-height: 150px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.5s ease-in-out;
-        text-align: center;
-    }
+.final-answer {
+    font-size: 200px;
+    color: gold;
+    font-weight: bold;
+    text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+    text-align: center;
+    background: transparent;
+}
 
-    @media (max-width: 768px) {
-        .final-answer { font-size: 150px !important; } /* 手机端最终答案字体调整 */
-    }
-    </style>
+@media (max-width: 768px) {
+    .final-answer { font-size: 150px !important; } /* 手机端最终答案字体调整 */
+}
+
+/* ============================== 淡入/淡出效果 ============================== */
+.show {
+        opacity: 1 !important;
+}
+
+.hide {
+        opacity: 0 !important;
+}
+
+</style>
 """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
@@ -259,7 +270,6 @@ def show_thinking_process():
     show_final_message()  # 调用独立的筛选完成部分
 
 def show_final_message():
-    # **显示筛选完成提示**
     final_message_placeholder = st.empty()
     final_message_placeholder.markdown("""
     <div class="final-message-container">
@@ -307,13 +317,13 @@ def show_coming_soon():
     # 显示"即将揭晓..."文本
     placeholder = st.empty()
     placeholder.markdown("""
-    <p class='answer-box coming-soon' id="final-text" style="opacity:1;">即将揭晓...</p>
+    <p class='answer-box coming-soon show' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
     # 淡出“即将揭晓...”
     placeholder.markdown("""
-    <p class='answer-box coming-soon' id="final-text" style="opacity:0;">即将揭晓...</p>
+    <p class='answer-box coming-soon hide' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(0.5)
 
@@ -327,13 +337,13 @@ def show_countdown():
     for text in countdown_text:
         # 显示倒计时文本
         placeholder.markdown(f"""
-        <p class='answer-box countdown' id="final-text" style="opacity:1;">{text}</p>
+        <p class='answer-box countdown show' id="final-text">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
         # 让文本框消失再显示
         placeholder.markdown(f"""
-        <p class='answer-box countdown' id="final-text" style="opacity:0;">{text}</p>
+        <p class='answer-box countdown hide' id="final-text">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(0.5)
 
@@ -345,10 +355,7 @@ def show_final_answer():
 
     # 显示最终答案“王喆 👑”
     placeholder.markdown("""
-    <p class='answer-box final-answer' 
-       style="background: transparent; opacity: 1; color: gold; font-size: 120px; font-weight: bold; 
-              text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8); min-height: 150px; display: flex; 
-              align-items: center; justify-content: center;">
+    <p class='answer-box final-answer'>
        👑 王喆 👑
     </p>
     """, unsafe_allow_html=True)
