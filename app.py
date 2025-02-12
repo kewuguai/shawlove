@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.3.0"  # 调整版本及修复
+VERSION = "1.3.1"  # 调整手机端适配
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -147,7 +147,7 @@ CUSTOM_STYLE = """
     }
 
     @media (max-width: 768px) {
-        .countdown { font-size: 120px !important; } /* 手机端倒计时字体调整 */
+        .countdown { font-size: 150px !important; } /* 手机端倒计时字体调整 */
     }
 
     /* ============================== 最终答案部分 ============================== */
@@ -166,7 +166,7 @@ CUSTOM_STYLE = """
 }
 
 @media (max-width: 768px) {
-    .final-answer { font-size: 150px !important; } /* 手机端最终答案字体调整 */
+    .final-answer { font-size: 120px !important; } /* 手机端最终答案字体调整 */
 }
 
 /* ============================== 淡入/淡出效果 ============================== */
@@ -304,7 +304,7 @@ def show_name_selection():
 
 def show_countdown(placeholder):
     # 显示倒计时
-    countdown_text = ["9...", "8...", "7...", "6...", "5...", "4...", "3...", "2...", "1..."]
+    countdown_text = ["9", "8", "7", "6", "5", "4", "3", "2", "1"]
 
     for text in countdown_text:
         placeholder.markdown(f"""
