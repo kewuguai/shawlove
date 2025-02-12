@@ -166,7 +166,7 @@ CUSTOM_STYLE = """
 }
 
 @media (max-width: 768px) {
-    .final-answer { font-size: 100px !important; } /* 手机端最终答案字体调整 */
+    .final-answer { font-size: 50px !important; } /* 手机端最终答案字体调整 */
 }
 
 /* ============================== 淡入/淡出效果 ============================== */
