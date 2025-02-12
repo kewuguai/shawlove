@@ -108,7 +108,7 @@ CUSTOM_STYLE = """
 
 .name-selection {
     font-size: 60px; /* 增加字体大小 */
-    color: #ffcccc; /* 淡红色 */
+    color: #f28d8d; /* 调整为较深的红色 */
     text-align: center;
     font-weight: bold;
 }
@@ -306,14 +306,8 @@ def show_name_selection():
         name_placeholder.markdown(f"<p class='name-selection'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
         time.sleep(delay)
         delay += 0.02
-
-    # 显示“即将揭晓...”文本
-    name_placeholder.markdown("""
-    <p class='name-selection' id="final-text">即将揭晓...</p>
-    """, unsafe_allow_html=True)
-    time.sleep(1.5)
-
-    # 调用最终答案显示函数
+        
+    # 调用即将揭晓显示函数
     show_coming_soon()
 
 def show_coming_soon():
