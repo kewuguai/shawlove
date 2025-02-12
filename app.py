@@ -2,14 +2,13 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.2.1"  #调整手机页面显示
+VERSION = "1.2.2"  #调整手机页面显示
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
 # **🔥 更新样式**
 CUSTOM_STYLE = """
     <style>
-    /* ============================== 导入字体样式 ============================== */
     @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=FangSong&display=swap');
 
     /* ============================== 版本号样式 ============================== */
@@ -50,7 +49,7 @@ CUSTOM_STYLE = """
     /* 手机端适配：调整问题文本 */
     @media (max-width: 768px) {
         .question {
-            font-size: 40px !important;
+            font-size: 30px !important; /* 减小手机端字体 */
         }
     }
 
@@ -76,7 +75,7 @@ CUSTOM_STYLE = """
     @media (max-width: 768px) {
         .answer-box {
             width: 95% !important;
-            font-size: 40px !important;
+            font-size: 30px !important;  /* 调整答案框字体 */
             min-height: 150px !important;
             display: flex;
             align-items: center;
@@ -97,7 +96,7 @@ CUSTOM_STYLE = """
     /* 手机端适配：即将揭晓和倒计时 */
     @media (max-width: 768px) {
         .final-answer {
-            font-size: 200px !important; /* 增加倒计时字体大小 */
+            font-size: 100px !important;  /* 增大倒计时字体 */
             color: gold !important;
             font-weight: bold !important;
             text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
@@ -140,7 +139,7 @@ CUSTOM_STYLE = """
     /* 手机端适配：思考中样式 */
     @media (max-width: 768px) {
         .thinking {
-            font-size: 30px !important;
+            font-size: 20px !important;  /* 调整思考中字体 */
             color: #333 !important;
             text-align: center !important;
             font-weight: bold !important;
