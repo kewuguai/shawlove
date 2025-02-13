@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.2.0"  #调整手机页面显示
+VERSION = "1.3.1"  # 调整手机端适配
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -11,6 +11,7 @@ CUSTOM_STYLE = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=FangSong&display=swap');
 
+    /* ============================== 版本号样式 ============================== */
     .version {
         font-family: Arial, sans-serif;
         font-size: 16px;
@@ -24,89 +25,31 @@ CUSTOM_STYLE = """
         border-radius: 5px;
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     }
-    
+
+    /* ============================== 提出问题部分 ============================== */
     .question-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-    min-width: 350px; /* ✅ 让文本不会因屏幕过窄而换行 */
-}
-
-       .question {
-    font-family: 'ZCOOL XiaoWei', serif;
-    font-size: 40px;  /* 🔥 字号调整小一点 */
-    text-align: center;
-    color: red;
-    white-space: nowrap; /* 🔥 强制单行显示 */
-    }
-
-    /* 🔥 新增：适配手机端字体大小 */
-    @media (max-width: 768px) {
-        .question { font-size: 40px !important; }
-        .answer-box { width: 90% !important; font-size: 40px !important; }
-        .final-answer { font-size: 70px !important; }
-    }
-
-     /* 🔥 新增：适配手机端答案框居中 */
-    @media (max-width: 768px) {
-    .answer-box { 
-        width: 95% !important; 
-        font-size: 40px !important;
-        min-height: 150px !important; /* ✅ 确保高度固定，防止位移 */
-        display: flex; 
-        align-items: center; 
-        justify-content: center;
-        margin: 0 auto !important; /* ✅ 确保手机端完全居中 */
-    }
-    .final-answer {
-    font-size: 100px;
-    color: gold;
-    font-weight: bold;
-    text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-    min-height: 150px; /* 🔥 ✅ 确保文本框高度固定，防止位移 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s ease-in-out; /* ✅ 让“即将揭晓”过渡消失，不闪烁 */
-}
-
-    .answer-box {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 150px;
-        width: 600px;
-        border-radius: 15px;
-        margin: 20px auto;
-        font-size: 60px;
-        font-weight: bold;
+        width: 100%;
         text-align: center;
-        transition: all 0.5s ease-in-out;
-        background-color: white;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-        font-family: 'FangSong', serif;
+        min-width: 350px;
     }
 
-    .random-name {
-        color: #FF6F61;
+    .question {
+        font-family: 'ZCOOL XiaoWei', serif;
+        font-size: 40px;
+        text-align: center;
+        color: red;
+        white-space: nowrap; /* 强制单行显示 */
     }
 
-    .final-answer {
-        font-size: 100px;
-        color: gold;
-        font-weight: bold;
-        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-        animation: glowEffect 1.5s ease-in-out infinite alternate;
+    @media (max-width: 768px) {
+        .question { font-size: 30px !important; } /* 手机端字体调整 */
     }
 
-    @keyframes glowEffect {
-        from { text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.6); }
-        to { text-shadow: 0px 0px 30px rgba(255, 0, 0, 1); }
-    }
-
+    /* ============================== 数字筛选部分 ============================== */
     .thinking-container {
         display: flex;
         flex-direction: column;
@@ -117,17 +60,125 @@ CUSTOM_STYLE = """
     }
 
     .thinking {
-    font-size: 30px;
-    color: #333;
+        font-size: 30px;
+        color: #333;
+        text-align: center;
+        font-weight: bold;
+        width: 90%;
+        max-width: 600px;
+        margin: auto;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    @media (max-width: 768px) {
+        .thinking { font-size: 20px !important; } /* 手机端字体调整 */
+    }
+
+    /* ============================== 筛选完成部分 ============================== */
+    .final-message-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+    }
+
+    .final-message {
+        font-size: 30px;
+        color: green;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+        .final-message { font-size: 20px !important; color: green !important; } /* 手机端字体调整 */
+    }
+
+    /* ============================== 人名筛选部分 ============================== */
+.name-selection-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+
+.name-selection {
+    font-size: 60px; /* 增加字体大小 */
+    color: #f28d8d; /* 调整为较深的红色 */
     text-align: center;
     font-weight: bold;
-    width: 90%;
-    max-width: 600px;
-    margin: auto;
-    word-wrap: break-word; /* ✅ 确保超长数字在手机端换行 */
-    overflow-wrap: break-word; /* ✅ 确保内容不会超出屏幕 */
 }
-    </style>
+
+@media (max-width: 768px) {
+    .name-selection {
+        font-size: 35px !important; /* 手机端字体调整 */
+    }
+}
+
+    /* ============================== 即将揭晓部分 ============================== */
+    .coming-soon {
+        font-size: 100px;
+        color: gold;
+        font-weight: bold;
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+        transition: opacity 0.5s ease-in-out;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .coming-soon { font-size: 80px !important; } /* 手机端字体调整 */
+    }
+
+    /* ============================== 倒计时部分 ============================== */
+    .countdown {
+        font-size: 150px;
+        color: gold;
+        font-weight: bold;
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease-in-out;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .countdown { font-size: 200px !important; } /* 手机端倒计时字体调整 */
+    }
+
+    /* ============================== 最终答案部分 ============================== */
+.final-answer {
+    font-size: 200px;
+    color: gold;
+    font-weight: bold;
+    text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+    text-align: center;
+    background: transparent;
+}
+
+@media (max-width: 768px) {
+    .final-answer { font-size: 70px !important; } /* 手机端最终答案字体调整 */
+}
+
+/* ============================== 淡入/淡出效果 ============================== */
+.show {
+        opacity: 1 !important;
+}
+
+.hide {
+        opacity: 0 !important;
+}
+
+</style>
 """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
@@ -156,23 +207,16 @@ def type_text(placeholder, text, speed=0.2, css_class="question"):
         placeholder.markdown(f"<p class='{css_class}'>{output}</p>", unsafe_allow_html=True)
         time.sleep(speed)
 
-def show_intro():
+def show_question():
     question_placeholder_1 = st.empty()
     question_placeholder_2 = st.empty()
 
     if "question_displayed" not in st.session_state:
-        # **✅ 先显示第一行**
         type_text(question_placeholder_1, "谁是这个世界上", 0.2, css_class="question")
-
-        # **✅ 确保第一行静止不动**
         time.sleep(0.5)
-
-        # **✅ 第二行执行动画**
         type_text(question_placeholder_2, "最聪明最美丽的女人？", 0.2, css_class="question")
-
         st.session_state["question_displayed"] = True
     else:
-        # **✅ 直接显示完整问题**
         question_placeholder_1.markdown("<p class='question'>谁是这个世界上</p>", unsafe_allow_html=True)
         question_placeholder_2.markdown("<p class='question'>最聪明最美丽的女人？</p>", unsafe_allow_html=True)
 
@@ -183,22 +227,18 @@ def show_intro():
         button_placeholder.empty()
         show_thinking_process()
 
-    # **✅ 版本号**
-    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)  
+    st.markdown(f"<div class='version'>版本：v{VERSION}</div>", unsafe_allow_html=True)
 
 def show_thinking_process():
     thinking_placeholder = st.empty()
-    
-    # **✅ 先显示第一行**
+
     thinking_placeholder.markdown("""
     <div class="thinking-container">
         <p class="thinking">正在全球女性数据库中筛选…</p>
     </div>
     """, unsafe_allow_html=True)
-    
     time.sleep(1)
-    
-    # **✅ 再显示第二行**
+
     current_number = 1
     max_number = 3_922_276_273
     for _ in range(10):
@@ -211,94 +251,90 @@ def show_thinking_process():
         </div>
         """, unsafe_allow_html=True)
         time.sleep(1)
-    
-    # **✅ 执行完成后清除**
+
     thinking_placeholder.empty()
-    
-    # **✅ 显示最终筛选完成提示**
+    show_final_message()
+
+def show_final_message():
     final_message_placeholder = st.empty()
     final_message_placeholder.markdown("""
-    <div class="thinking-container">
-        <p class="thinking">✅ 系统筛选完成！</p>
-        <p class="thinking">将从全球前100名中选出最终人选！</p>
+    <div class="final-message-container">
+        <p class="final-message">✅ 系统筛选完成！</p>
+        <p class="final-message">将从全球前100名中选出最终人选！</p>
     </div>
     """, unsafe_allow_html=True)
-    
-    time.sleep(3)  # **🔥 短暂显示后消失**
-    
-    # **✅ 清除文本**
+
+    time.sleep(3)
     final_message_placeholder.empty()
 
-    # **✅ 进入人名筛选**
     show_name_selection()
 
 def show_name_selection():
-    name_placeholder = st.empty()
+    # 使用一个占位符确保所有内容在同一位置显示
+    placeholder = st.empty()
     displayed_names = set()
 
-    # **✅ 先随机显示前 90 个名字**
+    # 随机显示前90个名字
     for _ in range(90):
         random_name = random.choice([name for name in NAME_POOL if name not in displayed_names])
         displayed_names.add(random_name)
-        name_placeholder.markdown(f"<p class='answer-box random-name'>{random_name}</p>", unsafe_allow_html=True)
+        placeholder.markdown(f"<p class='name-selection'>{random_name}</p>", unsafe_allow_html=True)
         time.sleep(0.10)
 
-    # **✅ 逐渐放慢速度，最后 10 个名字**
+    # 随后逐渐放慢速度，最后10个名字
     delay = 0.1
     for _ in range(10):
-        name_placeholder.markdown(f"<p class='answer-box random-name'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
+        placeholder.markdown(f"<p class='name-selection'>{random.choice(NAME_POOL)}</p>", unsafe_allow_html=True)
         time.sleep(delay)
-        delay += 0.02  # 逐渐增加延迟，营造悬念
+        delay += 0.02
 
-    # **✅ 先显示“即将揭晓...”**
-    name_placeholder.markdown("""
-<p class='answer-box final-answer' id="final-text">即将揭晓...</p>
-""", unsafe_allow_html=True)
-    time.sleep(1.5)  # ✅ 修正缩进，确保与上一行对齐
-
-    # **✅ 调用最终答案**
-    show_final_result(name_placeholder)  # ✅ 确保所有动画在同一个对话框里
-
-def show_final_result(placeholder):
-    # **✅ 先让 “即将揭晓...” 渐隐，防止跳动**
+    # 显示“即将揭晓...”文本
     placeholder.markdown("""
-    <p class='answer-box final-answer' id="final-text" style="opacity:1;">即将揭晓...</p>
+    <p class='name-selection' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
     time.sleep(1.5)
 
-    # **✅ 让即将揭晓淡出，而不是直接消失，避免跳动**
+    # 淡出“即将揭晓...”文本，确保它消失
     placeholder.markdown("""
-    <p class='answer-box final-answer' id="final-text" style="opacity:0;">即将揭晓...</p>
+    <p class='name-selection hide' id="final-text">即将揭晓...</p>
     """, unsafe_allow_html=True)
-    time.sleep(0.5)  # ✅ 让透明过渡生效，防止直接替换跳动
+    time.sleep(0.5)
 
-    # **✅ 倒计时**
-    countdown_text = ["9...", "8...", "7...", "6...", "5...", "4...", "3...", "2...", "1..."]
+    show_countdown(placeholder)  # 传递占位符到倒计时
+
+def show_countdown(placeholder):
+    # 显示倒计时
+    countdown_text = ["9", "8", "7", "6", "5", "4", "3", "2", "1"]
+
     for text in countdown_text:
         placeholder.markdown(f"""
-        <p class='answer-box final-answer' id="final-text" style="opacity:1;">{text}</p>
+        <p class='answer-box countdown show' id="final-text">{text}</p>
         """, unsafe_allow_html=True)
         time.sleep(1)
 
-    # **✅ 让 `王喆 👑` 100% 居中，防止位移**
+        # 让文本框消失再显示
+        placeholder.markdown(f"""
+        <p class='answer-box countdown hide' id="final-text">{text}</p>
+        """, unsafe_allow_html=True)
+        time.sleep(0.5)
+
+    show_final_answer(placeholder)
+
+def show_final_answer(placeholder):
+    # 显示最终答案“王喆 👑”
     placeholder.markdown("""
-    <p class='answer-box final-answer' 
-       style="background: transparent; opacity: 1; color: gold; font-size: 120px; font-weight: bold; 
-              text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8); min-height: 150px; display: flex; 
-              align-items: center; justify-content: center;">
+    <p class='answer-box final-answer' id="final-answer">
        👑 王喆 👑
     </p>
     """, unsafe_allow_html=True)
+    time.sleep(3)
 
-    time.sleep(3)  # ✅ 让答案停留 3 秒后再显示按钮
-
-    # ✅ 让按钮始终位于页面底部
-    st.markdown("<br><br>", unsafe_allow_html=True)  # 🔥 增加空行，让按钮下移
+    # 显示“重新筛选”按钮
+    st.markdown("<br><br>", unsafe_allow_html=True)
     reset_button_placeholder = st.empty()
-
     if reset_button_placeholder.button("🔄 重新筛选", key="reset_button"):
         st.session_state.clear()
         st.rerun()
 
 if __name__ == "__main__":
-    show_intro()
+    show_question()  # 启动页面内容

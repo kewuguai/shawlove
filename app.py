@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.3.3"  # 调整动画显示效果
+VERSION = "1.3.4"  # 调整动画显示效果
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -373,7 +373,7 @@ def show_countdown(placeholder):
 def show_final_answer(placeholder):
     # 显示最终答案“王喆 👑”并加上放大动画
     placeholder.markdown("""
-    <p class='answer-box final-answer shake' id="final-answer">
+    <p class='answer-box final-answer' id="final-answer">
        👑 王喆 👑
     </p>
     """, unsafe_allow_html=True)
