@@ -358,7 +358,7 @@ def show_countdown(placeholder):
 def show_final_answer(placeholder):
     # 显示最终答案“王喆 👑”并加上动画效果
     placeholder.markdown("""
-    <div class='final-answer-background'>
+    <div class='final-answer'>
         <p class='answer-box final-answer' id="final-answer">
            👑 王喆 👑
         </p>
