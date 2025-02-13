@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.3.2"  # 调整动画显示效果
+VERSION = "1.3.3"  # 调整动画显示效果
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -162,12 +162,11 @@ CUSTOM_STYLE = """
         transition: opacity 0.5s ease-in-out;
         text-align: center;
         background: transparent;
-        animation: glow 1.5s ease-in-out infinite;  /* 发光动画 */
+        animation: glow 1.5s ease-in-out infinite，zoomIn 1.5s ease-out, glow 2s infinite alternate;  /* 发光动画 */
     }
 
-    .final-answer-background {
-        background: linear-gradient(45deg, #FF6347, #FFD700);
-        animation: background-gradient 3s ease infinite;
+    .final-answer.shake {
+        animation: zoomIn 1.5s ease-out, shake 0.5s ease-in-out 1.5s;
     }
     
     @media (max-width: 768px) {
@@ -213,7 +212,23 @@ CUSTOM_STYLE = """
         100% { background: linear-gradient(45deg, #FF6347, #FFD700); }
     }
 
-    </style>
+    /* 放大动画 */
+    @keyframes zoomIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* 震动微调，增加仪式感 */
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-3px); }
+        100% { transform: translateX(0); }
+    }
+
+ </style>
     """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
@@ -356,13 +371,11 @@ def show_countdown(placeholder):
     show_final_answer(placeholder)
 
 def show_final_answer(placeholder):
-    # 显示最终答案“王喆 👑”并加上动画效果
+    # 显示最终答案“王喆 👑”并加上放大动画
     placeholder.markdown("""
-    <div class='final-answer'>
-        <p class='answer-box final-answer' id="final-answer">
-           👑 王喆 👑
-        </p>
-    </div>
+    <p class='answer-box final-answer shake' id="final-answer">
+       👑 王喆 👑
+    </p>
     """, unsafe_allow_html=True)
     time.sleep(3)
 
