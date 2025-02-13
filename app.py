@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import random
 
-VERSION = "1.3.1"  # 调整手机端适配
+VERSION = "1.3.2"  # 调整动画显示效果
 
 st.set_page_config(page_title=f"问答演示 - v{VERSION}", layout="centered")
 
@@ -97,27 +97,26 @@ CUSTOM_STYLE = """
     }
 
     /* ============================== 人名筛选部分 ============================== */
-.name-selection-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-}
+    .name-selection-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+    }
 
-.name-selection {
-    font-size: 60px; /* 增加字体大小 */
-    color: #f28d8d; /* 调整为较深的红色 */
-    text-align: center;
-    font-weight: bold;
-}
+    .name-selection {
+        font-size: 60px; /* 增加字体大小 */
+        color: #f28d8d; /* 调整为较深的红色 */
+        text-align: center;
+        font-weight: bold;
+    }
 
-@media (max-width: 768px) {
+    @media (max-width: 768px) {
     .name-selection {
         font-size: 35px !important; /* 手机端字体调整 */
     }
-}
 
     /* ============================== 即将揭晓部分 ============================== */
     .coming-soon {
@@ -130,7 +129,7 @@ CUSTOM_STYLE = """
     }
 
     @media (max-width: 768px) {
-        .coming-soon { font-size: 80px !important; } /* 手机端字体调整 */
+    .coming-soon { font-size: 80px !important; } /* 手机端字体调整 */
     }
 
     /* ============================== 倒计时部分 ============================== */
@@ -145,41 +144,77 @@ CUSTOM_STYLE = """
         transition: opacity 0.5s ease-in-out;
         text-align: center;
     }
-
+    
     @media (max-width: 768px) {
         .countdown { font-size: 200px !important; } /* 手机端倒计时字体调整 */
     }
 
     /* ============================== 最终答案部分 ============================== */
-.final-answer {
-    font-size: 200px;
-    color: gold;
-    font-weight: bold;
-    text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
-    min-height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s ease-in-out;
-    text-align: center;
-    background: transparent;
-}
+    .final-answer {
+        font-size: 100px;
+        color: gold;
+        font-weight: bold;
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.8);
+        min-height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease-in-out;
+        text-align: center;
+        background: transparent;
+        animation: glow 1.5s ease-in-out infinite;  /* 发光动画 */
+    }
 
-@media (max-width: 768px) {
+    .final-answer-background {
+        background: linear-gradient(45deg, #FF6347, #FFD700);
+        animation: background-gradient 3s ease infinite;
+    }
+    
+    @media (max-width: 768px) {
     .final-answer { font-size: 70px !important; } /* 手机端最终答案字体调整 */
-}
+    }
 
-/* ============================== 淡入/淡出效果 ============================== */
-.show {
+    /* ============================== 特殊效果部分 ============================== */
+    .show {
         opacity: 1 !important;
-}
+    }
 
-.hide {
+    .hide {
         opacity: 0 !important;
-}
+    }
 
-</style>
-"""
+    .fade-in {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .fade-out {
+        animation: fadeOut 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+    @keyframes glow {
+        0% { text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFD700; }
+        50% { text-shadow: 0 0 15px #FF4500, 0 0 30px #FF4500, 0 0 50px #FF4500; }
+        100% { text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFD700; }
+    }
+
+    @keyframes background-gradient {
+        0% { background: linear-gradient(45deg, #FF6347, #FFD700); }
+        50% { background: linear-gradient(45deg, #FFD700, #FF6347); }
+        100% { background: linear-gradient(45deg, #FF6347, #FFD700); }
+    }
+
+    </style>
+    """
 
 st.markdown(CUSTOM_STYLE, unsafe_allow_html=True)
 
@@ -321,11 +356,13 @@ def show_countdown(placeholder):
     show_final_answer(placeholder)
 
 def show_final_answer(placeholder):
-    # 显示最终答案“王喆 👑”
+    # 显示最终答案“王喆 👑”并加上动画效果
     placeholder.markdown("""
-    <p class='answer-box final-answer' id="final-answer">
-       👑 王喆 👑
-    </p>
+    <div class='final-answer-background'>
+        <p class='answer-box final-answer' id="final-answer">
+           👑 王喆 👑
+        </p>
+    </div>
     """, unsafe_allow_html=True)
     time.sleep(3)
 
