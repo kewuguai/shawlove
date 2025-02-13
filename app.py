@@ -162,7 +162,7 @@ CUSTOM_STYLE = """
         transition: opacity 0.5s ease-in-out;
         text-align: center;
         background: transparent;
-        animation: glow 1.5s ease-in-out infinite，zoomIn 1.5s ease-out, glow 2s infinite alternate;  /* 发光动画 */
+        animation: zoomIn 1.5s ease-out, glow 2s infinite alternate;  /* 发光动画 */
     }
 
     .final-answer.shake {
